@@ -8,4 +8,4 @@ Centro de Estudios en Microcomputación y Sistemas Distribuidos (CEMISID).
 
 Webpage:
 Email: breytnerm@gmail.com with questions or comments, or submit and 
-[Issue at the GitHub](https://github.com/breytner/brain-CEMISID.git/issues)
+[Issue at the GitHub](https://github.com/breytner/brain-CEMISID/issues)
