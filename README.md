@@ -3,7 +3,7 @@ Welcome to the Brain-CEMISID repository.
 Date: Sun July 7, 2016
 
 This repository contains source code for the project Brain-CEMISID at the
-University of Los Andes, Mérida-Venezuela, School od Systems Engineering, 
+University of Los Andes (Mérida-Venezuela), School of Systems Engineering, 
 Centro de Estudios en Microcomputación y Sistemas Distribuidos (CEMISID).
 
 Webpage:
