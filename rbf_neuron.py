@@ -18,58 +18,59 @@ class RbfNeuron:
         # Increment number of class instances
         RbfNeuron.instances_count += 1
         
-    """ Returns whether neuron has knowledge or not """
+
     def has_knowledge(self):
+        """ Returns whether neuron has knowledge or not """
         return self.has_knowledge
     
-    """ Sets the has-knowledge (has_knowledge) internal flag """
     def set_has_knowledge(self, value ):
-        self.has_knowledge = value
-        
-    """ Returns wheter neuron is memeber of set """
+        """ Sets the has-knowledge (has_knowledge) internal flag """
+        self.has_knowledge = value        
+
     def is_member(self, test_set):
+        """ Returns wheter neuron is memeber of set """
         return (self.neuron_set == test_set)
         
-    """ Sets neuron radius """
     def set_radius(self, new_radius):
+        """ Sets neuron radius """
         self.radius = new_radius
         
-    """ Gets neuron radius """
     def get_radius(self):
+        """ Gets neuron radius """
         return self.radius
     
-    """ Sets neuron class """
     def set_class(self, new_class ):
+        """ Sets neuron class """
         self.neuron_class = new_class
         
-    """ Gets neuron class """
     def get_class(self):
+        """ Gets neuron class """
         if self.neuron_class == None:
             raise ValueError
         return self.neuron_class
 
-    """ Sets neuron set """
     def set_set(self, new_set ):
+        """ Sets neuron set """
         self.neuron_set = new_set
         
-    """ Gets neuron set """
     def get_set(self):
+        """ Gets neuron set """
         if self.neuron_set == None:
             raise ValueError
         return self.neuron_set
         
-    """ Sets neuron data or 'center' of knowledge """
     def set_data(self, new_data):
+        """ Sets neuron data or 'center' of knowledge """
         self.neuron_data = new_data
         
-    """ Gets neuron data or 'center' of knowledge """
     def get_data(self, new_data):
+        """ Gets neuron data or 'center' of knowledge """
         if self.neuron_data == None:
             raise ValueError
         return self.neuron_data
         
-    """ Calculates Manhattan distance, private method """
     def _calculate_manhattan_distance(self, pattern):
+        """ Calculates Manhattan distance, private method """
     	# Given pattern must be of size equal to DATA_SIZE
         if len(pattern) != RbfNeuron.DATA_SIZE:
             raise ValueError
@@ -81,8 +82,8 @@ class RbfNeuron:
         # Return distance
         return self.distance
     
-    """ Returns true if neuron recognizes given pattern """
     def recognize(self, pattern ):
+        """ Returns true if neuron recognizes given pattern """
     	# If Manhattan distance to pattern is less than neuron radius
     	# there is a hit
         if self._calculate_manhattan_distance(pattern) < self.get_radius():
@@ -92,9 +93,9 @@ class RbfNeuron:
         # Return whether there has been a hit or not
         return self.hit
     
-    """ Learns a new pattern (knowledge, data), return true if
-        the pattern was succesfully learned and false in any other case """
     def learn(self, pattern, class_, set_):
+        """ Learns a new pattern (knowledge, data), return true if
+        the pattern was succesfully learned and false in any other case """
         # Tries to store pattern
         try:
             self.set_data(pattern)
@@ -119,8 +120,9 @@ class RbfNeuron:
         # Return True to indicate proper learning process
         return True
 
-    """ Reduces neuron radius by 'value' """
+ 
     def reduce_radius_by(self, value ):
+        """ Reduces neuron radius by 'value' """
         if value < 0 :
             raise ValueError("value must be positive")
         if self.radius < value :
