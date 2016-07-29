@@ -7,8 +7,8 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 
 # Brain-CEMISID kernel imports
-from ..kernel.rbf_network.py import RbfNetwork
-from ..kernel.rbf_knowledge.py import RbfKnowledge
+from rbf_network import RbfNetwork
+from rbf_knowledge import RbfKnowledge
 
 class MyPaintElement(Widget):
 
@@ -83,8 +83,18 @@ class MyPaintWidget(GridLayout):
         return pattern
 
 class SightUI(GridLayout):
+
     def __init__ (self, **kwargs):
         super(SightUI, self).__init__ ( **kwargs)
+        # Set neural network data size
+        RbfNetwork.DATA_SIZE = 32
+        # Set neural network default radius
+        RbfNetwork.DEFAULT_RADIUS = 25
+        # Set pattern size in RBF knowledge
+        RbfKnowledge.PATTERN_SIZE = 32
+        # Create neural network with 100 neurons
+        self.neuron_count = 100;
+        self.net = RbfNetwork(self.neuron_count)
         # Create instance of painter widget
         self.painter = MyPaintWidget()
         # Main layout number of rows
@@ -112,14 +122,17 @@ class SightUI(GridLayout):
 
     def recognize_pattern(self, obj):
         pattern = self.painter.get_pattern()
-        self.class_name_input.text = '[' + ', '.join(str(x) for x in pattern) + ']'
+        if self.net.recognize(pattern) == "HIT":
+            self.class_name_input.text = "Reconozco"
+        else:
+            self.class_name_input.text = "No reconozco"
 
     def learn_pattern(self, obj):
         pattern = self.painter.get_pattern()
         pattern_class = self.class_name_input.text
         pattern_set = self.set_name_input.text
-        print pattern
-        net = RbfNetwork()
+        knowledge = RbfKnowledge(pattern, pattern_class, pattern_set)
+        self.net.learn(knowledge)
 
 class MyPaintApp(App):
 
