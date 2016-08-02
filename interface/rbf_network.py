@@ -4,7 +4,7 @@ class RbfNetwork:
     """ Radial Base Function neural network class """
     
     # Size of data or knowledge in bytes
-    DATA_SIZE = 4.0
+    PATTERN_SIZE = 4.0
     # Default radius
     DEFAULT_RADIUS = 0.5
     # Index of neuron ready to learn
@@ -14,11 +14,15 @@ class RbfNetwork:
         """ Class constructor, takes 'neuron_count' as parameter
         for setting network size """
         # Set data size of neuron to be created
-        RbfNeuron.DATA_SIZE = RbfNetwork.DATA_SIZE
+        RbfNeuron.PATTERN_SIZE = RbfNetwork.PATTERN_SIZE
         # Set default radius of neurons
         RbfNeuron.DEFAULT_RADIUS = RbfNetwork.DEFAULT_RADIUS
         # Create neuron list
         self.neuron_list = []
+        # Create list of recognized knowledge
+        self._knowledge_recognized = []
+        # Set network state as MISS
+        self._state = "MISS"
         # Fill neuron list with nre RbfNeuron instances
         for index in range(neuron_count):
             self.neuron_list.append(RbfNeuron())
@@ -34,12 +38,36 @@ class RbfNetwork:
         'MISS' if the network does not recognize the pattern and
         'DIFF' if the network identifys the pattern as representing
         different classes """
+        # Erase knowledge from previous recognitions
+        self._knowledge_recognized = []
         for index in range(RbfNetwork._index_ready_to_learn):
             if self.neuron_list[index].recognize(pattern):
-                return 'HIT'
-        return 'MISS'
-        
-        
+                # Store all knowledge recognized
+                self._knowledge_recognized.append(self.neuron_list[index].get_knowledge())
+
+        # If no knowledge recognized
+        if len(self._knowledge_recognized) == 0:
+            self._state = "MISS"
+            return self._state
+
+        # Check if all neurons recognize pattern as related to the same
+        # class and set
+        recognized_class = self._knowledge_recognized[0].get_class()
+        recognized_set = self._knowledge_recognized[0].get_set()
+        for knowledge in self._knowledge_recognized:
+            if recognized_class != knowledge.get_class() or recognized_set != knowledge.get_set():
+                self._state = "DIFF"
+                return self._state
+
+        self._state = "HIT"
+        return self._state
+
+    def get_knowledge(self):
+        if self._state == "HIT":
+            return self._knowledge_recognized[0]
+        else:
+            return None
+
     def learn(self, knowledge):
         """ Learns a new pattern as pertaining to the given 
         pattern class and pattern set """
