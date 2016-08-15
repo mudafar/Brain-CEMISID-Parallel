@@ -4,7 +4,7 @@ class RbfKnowledge:
     # Size of data or knowledge in bytes
     PATTERN_SIZE = 4.0
     
-    def __init__(self, rbf_pattern, rbf_class, rbf_set):
+    def __init__(self, rbf_pattern, rbf_class, rbf_set="NoSet"):
          self.set_pattern(rbf_pattern)
          self.set_class(rbf_class)
          self.set_set(rbf_set)
