@@ -116,7 +116,6 @@ class RbfNeuron:
             return False
         return success
 
-
     def reduce_radius_by(self, value):
         # type: (value) -> integer
         """ Reduces neuron radius by 'value' """

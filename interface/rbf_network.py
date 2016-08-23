@@ -2,6 +2,7 @@ from rbf_neuron import RbfNeuron
 
 import pickle
 
+
 class RbfNetwork:
     """ Radial Base Function neural network class """
     
@@ -10,7 +11,6 @@ class RbfNetwork:
     # Default radius
     DEFAULT_RADIUS = 0.5
 
-    
     def __init__(self, neuron_count):
         """ Class constructor, takes 'neuron_count' as parameter
         for setting network size """
@@ -118,7 +118,6 @@ class RbfNetwork:
                 # Learn new knowledge with radius = min_distance
                 self._learn_ready_to_learn(knowledge, min_distance)
             return True
-
 
     def _learn_ready_to_learn(self, knowledge, radius = RbfNeuron.DEFAULT_RADIUS):
         """Learn new knowledge in ready-to-learn neuron """

@@ -9,6 +9,10 @@ from kivy.uix.textinput import TextInput
 # Brain-CEMISID kernel imports
 from rbf_network import RbfNetwork
 from rbf_knowledge import RbfKnowledge
+from rel_network import RelNetwork
+from rel_knowledge import RelKnowledge
+from analytical_neuron import AnalyticalNeuron
+
 from bns import Bns
 
 class MyPaintElement(Widget):
@@ -43,8 +47,13 @@ class MyPaintElement(Widget):
             Rectangle(pos=self.pos, size=self.size)
         self.active = False
 
+    def mark(self):
+        self._draw_rectange()
 
 class MyPaintWidget(GridLayout):
+
+    CODING_SIZE = 4
+
     def __init__(self, size, **kwargs):
         super(MyPaintWidget, self).__init__(**kwargs)
         self.cols = size
@@ -70,72 +79,27 @@ class MyPaintWidget(GridLayout):
             count *= 2
             # If row over, append to pattern array and
             # start encoding new one
-            if count == pow(2, 4):
+            if count == pow(2, MyPaintWidget.CODING_SIZE):
                 pattern.append(val)
                 val = 0
                 count = 1
         return pattern
 
-
-class BasicUI(GridLayout):
-    def __init__(self, grid_size, radius, name_net_file="NoFile", **kwargs):
-        super(BasicUI, self).__init__(**kwargs)
-
-        # Create instance of painter widget
-        self.painter = MyPaintWidget(grid_size)
-        # Main layout number of rows
-        self.rows = 2
-
-        # Label for brain messages
-        self.msg_label = Label(text="")
-        self.pattern_label = TextInput(text="")
-        # Recognize button
-        self.recognize_btn = Button(text='Reconocer')
-        self.recognize_btn.bind(on_release=self.recognize_pattern)
-        # Clear canvas button
-        self.clear_btn = Button(text='Limpiar')
-        self.clear_btn.bind(on_release=self.clear_painter)
-        # Class name input field
-        self.class_name_input = TextInput(text="Clase")
-        # Set name input field
-        self.set_name_input = TextInput(text="Conjunto")
-        # Bottom inputs layout
-        self.bottom_layout = GridLayout(rows=5)
-        self.buttons_layout = GridLayout(cols=3)
-        self.bottom_layout.add_widget(self.msg_label)
-        self.bottom_layout.add_widget(self.pattern_label)
-        self.bottom_layout.add_widget(self.class_name_input)
-        self.bottom_layout.add_widget(self.set_name_input)
-        self.buttons_layout.add_widget(self.recognize_btn)
-        self.buttons_layout.add_widget(self.learn_btn)
-        self.buttons_layout.add_widget(self.clear_btn)
-        self.bottom_layout.add_widget(self.buttons_layout)
-        # Add painter widget to last row of layout
-        self.add_widget(self.painter)
-        # Add bottom layout to main layout
-        self.add_widget(self.bottom_layout)
-
-    def recognize_pattern(self, obj):
-            pattern = self.painter.get_pattern()
-            self.pattern_label.text = str(pattern)
-            if self.net.recognize(pattern) == "HIT":
-                knowledge = self.net.get_knowledge()
-                self.msg_label.text = "Clase: " + knowledge.get_class() + " Conjunto: " + knowledge.get_set() + " " + str(
-                    self.net.get_rneurons_ids())
-            else:
-                self.msg_label.text = "No reconozco " + self.net.get_state()
-
-    def learn_pattern(self, obj):
-        pattern = self.painter.get_pattern()
-        pattern_class = self.class_name_input.text
-        pattern_set = self.set_name_input.text
-        knowledge = RbfKnowledge(pattern, pattern_class, pattern_set)
-        self.net.learn(knowledge)
-        RbfNetwork.serialize(self.net, "net.p")
-
-    def clear_painter(self, obj):
-        self.painter.clear()
-
+    def draw_pattern(self, pattern):
+        """ Draw given pattern in painter"""
+        for index in range(len(pattern)):
+            # Get children in groups of four (As codification was made by groups of four)
+            child_offset = index*MyPaintWidget.CODING_SIZE
+            child_set = self.children[child_offset:child_offset+MyPaintWidget.CODING_SIZE]
+            # Convert current number of pattern into binary
+            format_str = "{0:0"+str(MyPaintWidget.CODING_SIZE)+"b}"
+            bin_pattern_element = format_str.format(pattern[index])
+            # Traverse binary, mark or clear corresponding child
+            for j in range(len(bin_pattern_element)):
+                if(bin_pattern_element[MyPaintWidget.CODING_SIZE-1-j]=="1"):
+                    child_set[j].mark()
+                else:
+                    child_set[j].clear()
 
 class BrainInterface(GridLayout):
     def __init__(self, **kwargs):
@@ -161,8 +125,12 @@ class BrainInterface(GridLayout):
         self.declare_buttons()
         self.add_widgets_layouts()
 
-        # Kernel
+        # bns
         self.bns = Bns()
+        # Relational Neural Block
+        self.rnb = RelNetwork(100)
+        # Analytical neuron
+        self.analytical_n = AnalyticalNeuron()
 
     def declare_painters(self, grid_size):
         self.painters_layout = GridLayout(cols=2)
@@ -220,26 +188,72 @@ class BrainInterface(GridLayout):
 
     def sight_recognize(self, obj):
         pattern = self.sight_painter.get_pattern()
-        if self.bns.recognize_sight(pattern) == "HIT":
-            knowledge = self.bns.get_sight_knowledge(pattern)
-            self.sight_class_input.text = knowledge.get_class()
+        srecognize = self.bns.recognize_sight(pattern)
+        if srecognize == "HIT":
+            # Obtain id of neuron that recognized sight pattern
+            sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+            # Obtain sight and hearing ids relationship from relational neural block
+            sight_rel = self.rnb.get_sight_rels(sight_id)[0]
+            # Get hearing id from relation
+            hearing_id = sight_rel.get_h_id()
+            # Get hearing knowledge related to recognized sight pattern from BNS
+            hearing_knowledge = self.bns.get_hearing_knowledge(hearing_id, True)
+            # Get sight knowledge related to recognized sight pattern from BNS
+            sight_knowledge = self.bns.get_sight_knowledge(sight_id, True)
+            # Draw hearing pattern
+            self.hearing_painter.draw_pattern(hearing_knowledge.get_pattern())
+            # Write sight knowledge's class
+            self.sight_class_input.text = sight_knowledge.get_class()
+            #write hearing knowledge's class
+            self.hearing_class_input.text = hearing_knowledge.get_class()
+        elif srecognize == "DIFF":
+            # Get ids os sight neurons that recognized the pattern
+            ids_recognize = self.bns.bns_s.get_rneurons_ids()
+            # Initialize a vector of relational knowledge
+            rel_knowledge_vector = []
+            # Fill the vector with the relational knowledge of neurons that recognized the pattern
+            for neuron_id in ids_recognize:
+                rel_knowledge_vector += self.rnb.get_sight_rels(neuron_id)
+            # Get hearing id from analytical neural block
+            hearing_id = self.analytical_n.solve_ambiguity(rel_knowledge_vector)
+            # Sight knowledge
+            sight_knowledge = RbfKnowledge(pattern,str(hearing_id))
+            # Learn
+            self.bns.learn_sight(sight_knowledge)
+            # Get sight id
+            sight_id = self.bns.bns_s.get_last_learned_id()
+            # Learn relation
+            rel_knowledge = RelKnowledge(hearing_id, sight_id);
+            self.rnb.learn(rel_knowledge)
         else:
-            self.sight_class_input.text = "No reconozco"
+            self.sight_class_input.text =  "No reconozco"
 
     def learn(self, obj):
+        # CORREGIR PARA QUE FUNCIONE CUANDO EL PATRON DEL HEARING NO SE APRENDE SINO QUE YA SE CONOCE
         hearing_pattern = self.hearing_painter.get_pattern()
         sight_pattern = self.sight_painter.get_pattern()
         pattern_class = self.hearing_class_input.text
-        h_knowledge = RbfKnowledge(hearing_pattern, pattern_class)
-        self.bns.learn_sight(h_knowledge, sight_pattern )
+        self._learn(hearing_pattern, sight_pattern, pattern_class)
         (self.bns).save("sight_bns.p","hearing_bns.p")
+
+    def _learn(self, hearing_pattern, sight_pattern, hearing_class ):
+        h_knowledge = RbfKnowledge(hearing_pattern, hearing_class)
+        self.bns.learn(h_knowledge, sight_pattern)
+        learned_ids = self.bns.get_last_learned_ids()
+        rel_knowledge = RelKnowledge(learned_ids[0], learned_ids[1]);
+        self.rnb.learn(rel_knowledge)
 
     def hearing_clear(self, obj):
         self.hearing_painter.clear()
+        self.hearing_class_input.text = ""
 
     def sight_clear(self, obj):
         self.sight_painter.clear()
+        self.sight_class_input.text = ""
 
+    def paint_sight(self):
+        hearing_pattern = self.hearing_painter.get_pattern()
+        self.sight_painter.draw_pattern(hearing_pattern)
 
 class MyPaintApp(App):
     def build(self):
