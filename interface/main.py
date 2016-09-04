@@ -5,6 +5,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+from kivy.uix.togglebutton import ToggleButton
 
 # Brain-CEMISID kernel imports
 from rbf_network import RbfNetwork
@@ -12,6 +13,7 @@ from rbf_knowledge import RbfKnowledge
 from rel_network import RelNetwork
 from rel_knowledge import RelKnowledge
 from analytical_neuron import AnalyticalNeuron
+from cultural_network import CulturalNetwork
 
 from bns import Bns
 
@@ -23,9 +25,7 @@ class MyPaintElement(Widget):
     def on_touch_down(self, touch):
         # Check if touch event is inside widget
         if self.collide_point(touch.x, touch.y):
-            # If so, draw rectangle
-            with self.canvas:
-                self._draw_rectange()
+            self._draw_rectange()
 
     def on_touch_move(self, touch):
         # Check if touch event is inside widget
@@ -40,10 +40,13 @@ class MyPaintElement(Widget):
             Rectangle(pos=self.pos, size=self.size)
         self.active = True
 
-    def clear(self):
+    def clear(self, color):
         with self.canvas:
-            # lets draw a semi-transparent red square
-            Color(0, 0, 0, 1, mode='rgba')
+            if color == "black":
+                # lets draw a semi-transparent red square
+                Color(0, 0, 0, 1, mode='rgba')
+            else:
+                Color(0, 0.2, 0.2, 1, mode='rgba')
             Rectangle(pos=self.pos, size=self.size)
         self.active = False
 
@@ -61,8 +64,13 @@ class MyPaintWidget(GridLayout):
             self.add_widget(MyPaintElement())
 
     def clear(self):
+        index = 0
         for child in self.children:
-            child.clear()
+            if index % 2:
+                child.clear("dark-turquoise")
+            else:
+                child.clear("black")
+            index += 1
 
     def get_pattern(self):
         # Initial pattern is an empty list of integers
@@ -99,7 +107,10 @@ class MyPaintWidget(GridLayout):
                 if(bin_pattern_element[MyPaintWidget.CODING_SIZE-1-j]=="1"):
                     child_set[j].mark()
                 else:
-                    child_set[j].clear()
+                    if j%2:
+                        child_set[j].clear("dark-turquoise")
+                    else:
+                        child_set[j].clear("black")
 
 class BrainInterface(GridLayout):
     def __init__(self, **kwargs):
@@ -118,7 +129,7 @@ class BrainInterface(GridLayout):
         RbfKnowledge.PATTERN_SIZE = pattern_size
 
         # Main layout number of rows
-        self.rows = 3;
+        self.cols = 1
 
         self.declare_painters(grid_size)
         self.declare_inputs()
@@ -126,11 +137,29 @@ class BrainInterface(GridLayout):
         self.add_widgets_layouts()
 
         # bns
-        self.bns = Bns()
+        self.bns = Bns("sight_bns.p", "hearing_bns.p" )
+        #self.bns = Bns()
         # Relational Neural Block
-        self.rnb = RelNetwork(100)
+        self.rnb = RelNetwork.deserialize("rnb.p")
+        #self.rnb = RelNetwork(100)
         # Analytical neuron
         self.analytical_n = AnalyticalNeuron()
+        # Addition by memory network
+        #self.am_net = CulturalNetwork(100)
+        self.am_net = CulturalNetwork.deserialize("am_net.p")
+        self.enable_clack = False
+        # Syllables net
+        #self.syllables_net = CulturalNetwork(100)
+        self.syllables_net = CulturalNetwork.deserialize("syllables_net.p")
+        # Words net
+        #self.words_net =  CulturalNetwork(100)
+        self.words_net = CulturalNetwork.deserialize("words_net.p")
+        # Sight-Syllables rel network
+        self.ss_rnb = RelNetwork.deserialize("ss_rnb.p")
+        #self.ss_rnb = RelNetwork(100)
+        # _bbcc_words
+        self._learning_words = False
+        self._learning_syllables = False
 
     def declare_painters(self, grid_size):
         self.painters_layout = GridLayout(cols=2)
@@ -144,49 +173,68 @@ class BrainInterface(GridLayout):
         self.hearing_class_input = TextInput(text="Clase")
 
     def declare_buttons(self):
-        # Sight recognize
-        self.sight_recognize_btn = Button(text="Reconocer Vista")
-        self.sight_recognize_btn.bind(on_release=self.sight_recognize)
-
-        # hearing recognize
-        self.hearing_recognize_btn = Button(text="Reconocer Oido")
-        self.hearing_recognize_btn.bind(on_release=self.hearing_recognize)
-
         # sight clear
-        self.sight_clear_btn = Button(text="Limpiar Vista")
+        self.sight_clear_btn = Button(text="Clear Sight")
         self.sight_clear_btn.bind(on_release=self.sight_clear)
 
         # Hearing clear
-        self.hearing_clear_btn = Button(text="Limpiar Oido")
+        self.hearing_clear_btn = Button(text="Clear Hearing")
         self.hearing_clear_btn.bind(on_release=self.hearing_clear)
 
-        # Learn btn
-        self.learn_btn = Button(text="Aprender", size_hint_y=None, height=70)
-        self.learn_btn.bind(on_release=self.learn)
+        # Bum btn
+        self.bum_btn = Button(text="Bum")
+        self.bum_btn.bind(on_release=self.bum)
+
+        # Bip btn
+        self.bip_btn = Button(text="Bip")
+        self.bip_btn.bind(on_release=self.bip)
+
+        # Check btn
+        self.check_btn = Button(text="Check")
+        self.check_btn.bind(on_release=self.check)
+
+        # Clack btn
+        self.clack_btn = Button(text="Clack")
+        self.clack_btn.bind(on_release=self.clack)
+
+        # Toggle button (Words, Numbers)
+        self.words_tgl_btn = ToggleButton(text="words", group="bbcc_protocol", allow_no_selection=False)
+        self.addition_tgl_btn = ToggleButton(text="addition", group="bbcc_protocol", state="down", allow_no_selection=False)
 
     def add_widgets_layouts(self):
         # Add widgets to bottom layout
-        self.bottom_layout = GridLayout(cols=2)
-        self.bottom_layout.add_widget(self.sight_class_input)
-        self.bottom_layout.add_widget(self.hearing_class_input)
-        self.bottom_layout.add_widget(self.sight_recognize_btn)
-        self.bottom_layout.add_widget(self.hearing_recognize_btn)
-        self.bottom_layout.add_widget(self.sight_clear_btn)
-        self.bottom_layout.add_widget(self.hearing_clear_btn)
+        self.bottom_layout = GridLayout(rows=2)
+        self.bottom_up_layout = GridLayout(cols=2)
+        self.bottom_up_layout.add_widget(self.sight_class_input)
+        self.bottom_up_layout.add_widget(self.hearing_class_input)
+        self.bottom_up_layout.add_widget(self.sight_clear_btn)
+        self.bottom_up_layout.add_widget(self.hearing_clear_btn)
+
+        # Add bbcc buttons protocols to bbcc-layout
+        self.bbcc_layout = GridLayout(cols=4)
+        self.bbcc_layout.add_widget(self.bum_btn)
+        self.bbcc_layout.add_widget(self.bip_btn)
+        self.bbcc_layout.add_widget(self.check_btn)
+        self.bbcc_layout.add_widget(self.clack_btn)
+        self.bbcc_layout.add_widget(self.words_tgl_btn)
+        self.bbcc_layout.add_widget(self.addition_tgl_btn)
+
+        self.bottom_layout.add_widget(self.bottom_up_layout)
+        self.bottom_layout.add_widget(self.bbcc_layout)
 
         self.add_widget(self.painters_layout)
         self.add_widget(self.bottom_layout)
-        self.add_widget(self.learn_btn)
 
-    def hearing_recognize(self, obj):
+    def hearing_recognize(self):
         pattern = self.hearing_painter.get_pattern()
-        if self.bns.recognize_hearing(pattern) == "HIT":
+        recognition_result = self.bns.recognize_hearing(pattern)
+        if recognition_result == "HIT":
             knowledge = self.bns.get_hearing_knowledge(pattern)
             self.hearing_class_input.text = knowledge.get_class()
         else:
-            self.hearing_class_input.text = "No reconozco "
+            self.hearing_class_input.text = recognition_result
 
-    def sight_recognize(self, obj):
+    def sight_recognize(self):
         pattern = self.sight_painter.get_pattern()
         srecognize = self.bns.recognize_sight(pattern)
         if srecognize == "HIT":
@@ -223,7 +271,7 @@ class BrainInterface(GridLayout):
             # Get sight id
             sight_id = self.bns.bns_s.get_last_learned_id()
             # Learn relation
-            rel_knowledge = RelKnowledge(hearing_id, sight_id);
+            rel_knowledge = RelKnowledge(hearing_id, sight_id)
             self.rnb.learn(rel_knowledge)
         else:
             self.sight_class_input.text =  "No reconozco"
@@ -235,8 +283,9 @@ class BrainInterface(GridLayout):
         pattern_class = self.hearing_class_input.text
         self._learn(hearing_pattern, sight_pattern, pattern_class)
         (self.bns).save("sight_bns.p","hearing_bns.p")
+        RelNetwork.serialize(self.rnb, "rnb.p")
 
-    def _learn(self, hearing_pattern, sight_pattern, hearing_class ):
+    def _learn(self, hearing_pattern, sight_pattern, hearing_class):
         h_knowledge = RbfKnowledge(hearing_pattern, hearing_class)
         self.bns.learn(h_knowledge, sight_pattern)
         learned_ids = self.bns.get_last_learned_ids()
@@ -251,15 +300,233 @@ class BrainInterface(GridLayout):
         self.sight_painter.clear()
         self.sight_class_input.text = ""
 
-    def paint_sight(self):
-        hearing_pattern = self.hearing_painter.get_pattern()
-        self.sight_painter.draw_pattern(hearing_pattern)
+    def bum(self,obj ):
+        # Enable check and clack as a part of bbcc protocol
+        # preventing their effect as standalone actions
+        self.enable_clack = True
+        if self.words_tgl_btn.state == "down":
+            self.bum_words()
+        else:
+            self.bum_addition()
+
+    def bip(self, obj):
+        if not self.enable_clack:
+            return
+        # Get sight pattern's related hearing neuron id
+        s_pattern = self.sight_painter.get_pattern()
+        s_recognize = self.bns.recognize_sight(s_pattern)
+        if s_recognize == "HIT":
+            if self.words_tgl_btn.state == "down":
+                self.bip_words()
+            else:
+                self.bip_addition()
+        else:
+            self.sight_class_input.text = s_recognize
+
+    def bum_words(self):
+        self._learning_words = True
+        self._learning_syllables = True
+        self.words_net.bum()
+        self.syllables_net.bum()
+
+    def bum_addition(self):
+        self.am_net.bum()
+
+    def bip_words(self):
+        # Get id of neuron that recognized sight pattern
+        sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+        # Get sight and hearing ids relationship from sight-hearing relational neural block
+        s_h_rels = self.rnb.get_sight_rels(sight_id)
+        # Get sight and syllables ids relationship from  sight-syllables relational neural block
+        s_syll_rels = self.ss_rnb.get_sight_rels(sight_id)
+
+        if len(s_h_rels) != 0 and self._learning_syllables:
+            # Syllables
+            hearing_id = s_h_rels[0].get_h_id()
+            self.syllables_net.bip(hearing_id)
+        else:
+            self._learning_syllables = False
+
+        if len(s_syll_rels) != 0 and self._learning_words:
+            self._bbcc_words = True
+            syll_hearing_id = s_syll_rels[0].get_h_id()
+            self.words_net.bip(syll_hearing_id)
+        else:
+            self._learning_words = False
+
+    def bip_addition(self):
+        hearing_id = self.get_hearing_id_recognize()
+        self.am_net.bip(hearing_id)
+
+
+    def get_hearing_id_recognize(self):
+        # Obtain id of neuron that recognized sight pattern
+        sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+        # Obtain sight and hearing ids relationship from relational neural block
+        sight_rel = self.rnb.get_sight_rels(sight_id)[0]
+        # Get hearing id from relation
+        return sight_rel.get_h_id()
+
+    # Esto puede ser puesto en un modulo de 'utility functions'
+    @staticmethod
+    def is_null_pattern(pattern):
+        for element in pattern:
+            if element != 0:
+                return False
+        return True
+
+    def check(self, obj):
+        # Part of complete bbcc protocol
+        if self.enable_clack:
+            s_pattern = self.sight_painter.get_pattern()
+            s_recognize = self.bns.recognize_sight(s_pattern)
+            if s_recognize == "HIT":
+                if self.words_tgl_btn.state == "down":
+                    self.check_words()
+                else:
+                    self.check_addition()
+            else:
+                self.sight_class_input.text = s_recognize
+        # Not part of complete bbcc protocol, just recognize
+        else:
+            self.recognize()
+
+    def check_addition(self):
+        hearing_id = self.get_hearing_id_recognize()
+        am_id = self.am_net.check(hearing_id)
+        # If addition_by_memory doesn't have any knowledge related to the preceding bbc series, proceed with clack
+        if am_id is None:
+            return
+        # If it in fact has some knowledge related, show it
+        hearing_id = self.am_net.get_tail_knowledge(am_id)
+        # Get hearing knowledge related to recognized sight pattern from BNS
+        hearing_knowledge = self.bns.get_hearing_knowledge(hearing_id, True)
+        # Draw hearing pattern
+        self.hearing_painter.draw_pattern(hearing_knowledge.get_pattern())
+        # write hearing knowledge's class
+        self.hearing_class_input.text = hearing_knowledge.get_class()
+        self.enable_clack = False
+
+    def check_words(self):
+        # Get id of neuron that recognized sight pattern
+        sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+        # Get sight and hearing ids relationship from sight-hearing relational neural block
+        s_h_rels = self.rnb.get_sight_rels(sight_id)
+        # Get sight and syllables ids relationship from  sight-syllables relational neural block
+        s_syll_rels = self.ss_rnb.get_sight_rels(sight_id)
+
+        # Syllables
+        if len(s_h_rels) != 0 and self._learning_syllables:
+            # Syllables
+            hearing_id = s_h_rels[0].get_h_id()
+            syll_id = self.syllables_net.check(hearing_id)
+            # If syllables net doesn't have any knowledge related to the preceding bbc series, proceed with clack
+            if syll_id is None:
+                self._learning_words = False
+                return
+            hearing_knowledge = self.syllables_net.get_tail_knowledge(syll_id)
+            sight_id = self.ss_rnb.get_hearing_rels(syll_id)[0].get_s_id()
+            sight_knowledge = self.bns.get_sight_knowledge(sight_id, True)
+            # Draw hearing pattern
+            self.hearing_painter.draw_pattern(hearing_knowledge.get_pattern())
+            # write hearing knowledge's class
+            self.hearing_class_input.text = hearing_knowledge.get_class()
+            # Draw sight pattern
+            self.sight_painter.draw_pattern(sight_knowledge.get_pattern())
+            # Write sight knowledge class
+            self.sight_class_input.text = sight_knowledge.get_class()
+            self.enable_clack = False
+            self._learning_syllables = False
+        else:
+            self._learning_syllables = False
+
+        # Words
+        if len(s_syll_rels) != 0 and self._learning_words:
+            syll_hearing_id = s_syll_rels[0].get_h_id()
+            word_id = self.words_net.check(syll_hearing_id)
+            # If word net doesn't have any knowledge related to the preceding bbc series, proceed with clack
+            if word_id is None:
+                return
+            sight_knowledge = self.words_net.get_tail_knowledge(word_id)
+            self.sight_painter.draw_pattern(sight_knowledge.get_pattern())
+            self.sight_class_input.text = sight_knowledge.get_class()
+            self.enable_clack = False
+            self._learning_words = False
+        else:
+            self._learning_words = False
+
+
+    def clack(self, obj):
+        if self.enable_clack:
+                if self.words_tgl_btn.state == "down":
+                    self.clack_words()
+                else:
+                    self.clack_addition()
+        else:
+            self.learn(None)
+        self.enable_clack = False
+
+    def clack_words(self):
+        if self._learning_words:
+            sight_pattern = self.sight_painter.get_pattern()
+            sight_class = "None"
+            sight_knowledge = RbfKnowledge(sight_pattern, sight_class )
+            self.words_net.clack(sight_knowledge)
+            CulturalNetwork.serialize(self.words_net, "words_net.p")
+            self._learning_words = False
+        else:
+            hearing_pattern = self.hearing_painter.get_pattern()
+            hearing_class = self.hearing_class_input.text
+            hearing_knowledge = RbfKnowledge(hearing_pattern, hearing_class)
+            self.syllables_net.clack(hearing_knowledge)
+            CulturalNetwork.serialize(self.syllables_net, "syllables_net.p")
+            syll_hearing_id = self.syllables_net.get_last_clack_id()
+            sight_pattern = self.sight_painter.get_pattern()
+            # Recognize
+            if self.bns.recognize_sight(sight_pattern) == "HIT":
+                sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+            else:
+                sight_class = "syll_" + str(syll_hearing_id)
+                sight_knowledge = RbfKnowledge(sight_pattern, sight_class)
+                self.bns.learn_sight(sight_knowledge)
+                sight_id = self.bns.bns_s.get_last_learned_id()
+            (self.bns).save("sight_bns.p", "hearing_bns.p")
+            # Learn relation in new net
+            rel_knowledge = RelKnowledge(syll_hearing_id, sight_id)
+            self.ss_rnb.learn(rel_knowledge)
+            RelNetwork.serialize(self.ss_rnb, "ss_rnb.p")
+            self._learning_syllables = False
+
+    def clack_addition(self):
+        s_pattern = self.sight_painter.get_pattern()
+        s_recognize = self.bns.recognize_sight(s_pattern)
+        if s_recognize == "HIT":
+            hearing_id = self.get_hearing_id_recognize()
+            self.am_net.clack(hearing_id)
+            CulturalNetwork.serialize(self.am_net, "am_net.p")
+        else:
+            self.sight_class_input.text = s_recognize
+
+    def recognize(self):
+        # Get sight and hearing patterns
+        s_pattern = self.sight_painter.get_pattern()
+        h_pattern = self.hearing_painter.get_pattern()
+        # If no patterns or both patterns given, do nothing
+        if (BrainInterface.is_null_pattern(s_pattern) and BrainInterface.is_null_pattern(h_pattern)
+            or not BrainInterface.is_null_pattern(s_pattern) and not BrainInterface.is_null_pattern(h_pattern)):
+            return
+        # If hearing pattern given, recognize hearing
+        elif BrainInterface.is_null_pattern(s_pattern):
+            self.hearing_recognize()
+        # If sight pattern given, recognize sight
+        else:
+            self.sight_recognize()
+
 
 class MyPaintApp(App):
     def build(self):
-        brainUI = BrainInterface();
-
-        return brainUI;
+        brainUI = BrainInterface()
+        return brainUI
 
 
 if __name__ == '__main__':

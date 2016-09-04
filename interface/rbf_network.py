@@ -29,6 +29,8 @@ class RbfNetwork:
             self.neuron_list.append(RbfNeuron())
         # Set index of neuron ready to learn as 0
         self._index_ready_to_learn = 0
+        # Id of neuron that learned last given knowledge
+        self._last_learned_id = -1
 
     def get_neuron_count(self):
         """ Returns number of neurons in network """
@@ -93,6 +95,7 @@ class RbfNetwork:
                 if neuron.get_class() != correct_class:
                     neuron.reduce_radius_last_distance()
                 else:
+                    self._last_learned_id = index
                     correct_flag = True
             if correct_flag:
                 return True
@@ -105,7 +108,7 @@ class RbfNetwork:
             # If the class to be learned is different from the class identified
             if correct_class != self.neuron_list[self._index_recognize[0]].get_class():
                 # Min distance from recognizing neurons to class
-                min_distance = RbfNeuron.DEFAULT_RADIUS;
+                min_distance = RbfNeuron.DEFAULT_RADIUS
                 # Reduce radius to all recognizing neurons
                 for index in self._index_recognize:
                     neuron = self.neuron_list[index]
@@ -130,6 +133,7 @@ class RbfNetwork:
         ready_to_learn_neuron.set_radius(radius)
         # Increment ready-to-learn neuron index
         if learned:
+            self._last_learned_id = self._index_ready_to_learn
             self._index_ready_to_learn += 1
         # Return whether net succesfully learned the given pattern
         return learned
@@ -141,7 +145,7 @@ class RbfNetwork:
 
     def get_last_learned_id(self):
         """ Return index of last neuron with knowledge """
-        return self._index_ready_to_learn - 1
+        return self._last_learned_id
 
     @classmethod
     def  serialize(cls, obj, name):

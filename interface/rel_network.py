@@ -5,7 +5,7 @@ import pickle
 
 class RelNetwork:
 
-    def __init__(self, neuron_count):
+    def __init__(self, neuron_count, name_file="NoFile"):
         """ Class constructor, takes 'neuron_count' as parameter
                 for setting network size """
         # Create neuron list

@@ -122,7 +122,7 @@ class RbfNeuron:
         if value < 0:
             raise ValueError("value must be positive")
         if self._radius < value:
-            raise ValueError("value must be greater than radius of neuron")
+            raise ValueError("value must be less than radius of neuron")
         self._radius -= value
         # If radius of neuron is under minimum allowed value,
         # the neuron has been degraded and is no longer functional

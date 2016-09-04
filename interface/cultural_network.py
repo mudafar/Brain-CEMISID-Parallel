@@ -1,4 +1,4 @@
-
+import pickle
 
 class CulturalNeuron:
     def __init__(self, knowledge=None):
@@ -32,28 +32,35 @@ class CulturalGroup:
         """
         self._group.append(CulturalNeuron(knowledge))
 
-    def bum(self, knowledge):
-        """ Compare given knowledge with the one stored in the head neuron of the group,
-            return True if equal, False in any other case
-        :param knowledge: Piece of cultural knowledge to be compared
-        :return: Boolean
+    def bum(self):
+        """ Initialize bbcc protocol
         """
         # Reinitialize bip index
         self._index_bip = 0
-        if len(self._group) > 0:
-            return self._group[0].get_knowledge() == knowledge
-        return False
 
     def bip(self, knowledge):
-        # Increase bip index
-        self._index_bip += 1
-        if (self._index_bip+1) < len(self._group):
-            return self._group[self._index_bip].get_knowledge() == knowledge
+        """ Return true if given knowledge equals the one store in current neuron. Increase index-bip
+        so that next comparison is made in the following neuron of the group. If there are no more neurons in
+        the group, return false.
+        :param knowledge: Piece of knowledge to be compared
+        :return: Boolean
+        """
+        # If there are still neurons in the group, make the comparison
+        if self._index_bip < len(self._group):
+            knowledge_eq = self._group[self._index_bip].get_knowledge() == knowledge
+            self._index_bip += 1
+            return knowledge_eq
+        # If there are no more neurons in the group, reinitialize bip index and return False
         self._index_bip = 0
         return False
 
     def check(self, knowledge):
-        return self.bip(knowledge) and (len(self._group)-1) == (self._index_bip+1)
+        """ Return true if given knowledge equals the one store in current neuron and there is exactly one more neuron
+        in the group with the final knowledge related to de bbcc sequence. Return false in any other case.
+        :param knowledge: Piece of knowledge to be compared
+        :return: Boolean
+        """
+        return self.bip(knowledge) and (len(self._group)-1) == self._index_bip
 
     def clack(self, knowledge):
         """ Learn new piece of cultural knowledge as part of the cultural group
@@ -62,7 +69,7 @@ class CulturalGroup:
         self.learn(knowledge)
 
     def get_tail_knowledge(self):
-        return self._group[len(self._group)].get_knowledge()
+        return self._group[len(self._group)-1].get_knowledge()
 
     def reinit(self):
         self._group = []
@@ -79,20 +86,21 @@ class CulturalNetwork:
         self._clack = False
         self._recognized_indexes = []
 
-    def bum(self, knowledge):
+    def bum(self):
         # Renintialize ready lo learn group
         self.group_list[self._index_ready_to_learn].reinit()
-        # Indexes of neural groups that recognized bum
-        self._recognized_indexes = []
+        # Pass bum signal to all cultural groups with knowledge
         for group_index in range(self._index_ready_to_learn):
-            if self.group_list[group_index].bum(knowledge):
-                self._recognized_indexes.append(group_index)
-        # Learn in ready to learn neuron
-        self.group_list[self._index_ready_to_learn].learn(knowledge)
+            self.group_list[group_index].bum()
+            # Initialize a list of participating neurons
+            # At this stage, all neurons with knowledge may recognize the sequence
+            self._recognized_indexes.append(group_index)
 
     def bip(self, knowledge):
-        # Indexes
+        # Indexes of neural groups that recognized bip
         bip_indexes = []
+        # Pass bip signal to all neurons that have recognized the given sequence
+        # and store the indexes of all neurons that have recognized until now
         for group_index in self._recognized_indexes:
             if self.group_list[group_index].bip(knowledge):
                 bip_indexes.append(group_index)
@@ -115,24 +123,39 @@ class CulturalNetwork:
             # Enable clack
             self._clack = True
             return None
+        # Exactly one cultural group must have recognized the sequence, return index of that group
         elif len(check_indexes) == 1:
             # Do not learn
             self.group_list[self._index_ready_to_learn].reinit()
-            # Return index of neuron that has recognized the process
+            # Return index of cultural group that has recognized the process
             return check_indexes[0]
         else:
             raise AttributeError("CulturalNet net has an inconsistent state")
 
     def clack(self, knowledge):
+        """ Learn tail knowledge of cultural group
+        :param knowledge:
+        """
         if not self._clack:
             return
         # Learn
-        self.group_list[self._index_ready_to_learn].learn(knowledge)
+        self.group_list[self._index_ready_to_learn].clack(knowledge)
         self._clack = False
         self._index_ready_to_learn += 1
 
     def get_tail_knowledge(self, group_id):
         return self.group_list[group_id].get_tail_knowledge()
+
+    def get_last_clack_id(self):
+        return self._index_ready_to_learn - 1
+
+    @classmethod
+    def serialize(cls, obj, name):
+        pickle.dump(obj, open(name, "wb"))
+
+    @classmethod
+    def deserialize(cls, name):
+        return pickle.load(open(name, "rb"))
 
 
 # Tests
@@ -140,22 +163,20 @@ if __name__ == '__main__':
 
     net = CulturalNetwork(5)
 
-    net.bum("c")
+    net.bum()
     net.check("a")
-    net.clack("ca")
+    net.clack("a")
 
-    net.bum("b")
+    net.bum()
+    net.bip("b")
     net.check("a")
     net.clack("ba")
 
-    net.bum("l")
+    net.bum()
+    net.bip("l")
     net.bip("l")
     net.check("o")
     net.clack("llo")
-
-    net.bum("c")
-    net.check("a")
-    net.clack("Ka")
 
     i = 1
 

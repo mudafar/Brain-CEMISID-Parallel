@@ -10,12 +10,12 @@ class Bns:
     def __init__(self, sight_bns_file="NoFile", hearing_bns_file="NoFile"):
         """Bns class constructor"""
         # Create sight neural blocks
-        if (sight_bns_file != "NoFile"):
+        if sight_bns_file != "NoFile":
             self.bns_s = RbfNetwork.deserialize(sight_bns_file)
         else:
             self.bns_s = RbfNetwork(Bns.SIGHT_NEURON_COUNT)
         # Create hearing neural blocks
-        if (hearing_bns_file != "NoFile"):
+        if hearing_bns_file != "NoFile":
             self.bns_h = RbfNetwork.deserialize(hearing_bns_file)
         else:
             self.bns_h = RbfNetwork(Bns.SIGHT_NEURON_COUNT)
