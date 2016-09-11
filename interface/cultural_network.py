@@ -89,6 +89,8 @@ class CulturalNetwork:
     def bum(self):
         # Renintialize ready lo learn group
         self.group_list[self._index_ready_to_learn].reinit()
+        # Reinitialize vector of recognized indexes
+        self._recognized_indexes = []
         # Pass bum signal to all cultural groups with knowledge
         for group_index in range(self._index_ready_to_learn):
             self.group_list[group_index].bum()
