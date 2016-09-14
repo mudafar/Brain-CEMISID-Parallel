@@ -8,7 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 from kivy.core.window import Window
-from kivy.clock import Clock
+from kivy.uix.image import Image
 
 # Brain-CEMISID kernel imports
 from kernel_braincemisid import KernelBrainCemisid
@@ -57,7 +57,6 @@ class MyPaintWidget(GridLayout):
     def __init__(self, size, **kwargs):
         super(MyPaintWidget, self).__init__(**kwargs)
         self.cols = size
-
         for index in range(self.cols * self.cols):
             self.add_widget(MyPaintElement())
 
@@ -168,22 +167,31 @@ class BrainInterface(GridLayout):
 
         # Main layout number of columns
         self.rows = 2
+        self.load_icons()
         self.declare_thinking_panel()
         self.declare_painters(grid_size)
         self.declare_inputs()
         self.declare_buttons()
         self.add_widgets_layouts()
-        # Clear painters when drawn
+        # Clear painters when window draw
         self.win_show_uid = Window.fbind('on_draw',self.clear)
 
+
+    def load_icons(self):
+        self.img_eye = Image(source='icons/eye.png')
+        self.img_ear = Image(source='icons/ear.png')
+        self.img_eye.size_hint = (None,None)
+        self.img_ear.size_hint = (None,None)
+        self.img_eye.width = 60
+        self.img_ear.width = 60
 
     def declare_painters(self, grid_size):
         self.sight_painter = MyPaintWidget(grid_size)
         self.sight_painter.size_hint = (None, None)
-        self.sight_painter.size = (220,220)
+        self.sight_painter.size = (200,200)
         self.hearing_painter = MyPaintWidget(grid_size)
         self.hearing_painter.size_hint = (None, None)
-        self.hearing_painter.size = (220,220)
+        self.hearing_painter.size = (200,200)
 
     def declare_thinking_panel(self):
         self.thinking_panel = GridLayout(rows=2, size_hint_x=0.6, padding=20)
@@ -193,9 +201,9 @@ class BrainInterface(GridLayout):
         self.thinking_panel.add_widget(self.thinking_hearing)
 
     def declare_inputs(self):
-        self.hearing_class_input = TextInput(text="Clase")
+        self.hearing_class_input = TextInput(text="Class?")
         self.hearing_class_input.size_hint = (None,None)
-        self.hearing_class_input.size = (50,30)
+        self.hearing_class_input.height = 25
 
     def declare_buttons(self):
         # sight clear
@@ -229,14 +237,17 @@ class BrainInterface(GridLayout):
     def add_widgets_layouts(self):
 
         # Sight panel
-        self.sight_panel = GridLayout(rows=1, padding=10)
+        self.sight_panel = GridLayout(rows=1, padding=10, spacing=10)
+        self.sight_panel.add_widget(self.img_eye)
         self.sight_panel.add_widget(self.sight_painter)
         # Hearing panel
-        self.hearing_panel = GridLayout(cols=1, padding=10, spacing = 10)
-        self.hearing_painter.size_hint_y = 0.9
+        self.hearing_painter_text = GridLayout(cols=1)
+        self.hearing_painter_text.add_widget(self.hearing_painter)
+        self.hearing_painter_text.add_widget(self.hearing_class_input)
+        self.hearing_panel = GridLayout(rows=1, padding=10, spacing=10)
         self.hearing_class_input.font_size = 12
-        self.hearing_panel.add_widget(self.hearing_painter)
-        self.hearing_panel.add_widget(self.hearing_class_input)
+        self.hearing_panel.add_widget(self.img_ear)
+        self.hearing_panel.add_widget(self.hearing_painter_text)
 
         self.main_panel = GridLayout(cols=2, size_hint=(1,0.9))
         self.senses_panel = GridLayout(rows=2, padding=10, size_hint_x=0.4)
@@ -255,7 +266,6 @@ class BrainInterface(GridLayout):
         self.buttons_panel.add_widget(self.hearing_clear_btn)
         self.buttons_panel.add_widget(self.words_tgl_btn)
         self.buttons_panel.add_widget(self.addition_tgl_btn)
-
         self.add_widget(self.main_panel)
         self.add_widget(self.buttons_panel)
 
