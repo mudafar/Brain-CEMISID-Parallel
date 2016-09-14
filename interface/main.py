@@ -2,10 +2,13 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Rectangle
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
+from kivy.core.window import Window
+from kivy.clock import Clock
 
 # Brain-CEMISID kernel imports
 from kernel_braincemisid import KernelBrainCemisid
@@ -31,17 +34,17 @@ class MyPaintElement(Widget):
         with self.canvas:
             # lets draw a semi-transparent red square
             Color(1, 1, 1, 1, mode='rgba')
-            Rectangle(pos=self.pos, size=self.size)
+            Rectangle(pos=self.pos, size=(self.width*0.9, self.height*0.9))
         self.active = True
 
     def clear(self, color):
         with self.canvas:
             if color == "black":
                 # lets draw a semi-transparent red square
-                Color(0, 0, 0, 1, mode='rgba')
+                Color(0, 0.65, 0.65, 1, mode='rgba')
             else:
                 Color(0, 0.2, 0.2, 1, mode='rgba')
-            Rectangle(pos=self.pos, size=self.size)
+            Rectangle(pos=self.pos,size=(self.width*0.9, self.height*0.9))
         self.active = False
 
     def mark(self):
@@ -54,12 +57,18 @@ class MyPaintWidget(GridLayout):
     def __init__(self, size, **kwargs):
         super(MyPaintWidget, self).__init__(**kwargs)
         self.cols = size
+
         for index in range(self.cols * self.cols):
             self.add_widget(MyPaintElement())
 
 
     def clear(self):
         index = 0
+        #with self.canvas.before:
+        #    Color(0, .1, .3, 1)  # green; colors range from 0-1 instead of 0-255
+        #    self.rect = Rectangle(size=self.size,
+        #                         pos=self.pos)
+
         for child in self.children:
             if index % 2:
                 child.clear("dark-turquoise")
@@ -107,17 +116,47 @@ class MyPaintWidget(GridLayout):
                     else:
                         child_set[j].clear("black")
 
+class RbfCardWidget(GridLayout):
+
+    def __init__(self, width, **kwargs):
+        super(RbfCardWidget, self).__init__(**kwargs )
+        self.rows = 2
+        self.spacing = 10
+        self.painter = MyPaintWidget(16, size_hint = (1,0.9))
+        self.text_label = Label( text = "", size_hint = (1,0.1))
+        self.add_widget(self.painter)
+        self.add_widget(self.text_label)
+        self.size_hint = (None, None)
+        self.size = (width,width)
+
+    def show_knowledge(self, knowledge):
+        self.painter.draw_pattern(knowledge.get_pattern())
+        self.text_label.text = knowledge.get_class()
+
+    def clear(self):
+        self.painter.clear()
+        self.text_label.text = ""
+
 class MyGroupPaintWidget(GridLayout):
 
     def __init__(self, **kwargs):
         super(MyGroupPaintWidget, self).__init__(**kwargs)
         self.rows = 1
+        self.cards = [RbfCardWidget(100) for count in range(3)]
+        for card in self.cards:
+            self.add_widget(card)
 
     def show_rbf_knowledge(self, knowledge_vector):
-        for knowledge in knowledge_vector:
-            painter = MyPaintWidget(16)
-            painter.draw_pattern(knowledge.get_pattern())
-            self.add_widget(painter)
+        if len(knowledge_vector) > 3:
+            return
+        for card in self.cards:
+            card.clear()
+        for index in range(len(knowledge_vector)):
+            self.cards[index].show_knowledge(knowledge_vector[index])
+
+    def clear(self):
+        for card in self.cards:
+            card.clear()
 
 class BrainInterface(GridLayout):
     def __init__(self, **kwargs):
@@ -128,31 +167,35 @@ class BrainInterface(GridLayout):
         self.kernel = KernelBrainCemisid()
 
         # Main layout number of columns
-        self.cols = 1
-        self.declare_painters(grid_size)
+        self.rows = 2
         self.declare_thinking_panel()
+        self.declare_painters(grid_size)
         self.declare_inputs()
         self.declare_buttons()
         self.add_widgets_layouts()
+        # Clear painters when drawn
+        self.win_show_uid = Window.fbind('on_draw',self.clear)
 
 
     def declare_painters(self, grid_size):
-        self.painters_layout = GridLayout(cols=2)
         self.sight_painter = MyPaintWidget(grid_size)
+        self.sight_painter.size_hint = (None, None)
+        self.sight_painter.size = (220,220)
         self.hearing_painter = MyPaintWidget(grid_size)
-        self.painters_layout.add_widget(self.sight_painter)
-        self.painters_layout.add_widget(self.hearing_painter)
+        self.hearing_painter.size_hint = (None, None)
+        self.hearing_painter.size = (220,220)
 
     def declare_thinking_panel(self):
-        self.thinking_panel = GridLayout(rows=2)
-        self.thinking_s_panel = MyGroupPaintWidget()
-        self.thinking_h_panel = MyGroupPaintWidget()
-        self.thinking_panel.add_widget(self.thinking_s_panel)
-        self.thinking_panel.add_widget(self.thinking_h_panel)
+        self.thinking_panel = GridLayout(rows=2, size_hint_x=0.6, padding=20)
+        self.thinking_sight = MyGroupPaintWidget(padding=2*self.height/3)
+        self.thinking_hearing = MyGroupPaintWidget(padding=2*self.height/3)
+        self.thinking_panel.add_widget(self.thinking_sight)
+        self.thinking_panel.add_widget(self.thinking_hearing)
 
     def declare_inputs(self):
-        self.sight_class_input = TextInput(text="")
         self.hearing_class_input = TextInput(text="Clase")
+        self.hearing_class_input.size_hint = (None,None)
+        self.hearing_class_input.size = (50,30)
 
     def declare_buttons(self):
         # sight clear
@@ -184,52 +227,58 @@ class BrainInterface(GridLayout):
         self.addition_tgl_btn = ToggleButton(text="addition", group="bbcc_protocol", state="down", allow_no_selection=False)
 
     def add_widgets_layouts(self):
+
+        # Sight panel
+        self.sight_panel = GridLayout(rows=1, padding=10)
+        self.sight_panel.add_widget(self.sight_painter)
+        # Hearing panel
+        self.hearing_panel = GridLayout(cols=1, padding=10, spacing = 10)
+        self.hearing_painter.size_hint_y = 0.9
+        self.hearing_class_input.font_size = 12
+        self.hearing_panel.add_widget(self.hearing_painter)
+        self.hearing_panel.add_widget(self.hearing_class_input)
+
+        self.main_panel = GridLayout(cols=2, size_hint=(1,0.9))
+        self.senses_panel = GridLayout(rows=2, padding=10, size_hint_x=0.4)
+        self.senses_panel.add_widget(self.sight_panel)
+        self.senses_panel.add_widget(self.hearing_panel)
+        self.main_panel.add_widget(self.senses_panel)
+        self.main_panel.add_widget(self.thinking_panel)
+
         # Add widgets to bottom layout
-        self.bottom_layout = GridLayout(rows=2)
-        self.bottom_up_layout = GridLayout(cols=2)
-        self.bottom_up_layout.add_widget(self.sight_class_input)
-        self.bottom_up_layout.add_widget(self.hearing_class_input)
-        self.bottom_up_layout.add_widget(self.sight_clear_btn)
-        self.bottom_up_layout.add_widget(self.hearing_clear_btn)
+        self.buttons_panel = GridLayout(rows=1, size_hint=(1,0.1))
+        self.buttons_panel.add_widget(self.bum_btn)
+        self.buttons_panel.add_widget(self.bip_btn)
+        self.buttons_panel.add_widget(self.check_btn)
+        self.buttons_panel.add_widget(self.clack_btn)
+        self.buttons_panel.add_widget(self.sight_clear_btn)
+        self.buttons_panel.add_widget(self.hearing_clear_btn)
+        self.buttons_panel.add_widget(self.words_tgl_btn)
+        self.buttons_panel.add_widget(self.addition_tgl_btn)
 
-        # Add bbcc buttons protocols to bbcc-layout
-        self.bbcc_layout = GridLayout(cols=4)
-        self.bbcc_layout.add_widget(self.bum_btn)
-        self.bbcc_layout.add_widget(self.bip_btn)
-        self.bbcc_layout.add_widget(self.check_btn)
-        self.bbcc_layout.add_widget(self.clack_btn)
-        self.bbcc_layout.add_widget(self.words_tgl_btn)
-        self.bbcc_layout.add_widget(self.addition_tgl_btn)
-
-        self.bottom_layout.add_widget(self.bottom_up_layout)
-        self.bottom_layout.add_widget(self.bbcc_layout)
-
-        self.senses_panel = GridLayout(cols=1)
-        self.senses_panel.add_widget(self.painters_layout)
-        self.senses_panel.add_widget(self.bottom_layout)
-        self.add_widget(self.senses_panel)
+        self.add_widget(self.main_panel)
+        self.add_widget(self.buttons_panel)
 
     def learn(self,obj):
         return
 
     def hearing_clear(self, obj):
         self.hearing_painter.clear()
-        self.hearing_class_input.text = ""
+        self.hearing_class_input.text = "Class?"
 
     def sight_clear(self, obj):
         self.sight_painter.clear()
-        self.sight_class_input.text = ""
 
     def bum(self,obj):
         self.pass_kernel_inputs()
         self.kernel.bum()
-        self.sight_class_input.text = self.kernel.state
+        #self.sight_class_input.text = self.kernel.state
         return
 
     def bip(self,obj):
         self.pass_kernel_inputs()
         self.kernel.bip()
-        self.sight_class_input.text = self.kernel.state
+        #self.sight_class_input.text = self.kernel.state
         return
 
     def check(self,obj):
@@ -260,23 +309,30 @@ class BrainInterface(GridLayout):
         self.kernel.set_sight_knowledge_in(sight_knowledge)
 
     def show_kernel_outputs(self):
-        self.sight_class_input.text = self.kernel.state
+        self.thinking_clear()
         if self.kernel.state == "HIT":
             h_knowledge = self.kernel.get_hearing_knowledge_out()
             s_knowledge = self.kernel.get_sight_knowledge_out()
             if h_knowledge is not None:
-                self.hearing_painter.draw_pattern(h_knowledge.get_pattern())
-                self.hearing_class_input.text = self.kernel.get_hearing_knowledge_out().get_class()
+                self.thinking_hearing.show_rbf_knowledge([h_knowledge])
             if s_knowledge is not None:
-                self.sight_painter.draw_pattern(s_knowledge.get_pattern())
-                self.sight_painter.draw_pattern(self.kernel.get_sight_knowledge_out().get_pattern())
+                self.thinking_sight.show_rbf_knowledge([s_knowledge])
         return
+
+    def thinking_clear(self):
+        self.thinking_sight.clear()
+        self.thinking_hearing.clear()
+
+    def clear(self, obj):
+        self.sight_clear(None)
+        self.hearing_clear(None)
+        self.thinking_clear()
+        Window.unbind_uid('on_draw', self.win_show_uid)
 
 class MyPaintApp(App):
     def build(self):
         brainUI = BrainInterface()
         return brainUI
-
 
 if __name__ == '__main__':
     MyPaintApp().run()
