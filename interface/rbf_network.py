@@ -147,6 +147,9 @@ class RbfNetwork:
         """ Return index of last neuron with knowledge """
         return self._last_learned_id
 
+    def get_index_ready_to_learn(self):
+        return self._index_ready_to_learn
+
     @classmethod
     def  serialize(cls, obj, name):
         pickle.dump(obj, open(name, "wb"))

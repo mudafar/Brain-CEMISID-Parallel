@@ -189,6 +189,7 @@ class GeometricNeuralBlock:
         self._op1_queue = []
         self._op2_queue = []
         self._operator = None
+        self.addition_result = []
 
     def _bip_add(self, knowledge):
 
@@ -260,6 +261,7 @@ class GeometricNeuralBlock:
                     self._order_structure.bip()
                 digit_representation = self._order_structure.clack().get_knowledge()
                 self.addition_result.append(digit_representation)
+        self.addition_result.reverse()
 
     def _get_bip_count(self, digit ):
         if digit == self._zero:
@@ -279,6 +281,13 @@ class GeometricNeuralBlock:
     def get_addition_result(self):
         return self.addition_result
 
+    @classmethod
+    def serialize(cls, obj, name):
+        pickle.dump(obj, open(name, "wb"))
+
+    @classmethod
+    def deserialize(cls, name):
+        return pickle.load(open(name, "rb"))
 
 # Tests
 if __name__ == '__main__':
@@ -287,14 +296,14 @@ if __name__ == '__main__':
 
     net.bum()
     net.bip()
-    net.clack(2)
+    net.clack(1)
 
     net.bum()
     net.bip()
     net.bip()
     net.bip()
     net.bip()
-    net.clack(5)
+    net.clack(4)
 
     net.bum()
     net.bip()

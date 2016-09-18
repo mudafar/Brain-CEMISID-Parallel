@@ -12,24 +12,33 @@ p4
 S'_hit'
 p6
 I00
-sS'_knowledge'
+sS'_has_knowledge'
 p7
-(irel_knowledge
-RelKnowledge
+I00
+sba(irel_neuron
+RelNeuron
 p8
 (dp9
-S'_h_id'
+g6
+I00
+sg7
+I00
+sba(irel_neuron
+RelNeuron
 p10
-I0
-sS'_s_id'
-p11
-I7
-sS'_weight'
+(dp11
+g6
+I00
+sg7
+I00
+sba(irel_neuron
+RelNeuron
 p12
-I1
-sbsS'_has_knowledge'
-p13
-I01
+(dp13
+g6
+I00
+sg7
+I00
 sba(irel_neuron
 RelNeuron
 p14
@@ -37,25 +46,22 @@ p14
 g6
 I00
 sg7
-(irel_knowledge
-RelKnowledge
+I00
+sba(irel_neuron
+RelNeuron
 p16
 (dp17
-g10
-I1
-sg11
-I5
-sg12
-I0
-sbsg13
-I01
+g6
+I00
+sg7
+I00
 sba(irel_neuron
 RelNeuron
 p18
 (dp19
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -63,7 +69,7 @@ p20
 (dp21
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -71,7 +77,7 @@ p22
 (dp23
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -79,7 +85,7 @@ p24
 (dp25
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -87,7 +93,7 @@ p26
 (dp27
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -95,7 +101,7 @@ p28
 (dp29
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -103,7 +109,7 @@ p30
 (dp31
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -111,7 +117,7 @@ p32
 (dp33
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -119,7 +125,7 @@ p34
 (dp35
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -127,7 +133,7 @@ p36
 (dp37
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -135,7 +141,7 @@ p38
 (dp39
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -143,7 +149,7 @@ p40
 (dp41
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -151,7 +157,7 @@ p42
 (dp43
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -159,7 +165,7 @@ p44
 (dp45
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -167,7 +173,7 @@ p46
 (dp47
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -175,7 +181,7 @@ p48
 (dp49
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -183,7 +189,7 @@ p50
 (dp51
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -191,7 +197,7 @@ p52
 (dp53
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -199,7 +205,7 @@ p54
 (dp55
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -207,7 +213,7 @@ p56
 (dp57
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -215,7 +221,7 @@ p58
 (dp59
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -223,7 +229,7 @@ p60
 (dp61
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -231,7 +237,7 @@ p62
 (dp63
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -239,7 +245,7 @@ p64
 (dp65
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -247,7 +253,7 @@ p66
 (dp67
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -255,7 +261,7 @@ p68
 (dp69
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -263,7 +269,7 @@ p70
 (dp71
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -271,7 +277,7 @@ p72
 (dp73
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -279,7 +285,7 @@ p74
 (dp75
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -287,7 +293,7 @@ p76
 (dp77
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -295,7 +301,7 @@ p78
 (dp79
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -303,7 +309,7 @@ p80
 (dp81
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -311,7 +317,7 @@ p82
 (dp83
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -319,7 +325,7 @@ p84
 (dp85
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -327,7 +333,7 @@ p86
 (dp87
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -335,7 +341,7 @@ p88
 (dp89
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -343,7 +349,7 @@ p90
 (dp91
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -351,7 +357,7 @@ p92
 (dp93
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -359,7 +365,7 @@ p94
 (dp95
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -367,7 +373,7 @@ p96
 (dp97
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -375,7 +381,7 @@ p98
 (dp99
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -383,7 +389,7 @@ p100
 (dp101
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -391,7 +397,7 @@ p102
 (dp103
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -399,7 +405,7 @@ p104
 (dp105
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -407,7 +413,7 @@ p106
 (dp107
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -415,7 +421,7 @@ p108
 (dp109
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -423,7 +429,7 @@ p110
 (dp111
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -431,7 +437,7 @@ p112
 (dp113
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -439,7 +445,7 @@ p114
 (dp115
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -447,7 +453,7 @@ p116
 (dp117
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -455,7 +461,7 @@ p118
 (dp119
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -463,7 +469,7 @@ p120
 (dp121
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -471,7 +477,7 @@ p122
 (dp123
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -479,7 +485,7 @@ p124
 (dp125
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -487,7 +493,7 @@ p126
 (dp127
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -495,7 +501,7 @@ p128
 (dp129
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -503,7 +509,7 @@ p130
 (dp131
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -511,7 +517,7 @@ p132
 (dp133
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -519,7 +525,7 @@ p134
 (dp135
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -527,7 +533,7 @@ p136
 (dp137
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -535,7 +541,7 @@ p138
 (dp139
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -543,7 +549,7 @@ p140
 (dp141
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -551,7 +557,7 @@ p142
 (dp143
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -559,7 +565,7 @@ p144
 (dp145
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -567,7 +573,7 @@ p146
 (dp147
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -575,7 +581,7 @@ p148
 (dp149
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -583,7 +589,7 @@ p150
 (dp151
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -591,7 +597,7 @@ p152
 (dp153
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -599,7 +605,7 @@ p154
 (dp155
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -607,7 +613,7 @@ p156
 (dp157
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -615,7 +621,7 @@ p158
 (dp159
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -623,7 +629,7 @@ p160
 (dp161
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -631,7 +637,7 @@ p162
 (dp163
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -639,7 +645,7 @@ p164
 (dp165
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -647,7 +653,7 @@ p166
 (dp167
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -655,7 +661,7 @@ p168
 (dp169
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -663,7 +669,7 @@ p170
 (dp171
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -671,7 +677,7 @@ p172
 (dp173
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -679,7 +685,7 @@ p174
 (dp175
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -687,7 +693,7 @@ p176
 (dp177
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -695,7 +701,7 @@ p178
 (dp179
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -703,7 +709,7 @@ p180
 (dp181
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -711,7 +717,7 @@ p182
 (dp183
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -719,7 +725,7 @@ p184
 (dp185
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -727,7 +733,7 @@ p186
 (dp187
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -735,7 +741,7 @@ p188
 (dp189
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -743,7 +749,7 @@ p190
 (dp191
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -751,7 +757,7 @@ p192
 (dp193
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -759,7 +765,7 @@ p194
 (dp195
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -767,7 +773,7 @@ p196
 (dp197
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -775,7 +781,7 @@ p198
 (dp199
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -783,7 +789,7 @@ p200
 (dp201
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -791,7 +797,7 @@ p202
 (dp203
 g6
 I00
-sg13
+sg7
 I00
 sba(irel_neuron
 RelNeuron
@@ -799,41 +805,9 @@ p204
 (dp205
 g6
 I00
-sg13
-I00
-sba(irel_neuron
-RelNeuron
-p206
-(dp207
-g6
-I00
-sg13
-I00
-sba(irel_neuron
-RelNeuron
-p208
-(dp209
-g6
-I00
-sg13
-I00
-sba(irel_neuron
-RelNeuron
-p210
-(dp211
-g6
-I00
-sg13
-I00
-sba(irel_neuron
-RelNeuron
-p212
-(dp213
-g6
-I00
-sg13
+sg7
 I00
 sbasS'_index_ready_to_learn'
-p214
-I2
+p206
+I0
 sb.

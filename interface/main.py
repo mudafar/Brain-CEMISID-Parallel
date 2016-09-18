@@ -145,13 +145,20 @@ class MyGroupPaintWidget(GridLayout):
         for card in self.cards:
             self.add_widget(card)
 
-    def show_rbf_knowledge(self, knowledge_vector):
-        if len(knowledge_vector) > 3:
-            return
+    def show_rbf_knowledge(self, knowledge_or_vector):
         for card in self.cards:
             card.clear()
-        for index in range(len(knowledge_vector)):
-            self.cards[index].show_knowledge(knowledge_vector[index])
+        try:
+            length = len(knowledge_or_vector)
+        except:
+            lenght = 0
+        if length == 0:
+            self.cards[0] = knowledge_or_vector
+            return
+        if length > 3:
+            return
+        for index in range(len(knowledge_or_vector)):
+            self.cards[index].show_knowledge(knowledge_or_vector[index])
 
     def clear(self):
         for card in self.cards:
@@ -207,11 +214,11 @@ class BrainInterface(GridLayout):
 
     def declare_buttons(self):
         # sight clear
-        self.sight_clear_btn = Button(text="Clear Sight")
+        self.sight_clear_btn = Button(text="Clear S")
         self.sight_clear_btn.bind(on_release=self.sight_clear)
 
         # Hearing clear
-        self.hearing_clear_btn = Button(text="Clear Hearing")
+        self.hearing_clear_btn = Button(text="Clear H")
         self.hearing_clear_btn.bind(on_release=self.hearing_clear)
 
         # Bum btn
@@ -230,12 +237,24 @@ class BrainInterface(GridLayout):
         self.clack_btn = Button(text="Clack")
         self.clack_btn.bind(on_release=self.clack)
 
+        # Set-zero button
+        self.zero_btn = Button(text="0 sign")
+        self.zero_btn.bind(on_release=self.set_zero)
+
+        # Set-equal-sign button
+        self.equal_btn = Button(text="= sign")
+        self.equal_btn.bind(on_release=self.set_equal_sign)
+
+        # Set-add-operator button
+        self.add_operator_btn = Button(text="+ sign")
+        self.add_operator_btn.bind(on_release=self.set_add_operator)
+
         # Toggle button (Words, Numbers)
-        self.words_tgl_btn = ToggleButton(text="words", group="bbcc_protocol", allow_no_selection=False)
-        self.addition_tgl_btn = ToggleButton(text="addition", group="bbcc_protocol", state="down", allow_no_selection=False)
+        self.words_tgl_btn = ToggleButton(text="Reading", group="bbcc_protocol", allow_no_selection=False)
+        self.addition_tgl_btn = ToggleButton(text="Addition", group="bbcc_protocol", state="down", allow_no_selection=False)
+        self.counting_tgl_btn = ToggleButton(text="Counting", group="bbcc_protocol", allow_no_selection=False)
 
     def add_widgets_layouts(self):
-
         # Sight panel
         self.sight_panel = GridLayout(rows=1, padding=10, spacing=10)
         self.sight_panel.add_widget(self.img_eye)
@@ -264,8 +283,12 @@ class BrainInterface(GridLayout):
         self.buttons_panel.add_widget(self.clack_btn)
         self.buttons_panel.add_widget(self.sight_clear_btn)
         self.buttons_panel.add_widget(self.hearing_clear_btn)
+        self.buttons_panel.add_widget(self.zero_btn)
+        self.buttons_panel.add_widget(self.add_operator_btn)
+        self.buttons_panel.add_widget(self.equal_btn)
         self.buttons_panel.add_widget(self.words_tgl_btn)
         self.buttons_panel.add_widget(self.addition_tgl_btn)
+        self.buttons_panel.add_widget(self.counting_tgl_btn)
         self.add_widget(self.main_panel)
         self.add_widget(self.buttons_panel)
 
@@ -288,6 +311,7 @@ class BrainInterface(GridLayout):
     def bip(self,obj):
         self.pass_kernel_inputs()
         self.kernel.bip()
+        self.show_kernel_outputs()
         #self.sight_class_input.text = self.kernel.state
         return
 
@@ -296,6 +320,7 @@ class BrainInterface(GridLayout):
         self.kernel.check()
         self.show_kernel_outputs()
         return
+
 
     def clack(self,obj):
         self.pass_kernel_inputs()
@@ -306,9 +331,11 @@ class BrainInterface(GridLayout):
     def pass_kernel_inputs(self):
         # Set working domain
         if self.words_tgl_btn.state == "down":
-           self.kernel.set_working_domain("WORDS")
-        else:
+           self.kernel.set_working_domain("READING")
+        elif self.addition_tgl_btn.state == "down":
             self.kernel.set_working_domain("ADDITION")
+        else:
+            self.kernel.set_working_domain("COUNTING")
         # Get patterns
         hearing_pattern = self.hearing_painter.get_pattern()
         sight_pattern = self.sight_painter.get_pattern()
@@ -320,13 +347,13 @@ class BrainInterface(GridLayout):
 
     def show_kernel_outputs(self):
         self.thinking_clear()
-        if self.kernel.state == "HIT":
-            h_knowledge = self.kernel.get_hearing_knowledge_out()
-            s_knowledge = self.kernel.get_sight_knowledge_out()
-            if h_knowledge is not None:
-                self.thinking_hearing.show_rbf_knowledge([h_knowledge])
-            if s_knowledge is not None:
-                self.thinking_sight.show_rbf_knowledge([s_knowledge])
+        #if self.kernel.state == "HIT":
+        h_knowledge = self.kernel.get_hearing_knowledge_out()
+        s_knowledge = self.kernel.get_sight_knowledge_out()
+        if h_knowledge is not None:
+            self.thinking_hearing.show_rbf_knowledge(h_knowledge)
+        if s_knowledge is not None:
+            self.thinking_sight.show_rbf_knowledge(s_knowledge)
         return
 
     def thinking_clear(self):
@@ -338,6 +365,21 @@ class BrainInterface(GridLayout):
         self.hearing_clear(None)
         self.thinking_clear()
         Window.unbind_uid('on_draw', self.win_show_uid)
+
+    def set_zero(self, obj):
+        self.pass_kernel_inputs()
+        self.kernel.set_zero()
+        return
+
+    def set_add_operator(self, obj):
+        self.pass_kernel_inputs()
+        self.kernel.set_add_operator()
+        return
+
+    def set_equal_sign(self, obj):
+        self.pass_kernel_inputs()
+        self.kernel.set_equal_sign()
+        return
 
 class MyPaintApp(App):
     def build(self):

@@ -89,7 +89,7 @@ class Bns:
         if is_id:
             neuron_id = pattern_or_id
             # If there is a neuron with corresponding id
-            if neuron_id <= self.bns_s.get_last_learned_id():
+            if neuron_id < self.bns_s.get_index_ready_to_learn():
                 # If the neuron is not degraded
                 if not self.bns_s.neuron_list[neuron_id].is_degraded():
                     # Return pattern

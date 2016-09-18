@@ -6,6 +6,7 @@ from rel_knowledge import RelKnowledge
 from analytical_neuron import AnalyticalNeuron
 from cultural_network import CulturalNetwork
 from bns import Bns
+from geometric_neural_block import GeometricNeuralBlock
 
 
 class KernelBrainCemisid:
@@ -35,6 +36,9 @@ class KernelBrainCemisid:
         # Addition by memory network
         # self.am_net = CulturalNetwork(100)
         self.am_net = CulturalNetwork.deserialize("am_net.p")
+        # Geometric Neural Block
+        #self.gnb = GeometricNeuralBlock()
+        self.gnb = GeometricNeuralBlock.deserialize("gnb.p")
         # Syllables net
         # self.syllables_net = CulturalNetwork(100)
         self.syllables_net = CulturalNetwork.deserialize("syllables_net.p")
@@ -61,16 +65,16 @@ class KernelBrainCemisid:
         self.state = "MISS"
 
     def set_working_domain(self, domain):
-        """ Sets a working domain for the bbcc protocol. It could be either "WORDS" or "ADDITION"
-        :param domain: enum { "WORDS", "ADDITION" }
+        """ Sets a working domain for the bbcc protocol. It could be either "READING" or "ADDITION"
+        :param domain: enum { "READING", "ADDITION", "COUNTING" }
         """
-        if domain != "WORDS" and domain != "ADDITION":
+        if domain != "READING" and domain != "ADDITION" and domain != "COUNTING":
             return
         self._working_domain = domain
 
     def get_working_domain(self):
         """ Get bbcc protocol working domain
-        :return: enum { "WORDS", "ADDITION" }
+        :return: enum { "READING", "ADDITION", "COUNTING" }
         """
         return self._working_domain
 
@@ -101,13 +105,16 @@ class KernelBrainCemisid:
         # Enable check and clack as a part of bbcc protocol
         # preventing their effect as standalone actions
         self._enable_bbcc = True
-        # If working in the domain of words
+        # If working in the domain of READING
         # transmit bum signal to words networks
-        if self._working_domain == "WORDS":
+        if self._working_domain == "READING":
             self._bum_words()
-        # Else, transmit it to addition networks
-        else:
+        # Transmit it to addition networks
+        elif self._working_domain == "ADDITION":
             self._bum_addition()
+        # Else, transmit it to counting net
+        else:
+            self._bum_counting()
 
     def bip(self):
         """ Bip part of bbcc protocol (See bbcc protocol description) """
@@ -119,11 +126,14 @@ class KernelBrainCemisid:
         # If pattern is recognized, proceed with bbcc protocol
         if self.state == "HIT":
             # If currently working with words, send bip signal to words networks
-            if self._working_domain == "WORDS":
+            if self._working_domain == "READING":
                 self._bip_words()
             # Send bip signal to addition networks (AM and GNB)
-            else:
+            elif self._working_domain == "ADDITION":
                 self._bip_addition()
+            # Else, transmit it to counting net
+            else:
+                self._bip_counting()
 
     def check(self):
         """ Check if there is knowledge associated with the given sequence of patterns from
@@ -134,10 +144,14 @@ class KernelBrainCemisid:
             self.state = self.bns.recognize_sight(self.s_knowledge_in.get_pattern())
             # If pattern is recognized, proceed with bbcc protocol
             if self.state == "HIT":
-                if self._working_domain == "WORDS":
+                if self._working_domain == "READING":
                     self._check_words()
+                # Send bip signal to addition networks (AM and GNB)
+                elif self._working_domain == "ADDITION":
+                    self._check_addition()
+                # Else, transmit it to counting net
                 else:
-                    self.check_addition()
+                    return
         # Not part of complete bbcc protocol, just recognize
         else:
             self.recognize()
@@ -146,10 +160,14 @@ class KernelBrainCemisid:
         """ Execute clack action of bbcc protocol when self._enable_bbcc is True or Learn a piece of RbfKnowledge
         coming from the senses when self._enable_bbcc is False """
         if self._enable_bbcc:
-            if self._working_domain == "WORDS":
+            if self._working_domain == "READING":
                 self._clack_words()
-            else:
+                # Send bip signal to addition networks (AM and GNB)
+            elif self._working_domain == "ADDITION":
                 self._clack_addition()
+            # Else, transmit it to counting net
+            else:
+                self._clack_counting()
         else:
             self.learn()
         self._enable_bbcc = False
@@ -163,8 +181,9 @@ class KernelBrainCemisid:
 
     def _bum_addition(self):
         """ Pass bum signal to addition networks """
-        self.am_net.bum()
-
+        #self.am_net.bum()
+        self.gnb.set_operation("ADD");
+        self.gnb.bum()
 
     def _bip_words(self):
         """ Execute bip part of bbcc potocol in syllables and words networks """
@@ -205,9 +224,18 @@ class KernelBrainCemisid:
     def _bip_addition(self):
         """ Pass bip signal to addition networks """
         hearing_id = self._get_hearing_id_recognize()
-        self.am_net.bip(hearing_id)
+        #self.am_net.bip(hearing_id)
+        self.gnb.bip(hearing_id)
+        if len(self.gnb.addition_result) != 0:
+            result = self.gnb.addition_result
+            self.s_knowledge_out = []
+            self.h_knowledge_out = []
+            for digit_h_id in result:
+                self.h_knowledge_out.append( self.bns.get_hearing_knowledge(digit_h_id, True))
+                digit_s_id = self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id()
+                self.s_knowledge_out.append( self.bns.get_sight_knowledge(digit_s_id, True))
 
-    def check_addition(self):
+    def _check_addition(self):
         """ Check if addition by memory network has a result related
         to the operation given through the bbcc protocol """
         hearing_id = self._get_hearing_id_recognize()
@@ -266,7 +294,6 @@ class KernelBrainCemisid:
         #
         self._learning_words = False
 
-
     def _get_hearing_id_recognize(self):
         # Obtain id of neuron that recognized sight pattern
         sight_id = self.bns.bns_s.get_rneurons_ids()[0]
@@ -317,13 +344,11 @@ class KernelBrainCemisid:
 
     def _clack_addition(self):
         s_pattern = self.s_knowledge_in.get_pattern()
-        s_recognize = self.bns.recognize_sight(s_pattern)
-        if s_recognize == "HIT":
+        self.state = self.bns.recognize_sight(s_pattern)
+        if self.state == "HIT":
             hearing_id = self._get_hearing_id_recognize()
             self.am_net.clack(hearing_id)
             CulturalNetwork.serialize(self.am_net, "am_net.p")
-        else:
-            self.sight_class_input.text = s_recognize
 
     def recognize(self):
         # Get sight and hearing patterns
@@ -410,4 +435,54 @@ class KernelBrainCemisid:
         # Sight-Syllables rel network
         self.ss_rnb = RelNetwork(100)
         RelNetwork.serialize(self.ss_rnb, "ss_rnb.p")
+        # Geometric Neural Block
+        self.gnb = GeometricNeuralBlock()
+        GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
+
+    ### GEOMETRIC NEURAL BLOCK RELATED METHODS ###
+    def set_add_operator(self):
+        s_pattern = self.s_knowledge_in.get_pattern()
+        self.state = self.bns.recognize_sight(s_pattern)
+        if self.state == "HIT":
+            hearing_id = self._get_hearing_id_recognize()
+            self.gnb.set_add_operator(hearing_id)
+            GeometricNeuralBlock.serialize(self.gnb, "gnb.p" )
+            return True
+        return False
+
+    def set_equal_sign(self):
+        s_pattern = self.s_knowledge_in.get_pattern()
+        self.state = self.bns.recognize_sight(s_pattern)
+        if self.state == "HIT":
+            hearing_id = self._get_hearing_id_recognize()
+            self.gnb.set_equal_sign(hearing_id)
+            GeometricNeuralBlock.serialize(self.gnb, "gnb.p" )
+            return True
+        return False
+
+    def set_zero(self):
+        s_pattern = self.s_knowledge_in.get_pattern()
+        self.state = self.bns.recognize_sight(s_pattern)
+        if self.state == "HIT":
+            hearing_id = self._get_hearing_id_recognize()
+            self.gnb.set_zero(hearing_id)
+            GeometricNeuralBlock.serialize(self.gnb, "gnb.p" )
+            return True
+        return False
+
+    def _bum_counting(self):
+        self.gnb.set_operation("COUNT")
+        self.gnb.bum()
+        return
+
+    def _bip_counting(self):
+        self.gnb.bip()
+        return
+
+    def _clack_counting(self):
+        hearing_id = self._get_hearing_id_recognize()
+        self.gnb.clack(hearing_id)
+        GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
+        return
+
 
