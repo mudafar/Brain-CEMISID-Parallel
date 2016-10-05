@@ -1,6 +1,191 @@
-from rbf_neuron import RbfNeuron
-
 import pickle
+from math import fabs
+
+from neuron import Neuron
+
+
+class RbfKnowledge:
+    # Size of data or knowledge in bytes
+    PATTERN_SIZE = 4.0
+
+    def __init__(self, rbf_pattern, rbf_class, rbf_set="NoSet"):
+        self.set_pattern(rbf_pattern)
+        self.set_class(rbf_class)
+        self.set_set(rbf_set)
+
+    def set_pattern(self, pattern):
+        self._pattern = pattern
+
+    def set_class(self, rbf_class):
+        self._class = rbf_class
+
+    def set_set(self, rbf_set):
+        self._set = rbf_set
+
+    def get_pattern(self):
+        return self._pattern
+
+    def get_class(self):
+        return self._class
+
+    def get_set(self):
+        return self._set
+
+    def calc_manhattan_distance(self, pattern_or_knowledge):
+        """ Returns Manhattan distance from this piece of
+        knowledge to a given pattern """
+
+        # If given parameter is of class knowledge, obtain pattern
+        try:
+            pattern = pattern_or_knowledge.get_pattern()
+        # Else it must be a pattern
+        except AttributeError:
+            pattern = pattern_or_knowledge
+        # Check patterns sizes are equal
+        if len(pattern) != RbfKnowledge.PATTERN_SIZE:
+            return False
+        # Initialize distance variable to zero
+        distance = 0
+        # Calculate Manhattan distance
+        for index in range(len(self._pattern)):
+            distance += fabs(self._pattern[index] - pattern[index])
+        # Return distance
+        return distance
+
+
+class RbfNeuron(Neuron):
+    """ Radial Base Function neuron class """
+    # Number of class instances
+    instances_count = 0
+    # Default radius
+    DEFAULT_RADIUS = 10
+
+    # Default radius
+    MIN_RADIUS = 1
+
+    # Default radius
+    MAX_RADIUS = 50
+
+    # Class constructor
+    def __init__(self):
+        super(RbfNeuron, self).__init__()
+        # Neuron has no knowledge when created
+        self._has_knowledge = False
+        # Neuron has default radius when created
+        self.set_radius(RbfNeuron.DEFAULT_RADIUS)
+        # Increment number of class instances
+        RbfNeuron.instances_count += 1
+        # Initialize degraded state
+        self._degraded = False
+
+    def is_member(self, test_set):
+        """ Returns wheter neuron is memeber of set """
+        return self.get_set() == test_set
+
+    def set_radius(self, radius):
+        """ Sets neuron radius """
+        self._radius = radius
+
+    def get_radius(self):
+        """ Gets neuron radius """
+        return self._radius
+
+    def get_class(self):
+        """ Returns class of knowledge if neuron has
+        knowledge, and None in any other case """
+        if self.has_knowledge():
+            return self._knowledge.get_class()
+        else:
+            return None
+
+    def get_set(self):
+        """ Returns set of knowledge if neuron has
+        knowledge, and None in any other case """
+        if self.has_knowledge():
+            return self._knowledge.get_set()
+        else:
+            return None
+
+    def get_pattern(self):
+        """ Returns set of knowledge if neuron has
+        knowledge, and None in any other case """
+        if (self.has_knowledge()):
+            return self._knowledge.get_pattern()
+        else:
+            return None
+
+    def is_hit(self):
+        """ Returns True if last call to recognize() was a hit
+        and False in any other case """
+        return self._hit
+
+    def learn(self, knowledge):
+        """ Learns a new piece of knowledge, return true if
+        succesfully learned and false in any other case """
+        self._knowledge = knowledge
+        # Indicate that this neuron has knowledge
+        self._has_knowledge = True
+        # Return True to indicate proper learning process
+        return True
+
+    def recognize(self, pattern):
+        """ Returns true if neuron recognizes given pattern """
+        # If neuron degraded, do not recognize
+        if self._degraded:
+            return False
+
+        # If Manhattan distance to pattern is less than neuron radius,
+        # there is a hit
+        self._distance = self._knowledge.calc_manhattan_distance(pattern)
+        if self._distance < self.get_radius():
+            self._hit = True
+        else:
+            self._hit = False
+        # Return whether there has been a hit or not
+        return self._hit
+
+    def get_distance(self):
+        return self._distance
+
+    def reduce_radius_last_distance(self):
+        """Reduces radius to distance from last recognized pattern"""
+        if not self._hit:
+            return False
+        try:
+            success = self.reduce_radius_by(self._radius-self._distance)
+        except:
+            return False
+        return success
+
+    def reduce_radius_by(self, value):
+        # type: (value) -> integer
+        """ Reduces neuron radius by 'value' """
+        if value < 0:
+            raise ValueError("value must be positive")
+        if self._radius < value:
+            raise ValueError("value must be less than radius of neuron")
+        self._radius -= value
+        # If radius of neuron is under minimum allowed value,
+        # the neuron has been degraded and is no longer functional
+        if self._radius < RbfNeuron.MIN_RADIUS:
+            self._degraded = True
+        # Return true if neuron has not been degraded after radiud reduction and false
+        # in any other case
+        return not self._degraded
+
+    def increase_radius_by(self, value):
+        """ Increases neuron radius by 'value' """
+        if value < 0:
+            raise ValueError("value must be positive")
+        self._radius += value
+        # If radius of neuron is over maximum allowed value,
+        # the neuron has been degraded and is no longer functional
+        if self._radius > RbfNeuron.MAX_RADIUS:
+            self._degraded = True
+
+    def is_degraded(self):
+        # Returns wheter neuron is degraded
+        return self._degraded
 
 
 class RbfNetwork:
@@ -80,7 +265,7 @@ class RbfNetwork:
         # Learn procedure when pattern has not been recognized
         self.recognize(knowledge.get_pattern())
         # If the pattern has not been recognized by any neuron in the net
-        if  self._state == 'MISS':
+        if self._state == 'MISS':
             # Learn in ready-to-learn neuron
             return self._learn_ready_to_learn(knowledge)
         # If various neurons have recognized the pattern as pertaining to different classes
@@ -114,7 +299,7 @@ class RbfNetwork:
                     neuron = self.neuron_list[index]
                     neuron.reduce_radius_last_distance()
                     # Get distance
-                    neuron_distance =  neuron.get_distance()
+                    neuron_distance = neuron.get_distance()
                     # If distance is less than current minimum distance, store
                     if neuron_distance < min_distance:
                         min_distance = neuron_distance
@@ -122,7 +307,7 @@ class RbfNetwork:
                 self._learn_ready_to_learn(knowledge, min_distance)
             return True
 
-    def _learn_ready_to_learn(self, knowledge, radius = RbfNeuron.DEFAULT_RADIUS):
+    def _learn_ready_to_learn(self, knowledge, radius=RbfNeuron.DEFAULT_RADIUS):
         """Learn new knowledge in ready-to-learn neuron """
         # Learn new pattern in ready-to-learn neuron
         # Select ready-to-learn neuron
@@ -151,7 +336,7 @@ class RbfNetwork:
         return self._index_ready_to_learn
 
     @classmethod
-    def  serialize(cls, obj, name):
+    def serialize(cls, obj, name):
         pickle.dump(obj, open(name, "wb"))
 
     @classmethod

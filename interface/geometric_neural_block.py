@@ -1,22 +1,6 @@
 import pickle
 
-class Neuron():
-    def __init__(self, knowledge=None):
-        if knowledge == None:
-            self._has_knowledge = False
-            self._knowledge = None
-        else:
-            self.set_knowledge(knowledge)
-
-    def set_knowledge(self, knowledge):
-        self._has_knowledge = True
-        self._knowledge = knowledge
-
-    def get_knowledge(self):
-        return self._knowledge
-
-    def has_knowledge(self):
-        return self._has_knowledge
+from neuron import Neuron
 
 
 class QuantityNeuron(Neuron):
@@ -78,7 +62,7 @@ class QuantityOrderNetwork:
 
 class AdditionStructure:
     def __init__(self):
-        self.neurons = [Neuron() for i in range(10)]
+        self.neurons = [Neuron() for index in range(10)]
         self.carry_over = False
         self.index = 0
 
@@ -121,6 +105,8 @@ class GeometricNeuralBlock:
         self._add_operator = None
         # Equal sign
         self._equal_sign = None
+        # Zero
+        self._zero = None
 
     def set_operation(self, operation):
         if operation == "COUNT":
@@ -257,13 +243,13 @@ class GeometricNeuralBlock:
             # For the rest of digits, use the Quantity-order structure
             else:
                 self._order_structure.bum()
-                for i in range(digit):
+                for index in range(digit):
                     self._order_structure.bip()
                 digit_representation = self._order_structure.clack().get_knowledge()
                 self.addition_result.append(digit_representation)
         self.addition_result.reverse()
 
-    def _get_bip_count(self, digit ):
+    def _get_bip_count(self, digit):
         if digit == self._zero:
             return 0
         return self._order_structure.get_bip_count(digit)
@@ -405,7 +391,6 @@ if __name__ == '__main__':
     gnb.bip()
     gnb.bip()
     gnb.clack('9')
-
 
     gnb.set_add_operator('+')
     gnb.set_equal_sign('=')

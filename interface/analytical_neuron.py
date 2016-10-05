@@ -1,13 +1,14 @@
-from rel_knowledge import RelKnowledge
+from rel_network import RelKnowledge
 
 import random
 
 
 class AnalyticalNeuron:
+
     def __init__(self):
         return
 
-    def solve_ambiguity(self, rel_knowledge_v ):
+    def solve_ambiguity(self, rel_knowledge_v):
         # Store relation with maximum weight
         max_weight_rel = rel_knowledge_v[0]
         for element in rel_knowledge_v:

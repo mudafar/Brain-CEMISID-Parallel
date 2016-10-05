@@ -12,7 +12,8 @@ from kivy.uix.image import Image
 
 # Brain-CEMISID kernel imports
 from kernel_braincemisid import KernelBrainCemisid
-from rbf_knowledge import RbfKnowledge
+from rbf_network import RbfKnowledge
+
 
 class MyPaintElement(Widget):
     def __init__(self, **kwargs):
@@ -44,11 +45,12 @@ class MyPaintElement(Widget):
                 Color(0, 0.65, 0.65, 1, mode='rgba')
             else:
                 Color(0, 0.2, 0.2, 1, mode='rgba')
-            Rectangle(pos=self.pos,size=(self.width*0.9, self.height*0.9))
+            Rectangle(pos=self.pos, size=(self.width*0.9, self.height*0.9))
         self.active = False
 
     def mark(self):
         self._draw_rectange()
+
 
 class MyPaintWidget(GridLayout):
 
@@ -59,7 +61,6 @@ class MyPaintWidget(GridLayout):
         self.cols = size
         for index in range(self.cols * self.cols):
             self.add_widget(MyPaintElement())
-
 
     def clear(self):
         index = 0
@@ -107,10 +108,10 @@ class MyPaintWidget(GridLayout):
             bin_pattern_element = format_str.format(pattern[index])
             # Traverse binary, mark or clear corresponding child
             for j in range(len(bin_pattern_element)):
-                if(bin_pattern_element[MyPaintWidget.CODING_SIZE-1-j]=="1"):
+                if bin_pattern_element[MyPaintWidget.CODING_SIZE-1-j] == "1":
                     child_set[j].mark()
                 else:
-                    if j%2:
+                    if j % 2:
                         child_set[j].clear("dark-turquoise")
                     else:
                         child_set[j].clear("black")
@@ -126,7 +127,7 @@ class RbfCardWidget(GridLayout):
         self.add_widget(self.painter)
         self.add_widget(self.text_label)
         self.size_hint = (None, None)
-        self.size = (width,width)
+        self.size = (width, width)
 
     def show_knowledge(self, knowledge):
         self.painter.draw_pattern(knowledge.get_pattern())
@@ -151,10 +152,9 @@ class MyGroupPaintWidget(GridLayout):
         try:
             length = len(knowledge_or_vector)
         except:
-            lenght = 0
-        if length == 0:
-            self.cards[0] = knowledge_or_vector
+            self.cards[0].show_knowledge(knowledge_or_vector)
             return
+
         if length > 3:
             return
         for index in range(len(knowledge_or_vector)):
@@ -181,8 +181,7 @@ class BrainInterface(GridLayout):
         self.declare_buttons()
         self.add_widgets_layouts()
         # Clear painters when window draw
-        self.win_show_uid = Window.fbind('on_draw',self.clear)
-
+        #self.win_show_uid = Window.fbind('on_draw',self.clear)
 
     def load_icons(self):
         self.img_eye = Image(source='icons/eye.png')
@@ -298,9 +297,11 @@ class BrainInterface(GridLayout):
     def hearing_clear(self, obj):
         self.hearing_painter.clear()
         self.hearing_class_input.text = "Class?"
+        self.thinking_hearing.clear()
 
     def sight_clear(self, obj):
         self.sight_painter.clear()
+        self.thinking_sight.clear()
 
     def bum(self,obj):
         self.pass_kernel_inputs()
@@ -347,14 +348,14 @@ class BrainInterface(GridLayout):
 
     def show_kernel_outputs(self):
         self.thinking_clear()
-        #if self.kernel.state == "HIT":
-        h_knowledge = self.kernel.get_hearing_knowledge_out()
-        s_knowledge = self.kernel.get_sight_knowledge_out()
-        if h_knowledge is not None:
-            self.thinking_hearing.show_rbf_knowledge(h_knowledge)
-        if s_knowledge is not None:
-            self.thinking_sight.show_rbf_knowledge(s_knowledge)
-        return
+        self.hearing_class_input.text = self.kernel.state
+        if self.kernel.state == "HIT":
+            h_knowledge = self.kernel.get_hearing_knowledge_out()
+            s_knowledge = self.kernel.get_sight_knowledge_out()
+            if h_knowledge is not None:
+                self.thinking_hearing.show_rbf_knowledge(h_knowledge)
+            if s_knowledge is not None:
+                self.thinking_sight.show_rbf_knowledge(s_knowledge)
 
     def thinking_clear(self):
         self.thinking_sight.clear()
@@ -364,7 +365,7 @@ class BrainInterface(GridLayout):
         self.sight_clear(None)
         self.hearing_clear(None)
         self.thinking_clear()
-        Window.unbind_uid('on_draw', self.win_show_uid)
+        #Window.unbind_uid('on_draw', self.win_show_uid)
 
     def set_zero(self, obj):
         self.pass_kernel_inputs()
@@ -381,10 +382,11 @@ class BrainInterface(GridLayout):
         self.kernel.set_equal_sign()
         return
 
+
 class MyPaintApp(App):
     def build(self):
-        brainUI = BrainInterface()
-        return brainUI
+        brain_ui = BrainInterface()
+        return brain_ui
 
 if __name__ == '__main__':
     MyPaintApp().run()

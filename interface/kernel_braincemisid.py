@@ -1,11 +1,9 @@
 # Brain-CEMISID kernel imports
-from rbf_network import RbfNetwork
-from rbf_knowledge import RbfKnowledge
-from rel_network import RelNetwork
-from rel_knowledge import RelKnowledge
+from rbf_network import RbfKnowledge, RbfNeuron, RbfNetwork
+from rel_network import RelKnowledge, RelNeuron, RelNetwork
 from analytical_neuron import AnalyticalNeuron
 from cultural_network import CulturalNetwork
-from bns import Bns
+from sensory_neural_block import SensoryNeuralBlock
 from geometric_neural_block import GeometricNeuralBlock
 
 
@@ -25,29 +23,25 @@ class KernelBrainCemisid:
         # Set pattern size in RBF knowledge
         RbfKnowledge.PATTERN_SIZE = pattern_size
 
-        # bns
-        self.bns = Bns("sight_bns.p", "hearing_bns.p")
-        # self.bns = Bns()
+        # self.erase_all_knowledge()
+
+        # SNB
+        self.snb = SensoryNeuralBlock("sight_snb.p", "hearing_snb.p")
         # Relational Neural Block
         self.rnb = RelNetwork.deserialize("rnb.p")
-        # self.rnb = RelNetwork(100)
         # Analytical neuron
         self.analytical_n = AnalyticalNeuron()
         # Addition by memory network
-        # self.am_net = CulturalNetwork(100)
         self.am_net = CulturalNetwork.deserialize("am_net.p")
         # Geometric Neural Block
-        #self.gnb = GeometricNeuralBlock()
         self.gnb = GeometricNeuralBlock.deserialize("gnb.p")
         # Syllables net
-        # self.syllables_net = CulturalNetwork(100)
         self.syllables_net = CulturalNetwork.deserialize("syllables_net.p")
         # Words net
-        # self.words_net =  CulturalNetwork(100)
         self.words_net = CulturalNetwork.deserialize("words_net.p")
         # Sight-Syllables rel network
         self.ss_rnb = RelNetwork.deserialize("ss_rnb.p")
-        # self.ss_rnb = RelNetwork(100)
+
         # _bbcc_words
         self._learning_words = False
         self._learning_syllables = False
@@ -105,6 +99,9 @@ class KernelBrainCemisid:
         # Enable check and clack as a part of bbcc protocol
         # preventing their effect as standalone actions
         self._enable_bbcc = True
+        # Clean outputs
+        self.s_knowledge_out = []
+        self.h_knowledge_out = []
         # If working in the domain of READING
         # transmit bum signal to words networks
         if self._working_domain == "READING":
@@ -121,8 +118,11 @@ class KernelBrainCemisid:
         # If protocol is not enabled, do nothing
         if not self._enable_bbcc:
             return
+        # Clean outputs
+        self.s_knowledge_out = []
+        self.h_knowledge_out = []
         # Recognize given sight pattern
-        self.state = self.bns.recognize_sight(self.s_knowledge_in.get_pattern())
+        self.state = self.snb.recognize_sight(self.s_knowledge_in.get_pattern())
         # If pattern is recognized, proceed with bbcc protocol
         if self.state == "HIT":
             # If currently working with words, send bip signal to words networks
@@ -139,9 +139,12 @@ class KernelBrainCemisid:
         """ Check if there is knowledge associated with the given sequence of patterns from
             bbcc protocol when self._enable_bbcc is True. Check if the Sensory Neural Block recognizes the
             given pattern when self._enable_bbcc is False """
+        # Clean outputs
+        self.s_knowledge_out = []
+        self.h_knowledge_out = []
         # Part of complete bbcc protocol
         if self._enable_bbcc:
-            self.state = self.bns.recognize_sight(self.s_knowledge_in.get_pattern())
+            self.state = self.snb.recognize_sight(self.s_knowledge_in.get_pattern())
             # If pattern is recognized, proceed with bbcc protocol
             if self.state == "HIT":
                 if self._working_domain == "READING":
@@ -159,6 +162,9 @@ class KernelBrainCemisid:
     def clack(self):
         """ Execute clack action of bbcc protocol when self._enable_bbcc is True or Learn a piece of RbfKnowledge
         coming from the senses when self._enable_bbcc is False """
+        # Clean outputs
+        self.s_knowledge_out = []
+        self.h_knowledge_out = []
         if self._enable_bbcc:
             if self._working_domain == "READING":
                 self._clack_words()
@@ -181,14 +187,14 @@ class KernelBrainCemisid:
 
     def _bum_addition(self):
         """ Pass bum signal to addition networks """
-        #self.am_net.bum()
-        self.gnb.set_operation("ADD");
+        # self.am_net.bum()
+        self.gnb.set_operation("ADD")
         self.gnb.bum()
 
     def _bip_words(self):
         """ Execute bip part of bbcc potocol in syllables and words networks """
         # Get id of neuron that recognized sight pattern
-        sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+        sight_id = self.snb.snb_s.get_rneurons_ids()[0]
         # Get sight and hearing ids relationship from sight-hearing relational neural block
         s_h_rels = self.rnb.get_sight_rels(sight_id)
         # Get sight and syllables ids relationship from  sight-syllables relational neural block
@@ -224,16 +230,16 @@ class KernelBrainCemisid:
     def _bip_addition(self):
         """ Pass bip signal to addition networks """
         hearing_id = self._get_hearing_id_recognize()
-        #self.am_net.bip(hearing_id)
+        # self.am_net.bip(hearing_id)
         self.gnb.bip(hearing_id)
         if len(self.gnb.addition_result) != 0:
             result = self.gnb.addition_result
             self.s_knowledge_out = []
             self.h_knowledge_out = []
             for digit_h_id in result:
-                self.h_knowledge_out.append( self.bns.get_hearing_knowledge(digit_h_id, True))
+                self.h_knowledge_out.append(self.snb.get_hearing_knowledge(digit_h_id, True))
                 digit_s_id = self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id()
-                self.s_knowledge_out.append( self.bns.get_sight_knowledge(digit_s_id, True))
+                self.s_knowledge_out.append(self.snb.get_sight_knowledge(digit_s_id, True))
 
     def _check_addition(self):
         """ Check if addition by memory network has a result related
@@ -247,14 +253,14 @@ class KernelBrainCemisid:
         # If it in fact has some knowledge related, show it
         hearing_id = self.am_net.get_tail_knowledge(am_id)
         # Get hearing knowledge related to recognized sight pattern from BNS
-        self.h_knowledge_out = self.bns.get_hearing_knowledge(hearing_id, True)
+        self.h_knowledge_out = self.snb.get_hearing_knowledge(hearing_id, True)
         self._enable_bbcc = False
 
     def _check_words(self):
         """ Check if either syllables net or words net has a piece of knowledge related to
         the given bbcc input sequence """
         # Get id of neuron that recognized sight pattern
-        sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+        sight_id = self.snb.snb_s.get_rneurons_ids()[0]
         # Get sight and hearing ids relationship from sight-hearing relational neural block
         s_h_rels = self.rnb.get_sight_rels(sight_id)
         # Get sight and syllables ids relationship from  sight-syllables relational neural block
@@ -273,7 +279,7 @@ class KernelBrainCemisid:
             self.state = "HIT"
             hearing_knowledge = self.syllables_net.get_tail_knowledge(syll_id)
             sight_id = self.ss_rnb.get_hearing_rels(syll_id)[0].get_s_id()
-            self.s_knowledge_out = self.bns.get_sight_knowledge(sight_id, True)
+            self.s_knowledge_out = self.snb.get_sight_knowledge(sight_id, True)
             self.h_knowledge_out = hearing_knowledge
             self._enable_bbcc = False
             self._learning_words = False
@@ -296,7 +302,7 @@ class KernelBrainCemisid:
 
     def _get_hearing_id_recognize(self):
         # Obtain id of neuron that recognized sight pattern
-        sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+        sight_id = self.snb.snb_s.get_rneurons_ids()[0]
         # Obtain sight and hearing ids relationship from relational neural block
         sight_rel = self.rnb.get_sight_rels(sight_id)[0]
         # Get hearing id from relation
@@ -328,14 +334,14 @@ class KernelBrainCemisid:
             syll_hearing_id = self.syllables_net.get_last_clack_id()
             sight_pattern = self.s_knowledge_in.get_pattern()
             # Recognize
-            if self.bns.recognize_sight(sight_pattern) == "HIT":
-                sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+            if self.snb.recognize_sight(sight_pattern) == "HIT":
+                sight_id = self.snb.snb_s.get_rneurons_ids()[0]
             else:
                 sight_class = "syll_" + str(syll_hearing_id)
                 sight_knowledge = RbfKnowledge(sight_pattern, sight_class)
-                self.bns.learn_sight(sight_knowledge)
-                sight_id = self.bns.bns_s.get_last_learned_id()
-            self.bns.save("sight_bns.p", "hearing_bns.p")
+                self.snb.learn_sight(sight_knowledge)
+                sight_id = self.snb.snb_s.get_last_learned_id()
+            self.snb.save("sight_snb.p", "hearing_snb.p")
             # Learn relation in new net
             rel_knowledge = RelKnowledge(syll_hearing_id, sight_id)
             self.ss_rnb.learn(rel_knowledge)
@@ -344,7 +350,7 @@ class KernelBrainCemisid:
 
     def _clack_addition(self):
         s_pattern = self.s_knowledge_in.get_pattern()
-        self.state = self.bns.recognize_sight(s_pattern)
+        self.state = self.snb.recognize_sight(s_pattern)
         if self.state == "HIT":
             hearing_id = self._get_hearing_id_recognize()
             self.am_net.clack(hearing_id)
@@ -357,7 +363,7 @@ class KernelBrainCemisid:
         # If no patterns or both patterns given, do nothing
         if (KernelBrainCemisid.is_null_pattern(s_pattern) and KernelBrainCemisid.is_null_pattern(h_pattern)
             or not KernelBrainCemisid.is_null_pattern(s_pattern) and not KernelBrainCemisid.is_null_pattern(h_pattern)):
-            return
+                return
         # If hearing pattern given, recognize hearing
         elif KernelBrainCemisid.is_null_pattern(s_pattern):
             self.hearing_recognize()
@@ -367,27 +373,27 @@ class KernelBrainCemisid:
 
     def hearing_recognize(self):
         pattern = self.h_knowledge_in.get_pattern()
-        self.state = self.bns.recognize_hearing(pattern)
+        self.state = self.snb.recognize_hearing(pattern)
         if self.state == "HIT":
-            self.h_knowledge_out = self.bns.get_hearing_knowledge(pattern)
+            self.h_knowledge_out = self.snb.get_hearing_knowledge(pattern)
 
     def sight_recognize(self):
         pattern = self.s_knowledge_in.get_pattern()
-        self.state = self.bns.recognize_sight(pattern)
+        self.state = self.snb.recognize_sight(pattern)
         if self.state == "HIT":
             # Obtain id of neuron that recognized sight pattern
-            sight_id = self.bns.bns_s.get_rneurons_ids()[0]
+            sight_id = self.snb.snb_s.get_rneurons_ids()[0]
             # Obtain sight and hearing ids relationship from relational neural block
             sight_rel = self.rnb.get_sight_rels(sight_id)[0]
             # Get hearing id from relation
             hearing_id = sight_rel.get_h_id()
             # Put hearing knowledge in output port
-            self.h_knowledge_out = self.bns.get_hearing_knowledge(hearing_id, True)
+            self.h_knowledge_out = self.snb.get_hearing_knowledge(hearing_id, True)
             # Put sight knowledge in output port
-            self.s_knowledge_out = self.bns.get_sight_knowledge(sight_id, True)
+            self.s_knowledge_out = self.snb.get_sight_knowledge(sight_id, True)
         elif self.state == "DIFF":
             # Get ids os sight neurons that recognized the pattern
-            ids_recognize = self.bns.bns_s.get_rneurons_ids()
+            ids_recognize = self.snb.snb_s.get_rneurons_ids()
             # Initialize a vector of relational knowledge
             rel_knowledge_vector = []
             # Fill the vector with the relational knowledge of neurons that recognized the pattern
@@ -396,11 +402,11 @@ class KernelBrainCemisid:
             # Get hearing id from analytical neural block
             hearing_id = self.analytical_n.solve_ambiguity(rel_knowledge_vector)
             # Sight knowledge
-            sight_knowledge = RbfKnowledge(pattern,str(hearing_id))
+            sight_knowledge = RbfKnowledge(pattern, str(hearing_id))
             # Learn
-            self.bns.learn_sight(sight_knowledge)
+            self.snb.learn_sight(sight_knowledge)
             # Get sight id
-            sight_id = self.bns.bns_s.get_last_learned_id()
+            sight_id = self.snb.snb_s.get_last_learned_id()
             # Learn relation
             rel_knowledge = RelKnowledge(hearing_id, sight_id)
             self.rnb.learn(rel_knowledge)
@@ -409,17 +415,17 @@ class KernelBrainCemisid:
 
     def learn(self):
         # CORREGIR PARA QUE FUNCIONE CUANDO EL PATRON DEL HEARING NO SE APRENDE SINO QUE YA SE CONOCE
-        self.bns.learn(self.h_knowledge_in, self.s_knowledge_in.get_pattern())
-        learned_ids = self.bns.get_last_learned_ids()
-        rel_knowledge = RelKnowledge(learned_ids[0], learned_ids[1]);
+        self.snb.learn(self.h_knowledge_in, self.s_knowledge_in.get_pattern())
+        learned_ids = self.snb.get_last_learned_ids()
+        rel_knowledge = RelKnowledge(learned_ids[0], learned_ids[1])
         self.rnb.learn(rel_knowledge)
         RelNetwork.serialize(self.rnb, "rnb.p")
-        self.bns.save("sight_bns.p", "hearing_bns.p")
+        self.snb.save("sight_snb.p", "hearing_snb.p")
 
     def erase_all_knowledge(self):
-        # bns
-        self.bns = Bns()
-        self.bns.save("sight_bns.p", "hearing_bns.p")
+        # snb
+        self.snb = SensoryNeuralBlock()
+        self.snb.save("sight_snb.p", "hearing_snb.p")
         # Relational Neural Block
         self.rnb = RelNetwork(100)
         RelNetwork.serialize(self.rnb, "rnb.p")
@@ -430,7 +436,7 @@ class KernelBrainCemisid:
         self.syllables_net = CulturalNetwork(100)
         CulturalNetwork.serialize(self.syllables_net, "syllables_net.p")
         # Words net
-        self.words_net =  CulturalNetwork(100)
+        self.words_net = CulturalNetwork(100)
         CulturalNetwork.serialize(self.words_net, "words_net.p")
         # Sight-Syllables rel network
         self.ss_rnb = RelNetwork(100)
@@ -439,34 +445,34 @@ class KernelBrainCemisid:
         self.gnb = GeometricNeuralBlock()
         GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
 
-    ### GEOMETRIC NEURAL BLOCK RELATED METHODS ###
+    # GEOMETRIC NEURAL BLOCK RELATED METHODS
     def set_add_operator(self):
         s_pattern = self.s_knowledge_in.get_pattern()
-        self.state = self.bns.recognize_sight(s_pattern)
+        self.state = self.snb.recognize_sight(s_pattern)
         if self.state == "HIT":
             hearing_id = self._get_hearing_id_recognize()
             self.gnb.set_add_operator(hearing_id)
-            GeometricNeuralBlock.serialize(self.gnb, "gnb.p" )
+            GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
             return True
         return False
 
     def set_equal_sign(self):
         s_pattern = self.s_knowledge_in.get_pattern()
-        self.state = self.bns.recognize_sight(s_pattern)
+        self.state = self.snb.recognize_sight(s_pattern)
         if self.state == "HIT":
             hearing_id = self._get_hearing_id_recognize()
             self.gnb.set_equal_sign(hearing_id)
-            GeometricNeuralBlock.serialize(self.gnb, "gnb.p" )
+            GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
             return True
         return False
 
     def set_zero(self):
         s_pattern = self.s_knowledge_in.get_pattern()
-        self.state = self.bns.recognize_sight(s_pattern)
+        self.state = self.snb.recognize_sight(s_pattern)
         if self.state == "HIT":
             hearing_id = self._get_hearing_id_recognize()
             self.gnb.set_zero(hearing_id)
-            GeometricNeuralBlock.serialize(self.gnb, "gnb.p" )
+            GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
             return True
         return False
 
@@ -484,5 +490,3 @@ class KernelBrainCemisid:
         self.gnb.clack(hearing_id)
         GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
         return
-
-

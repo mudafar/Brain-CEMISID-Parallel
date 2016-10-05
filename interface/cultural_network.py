@@ -1,36 +1,23 @@
 import pickle
 
-class CulturalNeuron:
-    def __init__(self, knowledge=None):
-        if knowledge == None:
-            self._has_knowledge = False
-            self._knowledge = None
-        else:
-            self.set_knowledge(knowledge)
-        return
+from neuron import Neuron
 
-    def set_knowledge(self, knowledge):
-        self._has_knowledge = True
-        self._knowledge = knowledge
 
-    def get_knowledge(self):
-        return self._knowledge
-
-    def has_knowledge(self):
-        return self._has_knowledge
+class CulturalNeuron(Neuron):
+    pass
 
 
 class CulturalGroup:
     def __init__(self):
         """ CulturalGroup class constructor """
-        self._group = []
+        self.group = []
         self._index_bip = 0
 
     def learn(self, knowledge):
         """ Learn new piece of cultural knowledge as part of the cultural group
         :param knowledge: Object of type CulturalKnowledge. Knowledge to be learned
         """
-        self._group.append(CulturalNeuron(knowledge))
+        self.group.append(CulturalNeuron(knowledge))
 
     def bum(self):
         """ Initialize bbcc protocol
@@ -46,8 +33,8 @@ class CulturalGroup:
         :return: Boolean
         """
         # If there are still neurons in the group, make the comparison
-        if self._index_bip < len(self._group):
-            knowledge_eq = self._group[self._index_bip].get_knowledge() == knowledge
+        if self._index_bip < len(self.group):
+            knowledge_eq = self.group[self._index_bip].get_knowledge() == knowledge
             self._index_bip += 1
             return knowledge_eq
         # If there are no more neurons in the group, reinitialize bip index and return False
@@ -60,7 +47,7 @@ class CulturalGroup:
         :param knowledge: Piece of knowledge to be compared
         :return: Boolean
         """
-        return self.bip(knowledge) and (len(self._group)-1) == self._index_bip
+        return self.bip(knowledge) and (len(self.group)-1) == self._index_bip
 
     def clack(self, knowledge):
         """ Learn new piece of cultural knowledge as part of the cultural group
@@ -69,10 +56,21 @@ class CulturalGroup:
         self.learn(knowledge)
 
     def get_tail_knowledge(self):
-        return self._group[len(self._group)-1].get_knowledge()
+        return self.group[len(self.group)-1].get_knowledge()
+
+    def contains(self, knowledge):
+        """ Return true if knowledge is contained by some neuron in the group and
+        false in any other case
+        :param knowledge:
+        :return:
+        """
+        for neuron in self.group:
+            if neuron.get_knowledge() == knowledge:
+                return True
+        return False
 
     def reinit(self):
-        self._group = []
+        self.group = []
         self._index_bip = 0
 
 
@@ -87,6 +85,9 @@ class CulturalNetwork:
         self._recognized_indexes = []
 
     def bum(self):
+        # Resize network if needed
+        if self._index_ready_to_learn >= len(self.group_list):
+            self.resize()
         # Renintialize ready lo learn group
         self.group_list[self._index_ready_to_learn].reinit()
         # Reinitialize vector of recognized indexes
@@ -144,6 +145,13 @@ class CulturalNetwork:
         self.group_list[self._index_ready_to_learn].clack(knowledge)
         self._clack = False
         self._index_ready_to_learn += 1
+
+    def resize(self):
+        new_list = []
+        # Fill neuron list with memories
+        for index in range(len(self.group_list)):
+            new_list.append(CulturalGroup())
+        self.group_list = self.group_list + new_list
 
     def get_tail_knowledge(self, group_id):
         return self.group_list[group_id].get_tail_knowledge()
