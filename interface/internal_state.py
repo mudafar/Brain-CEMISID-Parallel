@@ -2,6 +2,8 @@ import pickle
 
 
 class BiologyCultureFeelings:
+    # Number of variables = 3 (Biology, Culture, Feelings)
+    VARIABLES_NUMBER = 3
 
     def __init__(self, initial_state={'biology': 0.5, 'culture': 0, 'feelings': 1}):
         self.state = initial_state
@@ -46,6 +48,14 @@ class BiologyCultureFeelings:
             return True
         return False
 
+    def set_state(self, vals):
+        if len(vals) != BiologyCultureFeelings.VARIABLES_NUMBER:
+            return False
+        return self.set_biology(vals[0]) and self.set_culture(vals[1]) and self.set_feelings(vals[2])
+
+    def get_state(self):
+        return [self.get_biology(), self.get_culture(), self.get_feelings()]
+
 
 class InternalState(BiologyCultureFeelings):
     """ This class represents a very simplified version of an entity's
@@ -53,7 +63,10 @@ class InternalState(BiologyCultureFeelings):
     cultural and emotional (here reduced to its less primitive and reflected
     counterpart 'feelings') components. Average methods are added to model"""
 
-    def __init__(self, initial_state = None):
+    BIOLOGY_UPPER_THRESHOLD = 0.8
+    BIOLOGY_LOWER_THRESHOLD = 0.2
+
+    def __init__(self, initial_state=None):
         if initial_state is None:
             BiologyCultureFeelings.__init__(self)
         else:
@@ -65,20 +78,31 @@ class InternalState(BiologyCultureFeelings):
     def average_biology(self, val):
         if val < 0 or val > 1:
             return False
-        self.state['biology'] = (self.state['biology'] + val)/2.0
+        self.state['biology'] = (self.state['biology'] + val) / 2.0
         return True
 
     def average_culture(self, val):
         if val < 0 or val > 1:
             return False
-        self.state['culture'] = (self.state['culture'] + val)/2.0
+        self.state['culture'] = (self.state['culture'] + val) / 2.0
         return True
 
     def average_feelings(self, val):
         if val < 0 or val > 1:
             return False
-        self.state['feelings'] = (self.state['feelings'] + val)/2.0
+        self.state['feelings'] = (self.state['feelings'] + val) / 2.0
         return True
+
+    def biology_alarm(self):
+        if (self.state['biology'] >= InternalState.BIOLOGY_UPPER_THRESHOLD or
+                self.state['biology'] <= InternalState.BIOLOGY_LOWER_THRESHOLD):
+            return True
+        return False
+
+    def biology_up_alarm(self):
+        if self.state['biology'] >= InternalState.BIOLOGY_UPPER_THRESHOLD:
+            return True
+        return False
 
 # Tests
 if __name__ == '__main__':
