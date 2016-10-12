@@ -5,18 +5,23 @@ class BiologyCultureFeelings:
     # Number of variables = 3 (Biology, Culture, Feelings)
     VARIABLES_NUMBER = 3
 
-    def __init__(self, initial_state={'biology': 0.5, 'culture': 0, 'feelings': 1}):
-        self.state = initial_state
+    def __init__(self, initial_state=[0.5,1,1]):
+        self.biology = None
+        self.culture = None
+        self.feelings = None
+        self.set_biology(initial_state[0])
+        self.set_culture(initial_state[1])
+        self.set_feelings(initial_state[2])
         return
 
     def get_biology(self):
-        return self.state['biology']
+        return self.biology
 
     def get_culture(self):
-        return self.state['culture']
+        return self.culture
 
     def get_feelings(self):
-        return self.state['feelings']
+        return self.feelings
 
     def set_biology(self, val):
         """ Set biology value as 'val'
@@ -24,7 +29,7 @@ class BiologyCultureFeelings:
         :return:
         """
         if 0 <= val <= 1:
-            self.state['biology'] = val
+            self.biology = val
             return True
         return False
 
@@ -34,7 +39,7 @@ class BiologyCultureFeelings:
         :return:
         """
         if 0 <= val <= 1:
-            self.state['culture'] = val
+            self.culture = val
             return True
         return False
 
@@ -44,7 +49,7 @@ class BiologyCultureFeelings:
         :return:
         """
         if 0 <= val <= 1:
-            self.state['feelings'] = val
+            self.feelings = val
             return True
         return False
 
@@ -55,7 +60,6 @@ class BiologyCultureFeelings:
 
     def get_state(self):
         return [self.get_biology(), self.get_culture(), self.get_feelings()]
-
 
 class InternalState(BiologyCultureFeelings):
     """ This class represents a very simplified version of an entity's
@@ -78,29 +82,29 @@ class InternalState(BiologyCultureFeelings):
     def average_biology(self, val):
         if val < 0 or val > 1:
             return False
-        self.state['biology'] = (self.state['biology'] + val) / 2.0
+        self.biology = (self.biology + val) / 2.0
         return True
 
     def average_culture(self, val):
         if val < 0 or val > 1:
             return False
-        self.state['culture'] = (self.state['culture'] + val) / 2.0
+        self.culture = (self.culture + val) / 2.0
         return True
 
     def average_feelings(self, val):
         if val < 0 or val > 1:
             return False
-        self.state['feelings'] = (self.state['feelings'] + val) / 2.0
+        self.feelings = (self.feelings + val) / 2.0
         return True
 
     def biology_alarm(self):
-        if (self.state['biology'] >= InternalState.BIOLOGY_UPPER_THRESHOLD or
-                self.state['biology'] <= InternalState.BIOLOGY_LOWER_THRESHOLD):
+        if (self.biology >= InternalState.BIOLOGY_UPPER_THRESHOLD or
+                self.biology <= InternalState.BIOLOGY_LOWER_THRESHOLD):
             return True
         return False
 
     def biology_up_alarm(self):
-        if self.state['biology'] >= InternalState.BIOLOGY_UPPER_THRESHOLD:
+        if self.biology >= InternalState.BIOLOGY_UPPER_THRESHOLD:
             return True
         return False
 
