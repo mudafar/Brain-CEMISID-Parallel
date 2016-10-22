@@ -20,14 +20,13 @@ class DecisionByPredictionBlock:
     #
     OUTPUT_SIZE = 3
 
-    def __init__(self, desired_state):
+    def __init__(self):
         # Create multiclass perceptron network with input size equal to
         # the size of a BCF(input size) plus the size of the internal state
         self.predictive_net = MulticlassPerceptronNetwork( DecisionByPredictionBlock.INPUT_SIZE
                                                          + DecisionByPredictionBlock.INTERNAL_STATE_SIZE,
                                                          DecisionByPredictionBlock.OUTPUT_SIZE)
         self.desired_state = None
-        self.set_desired_state(desired_state)
         self.inputs = None
         self.output = None
         self.internal_state = None
@@ -109,8 +108,8 @@ if __name__ == '__main__':
     desired_state.set_state([0.5,1,1])
     internal_state = InternalState({'biology': 0.5, 'culture': 0.5, 'feelings': 0.5})
 
-    decision_prediction = DecisionByPredictionBlock(desired_state)
-
+    decision_prediction = DecisionByPredictionBlock()
+    decision_prediction.set_desired_state(desired_state)
 
     # Create a random training set so that the net can learn the relation prediction = (ei + choice.bcf)/2
     # We require a minimum of 18 points

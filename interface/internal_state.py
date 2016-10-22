@@ -97,6 +97,17 @@ class InternalState(BiologyCultureFeelings):
         self.feelings = (self.feelings + val) / 2.0
         return True
 
+    def average_state(self, states_vector ):
+        if len(states_vector) != 3:
+            return False
+        for element in states_vector:
+            if element > 1 or element < 0:
+                return False
+        self.average_biology(states_vector[0])
+        self.average_culture(states_vector[1])
+        self.average_feelings(states_vector[2])
+        return True
+
     def biology_alarm(self):
         if (self.biology >= InternalState.BIOLOGY_UPPER_THRESHOLD or
                 self.biology <= InternalState.BIOLOGY_LOWER_THRESHOLD):
@@ -111,14 +122,14 @@ class InternalState(BiologyCultureFeelings):
 # Tests
 if __name__ == '__main__':
     ie = InternalState()
-    print ie.state
+    print ie.get_state()
 
     ie.set_biology(1)
     ie.set_culture(1)
     ie.set_feelings(1)
-    print ie.state
+    print ie.get_state()
 
     ie.average_biology(0)
     ie.average_culture(0.25)
     ie.average_feelings(0.5)
-    print ie.state
+    print ie.get_state()

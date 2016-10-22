@@ -411,6 +411,9 @@ class SetInternalVariableWidget(GridLayout):
     def on_slider_value_change(self, obj, val):
         self.label.text = str("{0:.2f}".format(val))
 
+    def value(self):
+        return self.slider.value
+
 class ShowInternalVariableWidget(GridLayout):
 
     def __init__(self, img_file = None, **kwargs):
@@ -521,7 +524,10 @@ class IntentionsInterface(GridLayout):
         self.clack_btn = Button(text="Clack", font_size='20sp')
         self.clack_btn.bind(on_release=self.clack)
 
-
+        # Toggle button (Words, Numbers)
+        self.episodes_tgl_btn = ToggleButton(text="Episodes", font_size='20sp', group="bbcc_protocol", state="down", allow_no_selection=False)
+        self.intentions_tgl_btn = ToggleButton(text="Intentions",font_size='20sp', group="bbcc_protocol",
+                                             allow_no_selection=False)
 
     def add_widgets_layouts(self):
         # Sight panel
@@ -577,6 +583,8 @@ class IntentionsInterface(GridLayout):
         self.buttons_panel.add_widget(self.bip_btn)
         self.buttons_panel.add_widget(self.check_btn)
         self.buttons_panel.add_widget(self.clack_btn)
+        self.buttons_panel.add_widget(self.episodes_tgl_btn)
+        self.buttons_panel.add_widget(self.intentions_tgl_btn)
         self.buttons_panel.add_widget(self.sight_clear_btn)
         self.buttons_panel.add_widget(self.hearing_clear_btn)
         self.add_widget(self.main_panel)
@@ -597,14 +605,12 @@ class IntentionsInterface(GridLayout):
     def bum(self,obj):
         self.pass_kernel_inputs()
         self.kernel.bum()
-        #self.sight_class_input.text = self.kernel.state
         return
 
     def bip(self,obj):
         self.pass_kernel_inputs()
         self.kernel.bip()
         self.show_kernel_outputs()
-        #self.sight_class_input.text = self.kernel.state
         return
 
     def check(self,obj):
@@ -622,12 +628,10 @@ class IntentionsInterface(GridLayout):
 
     def pass_kernel_inputs(self):
         # Set working domain
-        if self.words_tgl_btn.state == "down":
-           self.kernel.set_working_domain("READING")
-        elif self.addition_tgl_btn.state == "down":
-            self.kernel.set_working_domain("ADDITION")
+        if self.episodes_tgl_btn.state == "down":
+            self.kernel.set_working_domain("EPISODES")
         else:
-            self.kernel.set_working_domain("COUNTING")
+            self.kernel.set_working_domain("INTENTIONS")
         # Get patterns
         hearing_pattern = self.hearing_painter.get_pattern()
         sight_pattern = self.sight_painter.get_pattern()
@@ -636,10 +640,18 @@ class IntentionsInterface(GridLayout):
         sight_knowledge = RbfKnowledge(sight_pattern, "NoClass")
         self.kernel.set_hearing_knowledge_in(hearing_knowledge)
         self.kernel.set_sight_knowledge_in(sight_knowledge)
+        biology_in = self.biology_input.value()
+        culture_in = self.culture_input.value()
+        feelings_in=self.feelings_input.value()
+        self.kernel.set_internal_state_in([biology_in, culture_in, feelings_in])
 
     def show_kernel_outputs(self):
         self.thinking_clear()
         self.hearing_class_input.text = self.kernel.state
+        kernel_internal_state = self.kernel.get_internal_state().get_state()
+        self.internal_state_biology.change_value(kernel_internal_state[0])
+        self.internal_state_culture.change_value(kernel_internal_state[1])
+        self.internal_state_feelings.change_value(kernel_internal_state[2])
         if self.kernel.state == "HIT":
             h_knowledge = self.kernel.get_hearing_knowledge_out()
             s_knowledge = self.kernel.get_sight_knowledge_out()

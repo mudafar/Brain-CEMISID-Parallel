@@ -25,7 +25,25 @@ class EpisodicMemoriesBlock(CulturalNetwork):
 
         return retrieved_memories
 
-    # Write methods for saving in hard disk
+    def retrieve_exact_memory(self, trigger ):
+        """ Return the exact memory (except for last element in trigger) """
+        # Use bbcc protocol
+        self.bum()
+        for index in range(len(trigger)):
+            if index != len(trigger)-1:
+                self.bip(trigger[index])
+            else:
+                return self.group_list[self.check(trigger[index])]
+
+
+    @classmethod
+    def serialize(cls, obj, name):
+        pickle.dump(obj, open(name, "wb"))
+
+    @classmethod
+    def deserialize(cls, name):
+        return pickle.load(open(name, "rb"))
+
 
 # Tests
 if __name__ == '__main__':

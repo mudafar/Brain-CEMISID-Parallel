@@ -21,11 +21,14 @@ class ConsciousDecisionsBlock():
         self.desired_state = InternalState()
         self.desired_state.set_state([0.5,1,1])
         # Initial internal state
-        self.internal_state = InternalState({'biology': 0.5, 'culture': 0.5, 'feelings': 0.5})
+        self.internal_state = InternalState([0.5,0.5,0.5])
 
         # Decision by prediction network
-        self.decision_prediction_block = DecisionByPredictionBlock(self.desired_state)
+        self.decision_prediction_block = DecisionByPredictionBlock()
+        self.decision_prediction_block.set_desired_state(self.desired_state)
+        self.decision_prediction_block.set_internal_state(self.internal_state)
 
+        # DEFAULT TRAINING, IT CAN BE OVERRIDEN LATER
         # Create a random training set so that the net can learn the relation prediction = (ei + choice.bcf)/2
         # We require a minimum of 18 points
         training_set = []
@@ -121,6 +124,7 @@ class ConsciousDecisionsBlock():
     def _decision_by_prediction(self):
         prediction_inputs = [self._inputs[0].get_state(), self._inputs[1].get_state(), self._inputs[2].get_state()]
         self.decision_prediction_block.set_internal_state(self.internal_state)
+        self.decision_prediction_block.set_desired_state(self.desired_state)
         self.decision_prediction_block.set_inputs(prediction_inputs)
         return self.decision_prediction_block.get_output()
 
@@ -140,6 +144,9 @@ class ConsciousDecisionsBlock():
             self._last_decision_type = "PREDICTED"
             return predicted_decision
 
+    def training(self, training_set ):
+        self.decision_prediction_block.remodel_predictive_net(training_set)
+
     def feedback(self, new_internal_state):
         if not self.set_internal_state(new_internal_state):
             return
@@ -158,9 +165,9 @@ if __name__ == '__main__':
 
     # FREE WILL DECISIONS 20% of the time
     # Inputs
-    i0 = BiologyCultureFeelings({'biology': 0.5, 'culture': 0.9, 'feelings':0.9})
-    i1 = BiologyCultureFeelings({'biology': 0.5, 'culture': 0.9, 'feelings':0.3})
-    i2 = BiologyCultureFeelings({'biology': 0.4, 'culture': 0.7, 'feelings':0.9})
+    i0 = BiologyCultureFeelings([0.5,0.9,0.9])
+    i1 = BiologyCultureFeelings([0.5,0.9,0.9])
+    i2 = BiologyCultureFeelings([0.4,0.7,0.9])
     inputs = [i0, i1, i2]
     cdb.set_inputs(inputs)
     cdb.internal_state.set_state([0.5,0.5,0.5])
@@ -191,6 +198,7 @@ if __name__ == '__main__':
     internal_state = InternalState()
     cdb.internal_state.set_state([0.5, 1, 1])
     while test:
+        print 'FEEDBACK TEST'
         print('-'*60)
         i0.set_state(input('Enter input #0 ([B,C,F]): '))
         i1.set_state(input('Enter input #1 ([B,C,F]): '))
@@ -203,5 +211,4 @@ if __name__ == '__main__':
         cdb.set_inputs([i0, i1, i2])
         print "New decision would be: ", cdb.get_decision(), " made by ", cdb.get_last_decision_type()
         test = input("Continue testing? (True/False): " )
-
 

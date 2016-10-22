@@ -5,6 +5,9 @@ from analytical_neuron import AnalyticalNeuron
 from cultural_network import CulturalNetwork
 from sensory_neural_block import SensoryNeuralBlock
 from geometric_neural_block import GeometricNeuralBlock
+from internal_state import InternalState, BiologyCultureFeelings
+from episodic_memories import EpisodicMemoriesBlock
+from decisions_block import DecisionsBlock
 
 
 class KernelBrainCemisid:
@@ -23,7 +26,7 @@ class KernelBrainCemisid:
         # Set pattern size in RBF knowledge
         RbfKnowledge.PATTERN_SIZE = pattern_size
 
-        # self.erase_all_knowledge()
+        #self.erase_all_knowledge()
 
         # SNB
         self.snb = SensoryNeuralBlock("sight_snb.p", "hearing_snb.p")
@@ -42,16 +45,31 @@ class KernelBrainCemisid:
         # Sight-Syllables rel network
         self.ss_rnb = RelNetwork.deserialize("ss_rnb.p")
 
+        #################### INTENTIONS MODULES ########################################################################
+        self.episodic_memory = EpisodicMemoriesBlock.deserialize("episodic_memory.p")
+        self.decisions_block = DecisionsBlock()
+
+        self.internal_state = InternalState()
+        self.desired_state = InternalState([0.5,1,1])
+
+        # Internal state "Ports" (Three components real valued vector)
+        self._internal_state_in = None
+
+        # Memory that stores short term bip inputs for making a decision
+        self._intentions_short_term_memory = []
+        self._output_memory = None
+        ################################################################################################################
+
         # _bbcc_words
         self._learning_words = False
         self._learning_syllables = False
         self._enable_bbcc = False
 
-        # Output "ports"
+        # Output "ports" (related to senses)
         self.s_knowledge_out = None
         self.h_knowledge_out = None
 
-        # Input "ports"
+        # Input "ports" (senses)
         self.s_knowledge_in = None
         self.h_knowledge_in = None
 
@@ -62,13 +80,14 @@ class KernelBrainCemisid:
         """ Sets a working domain for the bbcc protocol. It could be either "READING" or "ADDITION"
         :param domain: enum { "READING", "ADDITION", "COUNTING" }
         """
-        if domain != "READING" and domain != "ADDITION" and domain != "COUNTING":
+        if(domain != "READING" and domain != "ADDITION" and domain != "COUNTING"
+                and domain != "EPISODES" and domain != "INTENTIONS"):
             return
         self._working_domain = domain
 
     def get_working_domain(self):
         """ Get bbcc protocol working domain
-        :return: enum { "READING", "ADDITION", "COUNTING" }
+        :return: enum { "READING", "ADDITION", "COUNTING", "EPISODES", "INTENTIONS" }
         """
         return self._working_domain
 
@@ -90,6 +109,45 @@ class KernelBrainCemisid:
     def get_hearing_knowledge_out(self):
         return self.h_knowledge_out
 
+    ################### INTENTIONS CODE ################################################################################
+    def set_internal_state_in(self, states_vector ):
+        self._internal_state_in = states_vector
+
+    def set_internal_state(self, states_vector ):
+        """ Set internal state (Biology, Culture and Feelings)
+        :param states_vector: three components vector: [Biology, Culture, Feelings].
+         All components are in the real interval [0,1]
+        :return: True if state properly set, False in any other case.
+        """
+        state_correctly_set = self.internal_state.set_state(states_vector)
+        if state_correctly_set:
+            self.decisions_block.set_internal_state(self.internal_state.get_state())
+        return state_correctly_set
+
+    def get_internal_state(self):
+        return self.internal_state
+
+    def feed_internal_state(self, states_vector ):
+        state_correctly_fed = self.internal_state.average_state(states_vector)
+        if state_correctly_fed:
+            self.decisions_block.set_internal_state(self.internal_state.get_state())
+        return state_correctly_fed
+
+    def set_desired_state(self, states_vector ):
+        """ Set desired state (Biology, Culture and Feelings)
+        :param states_vector: three components vector: [Biology, Culture, Feelings].
+         All components are in the real interval [0,1]
+        :return: True if state properly set, False in any other case.
+        """
+        state_correctly_set = self.desired_state.set_state(states_vector)
+        if state_correctly_set:
+            self.decisions_block.set_desired_state(self.desired_state.get_state())
+        return state_correctly_set
+
+    def get_desired_state(self):
+        return self.desired_state
+    ####################################################################################################################
+
     def disable_bbcc(self):
         """ Disable bbcc protocol so that Check and Clack can be used as standalone actions """
         self._enable_bbcc = False
@@ -110,8 +168,15 @@ class KernelBrainCemisid:
         elif self._working_domain == "ADDITION":
             self._bum_addition()
         # Else, transmit it to counting net
-        else:
+        elif self._working_domain == "COUNTING":
             self._bum_counting()
+        #################### INTENTIONS ################################################################################
+        # Else, episodic memory
+        elif self._working_domain == "EPISODES":
+            self._bum_episodes()
+        # Intentions
+        else:
+            self._bum_intentions()
 
     def bip(self):
         """ Bip part of bbcc protocol (See bbcc protocol description) """
@@ -132,8 +197,14 @@ class KernelBrainCemisid:
             elif self._working_domain == "ADDITION":
                 self._bip_addition()
             # Else, transmit it to counting net
-            else:
+            elif self._working_domain == "COUNTING":
                 self._bip_counting()
+            #################### INTENTIONS ################################################################################
+            # Else, episodic memory
+            elif self._working_domain == "EPISODES":
+                self._bip_episodes()
+            else:
+                self._bip_intentions()
 
     def check(self):
         """ Check if there is knowledge associated with the given sequence of patterns from
@@ -152,9 +223,12 @@ class KernelBrainCemisid:
                 # Send bip signal to addition networks (AM and GNB)
                 elif self._working_domain == "ADDITION":
                     self._check_addition()
-                # Else, transmit it to counting net
+                #################### INTENTIONS ################################################################################
+                # Else, episodic memory
+                elif self._working_domain == "EPISODES":
+                    self._check_episodes()
                 else:
-                    return
+                    self._check_intentions()
         # Not part of complete bbcc protocol, just recognize
         else:
             self.recognize()
@@ -172,8 +246,14 @@ class KernelBrainCemisid:
             elif self._working_domain == "ADDITION":
                 self._clack_addition()
             # Else, transmit it to counting net
-            else:
+            elif self._working_domain == "COUNTING":
                 self._clack_counting()
+            #################### INTENTIONS ################################################################################
+            # Else, episodic memory
+            elif self._working_domain == "EPISODES":
+                self._clack_episodes()
+            else:
+                self._check_intentions()
         else:
             self.learn()
         self._enable_bbcc = False
@@ -376,6 +456,15 @@ class KernelBrainCemisid:
         self.state = self.snb.recognize_hearing(pattern)
         if self.state == "HIT":
             self.h_knowledge_out = self.snb.get_hearing_knowledge(pattern)
+            ################# INTENTIONS ###############################################################################
+            # Get hearing id of recognizing neuron
+            hearing_id = self.snb.snb_h.get_rneurons_ids()[0]
+            # Get memory related to hearing id
+            memory = self.episodic_memory.retrieve_exact_memory([hearing_id])
+            # Get bcf related to memory
+            memory_bcf = memory.get_tail_knowledge().get_state()
+            # Memory's bcf affects internal state
+            self.feed_internal_state(memory_bcf)
 
     def sight_recognize(self):
         pattern = self.s_knowledge_in.get_pattern()
@@ -391,6 +480,14 @@ class KernelBrainCemisid:
             self.h_knowledge_out = self.snb.get_hearing_knowledge(hearing_id, True)
             # Put sight knowledge in output port
             self.s_knowledge_out = self.snb.get_sight_knowledge(sight_id, True)
+            ################# INTENTIONS ###############################################################################
+            # Get memory related to hearing id
+            memory = self.episodic_memory.retrieve_exact_memory([hearing_id])
+            # Get bcf related to memory
+            memory_bcf = memory.get_tail_knowledge().get_state()
+            # Memory's bcf affects internal state
+            self.feed_internal_state(memory_bcf)
+
         elif self.state == "DIFF":
             # Get ids os sight neurons that recognized the pattern
             ids_recognize = self.snb.snb_s.get_rneurons_ids()
@@ -421,6 +518,16 @@ class KernelBrainCemisid:
         self.rnb.learn(rel_knowledge)
         RelNetwork.serialize(self.rnb, "rnb.p")
         self.snb.save("sight_snb.p", "hearing_snb.p")
+        ################ INTENTIONS ####################################################################################
+        # New learned item will produce changes in internal state
+        self.feed_internal_state(self._internal_state_in)
+        # New learned item and passed internal state should be related as an episode
+        internal_state_in = InternalState(self._internal_state_in)
+        self.episodic_memory.bum()
+        self.episodic_memory.check(learned_ids[1])
+        self.episodic_memory.clack(internal_state_in)
+        EpisodicMemoriesBlock.serialize(self.episodic_memory, "episodic_memory.p")
+        ################################################################################################################
 
     def erase_all_knowledge(self):
         # snb
@@ -444,6 +551,9 @@ class KernelBrainCemisid:
         # Geometric Neural Block
         self.gnb = GeometricNeuralBlock()
         GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
+        ################ INTENTIONS ####################################################################################
+        self.episodic_memory = EpisodicMemoriesBlock()
+        EpisodicMemoriesBlock.serialize(self.episodic_memory, "episodic_memory.p")
 
     # GEOMETRIC NEURAL BLOCK RELATED METHODS
     def set_add_operator(self):
@@ -489,4 +599,65 @@ class KernelBrainCemisid:
         hearing_id = self._get_hearing_id_recognize()
         self.gnb.clack(hearing_id)
         GeometricNeuralBlock.serialize(self.gnb, "gnb.p")
+        return
+
+    ########################## INTENTIONS ##############################################################################
+    def _bum_episodes(self):
+        """ Pass bum signal to episodic memory """
+        self.episodic_memory.bum()
+
+    def _bip_episodes(self):
+        """ Pass bip signal to episodic memory """
+        hearing_id = self._get_hearing_id_recognize()
+        self.episodic_memory.bip(hearing_id)
+
+    def _check_episodes(self):
+        """ Check if epsodic memory network has a result related
+                to the operation given through the bbcc protocol """
+        hearing_id = self._get_hearing_id_recognize()
+        em_id = self.episodic_memory.check(hearing_id)
+        # If addition_by_memory doesn't have any knowledge related to the preceding bbc series, proceed with clack
+        if em_id is None:
+            self.state = "MISS"
+            return
+            # Get bcf related to episode
+        episode_bcf = self.episodic_memory.get_tail_knowledge(em_id).get_state()
+        # Memory's bcf affects internal state
+        self.feed_internal_state(episode_bcf)
+        # Disable bbcc
+        self._enable_bbcc = False
+
+    def _clack_episodes(self):
+        episode_bcf = BiologyCultureFeelings(self.internal_state.get_state())
+        self.episodic_memory.clack(episode_bcf)
+        EpisodicMemoriesBlock.serialize(self.episodic_memory, "episodic_memory.p")
+
+    def _bum_intentions(self):
+        self._intentions_short_term_memory = []
+        return
+
+    def _bip_intentions(self):
+        hearing_id = self._get_hearing_id_recognize()
+        self._intentions_short_term_memory.append(hearing_id)
+        return
+
+    def _check_intentions(self):
+        # Get memories
+        memories = self.episodic_memory.retrieve_memories(self._intentions_short_term_memory)
+        self.decisions_block.set_desired_state(self.desired_state)
+        self.decisions_block.set_internal_state(self.internal_state)
+        self.decisions_block.set_input_memories(memories)
+        self._output_memory = self.decisions_block.get_output_memory()
+        # Obtain sight and hearing ids relationship from relational neural block
+        hearing_id = self._output_memory.group[0].get_knowledge()
+        hearing_rel = self.rnb.get_hearing_rels(hearing_id)[0]
+        # Get hearing id from relation
+        sight_id = hearing_rel.get_s_id()
+        # Put hearing knowledge in output port
+        self.h_knowledge_out = self.snb.get_hearing_knowledge(hearing_id, True)
+        # Put sight knowledge in output port
+        self.s_knowledge_out = self.snb.get_sight_knowledge(sight_id, True)
+        return
+
+    def _clack_intentions(self):
         return
