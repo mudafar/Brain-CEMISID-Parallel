@@ -1,3 +1,0 @@
-* All code developed for the Brain-CEMISID project must comply 
-with the PEP-8 Style Guide for Python Code 
-(avalaible at https://www.python.org/dev/peps/pep-0008/)
