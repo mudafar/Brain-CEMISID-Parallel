@@ -44,6 +44,7 @@ class ConsciousDecisionsBlock():
         # Create a random training set so that the net can learn the relation prediction = (ei + choice.bcf)/2
         # We require a minimum of 18 points
         training_set = []
+        # todo: parallelize
         for index in range(20):
             ei = [random.random(), random.random(), random.random()]
             choice_bcf = [random.random(), random.random(), random.random()]

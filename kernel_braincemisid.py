@@ -352,6 +352,7 @@ class KernelBrainCemisid:
             result = self.gnb.addition_result
             self.s_knowledge_out = []
             self.h_knowledge_out = []
+            # todo: parallel
             for digit_h_id in result:
                 self.h_knowledge_out.append(self.snb.get_hearing_knowledge(digit_h_id, True))
                 digit_s_id = self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id()
@@ -428,6 +429,7 @@ class KernelBrainCemisid:
 
     @staticmethod
     def is_null_pattern(pattern):
+        # todo: parallel
         for element in pattern:
             if element != 0:
                 return False
@@ -535,6 +537,7 @@ class KernelBrainCemisid:
             # Initialize a vector of relational knowledge
             rel_knowledge_vector = []
             # Fill the vector with the relational knowledge of neurons that recognized the pattern
+            # todo: parallel
             for neuron_id in ids_recognize:
                 rel_knowledge_vector += self.rnb.get_sight_rels(neuron_id)
             # Get hearing id from analytical neural block

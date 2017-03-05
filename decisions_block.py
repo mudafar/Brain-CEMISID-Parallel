@@ -51,6 +51,7 @@ class DecisionsBlock:
         self.conscious_block.set_desired_state(self.desired_state)
         self.conscious_block.set_internal_state(self.internal_state)
         conscious_inputs = []
+        # todo: parallel
         for memory in self.unconscious_output:
             conscious_inputs.append(memory.get_tail_knowledge())
         self.conscious_block.set_inputs(conscious_inputs)
@@ -88,10 +89,12 @@ if __name__ == '__main__':
 
     # Memories
     MEMORIES_COUNT = 6
+    # todo: parallel
     memories = [CulturalGroup() for i in range(MEMORIES_COUNT)]
     import random
 
     bcf = []
+    # todo: parallel
     for i in range(MEMORIES_COUNT):
         memories[i].bum()
         memories[i].learn(i)

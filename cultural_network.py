@@ -89,6 +89,7 @@ class CulturalNetwork:
     ## CulturalNetwork class constructor
     def __init__(self, group_count=1):
         self.group_list = []
+        # todo: parallel
         for index in range(group_count):
             self.group_list.append(CulturalGroup())
         self._index_ready_to_learn = 0
@@ -106,6 +107,7 @@ class CulturalNetwork:
         # Reinitialize vector of recognized indexes
         self._recognized_indexes = []
         # Pass bum signal to all cultural groups with knowledge
+        # todo: parallel
         for group_index in range(self._index_ready_to_learn):
             self.group_list[group_index].bum()
             # Initialize a list of participating neurons
@@ -119,6 +121,7 @@ class CulturalNetwork:
         bip_indexes = []
         # Pass bip signal to all neurons that have recognized the given sequence
         # and store the indexes of all neurons that have recognized until now
+        # todo: parallel
         for group_index in self._recognized_indexes:
             if self.group_list[group_index].bip(knowledge):
                 bip_indexes.append(group_index)
@@ -132,6 +135,7 @@ class CulturalNetwork:
     def check(self, knowledge):
         # Indexes
         check_indexes = []
+        # todo: parallel
         for group_index in self._recognized_indexes:
             if self.group_list[group_index].check(knowledge):
                 check_indexes.append(group_index)
@@ -166,6 +170,7 @@ class CulturalNetwork:
     def resize(self):
         new_list = []
         # Fill neuron list with memories
+        # todo: parallel
         for index in range(len(self.group_list)):
             new_list.append(CulturalGroup())
         self.group_list = self.group_list + new_list

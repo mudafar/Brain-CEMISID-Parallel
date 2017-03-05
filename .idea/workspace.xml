@@ -1,92 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="094b57f7-85ac-4918-8f90-841b0250e9a0" name="Default" comment="Initial commit.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/refman.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/icons/brain.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/brain-CEMISID.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cpus_number.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doxyfile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/internal_state.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistent_memory/decisions_block.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistent_memory/desired_state.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistent_memory/episodic_memory.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistent_memory/internal_state.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistent_memory/rnb.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/prev_main.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sensory_neural_block.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/code_style_guidelines.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/meeting1_roadmap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/rbf_network_features.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/analtytical_neuron.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/biclass_perceptron_network.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/bns.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/buildozer" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/conscious_decisions.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/episodic_memory.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/hearing_snb.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/icons/eye.xcf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/internal_state.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/k1.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/main_prev.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/net.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/perceptron_network.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/prev_main.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rbf_knowledge.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rbf_network.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rbf_neuron.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rel_knowledge" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rel_knowledge.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rel_neuron.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/rnb.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/sensory_neural_block.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/sight.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/sight_snb.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/ss_net.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/interface/unconcious_filtering_block.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/kernel/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/kernel/rbf_knowledge.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/kernel/rbf_network.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/kernel/rbf_neuron.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/kernel/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/rbf_knowledge.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/rbf_network.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/rbf_neuron.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/am_net.p" afterPath="$PROJECT_DIR$/persistent_memory/words_net.p" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/analytical_neuron.py" afterPath="$PROJECT_DIR$/analytical_neuron.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/conscious_decisions_block.py" afterPath="$PROJECT_DIR$/conscious_decisions_block.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/cultural_network.py" afterPath="$PROJECT_DIR$/cultural_network.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/decision_by_prediction_block.py" afterPath="$PROJECT_DIR$/decision_by_prediction_block.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/decisions_block.py" afterPath="$PROJECT_DIR$/decisions_block.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/episodic_memories.py" afterPath="$PROJECT_DIR$/episodic_memories.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/geometric_neural_block.py" afterPath="$PROJECT_DIR$/geometric_neural_block.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/gnb.p" afterPath="$PROJECT_DIR$/persistent_memory/gnb.p" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/hearing_bns.p" afterPath="$PROJECT_DIR$/persistent_memory/hearing_snb.p" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/icons/biology.png" afterPath="$PROJECT_DIR$/icons/biology.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/icons/culture.png" afterPath="$PROJECT_DIR$/icons/culture.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/icons/ear.png" afterPath="$PROJECT_DIR$/icons/ear.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/icons/eye.png" afterPath="$PROJECT_DIR$/icons/eye.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/icons/eye.svg" afterPath="$PROJECT_DIR$/icons/eye.svg" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/icons/feelings.png" afterPath="$PROJECT_DIR$/icons/feelings.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/kernel_braincemisid.py" afterPath="$PROJECT_DIR$/kernel_braincemisid.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/main.py" afterPath="$PROJECT_DIR$/main_intentions_backup.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/multiclass_perceptron_network.py" afterPath="$PROJECT_DIR$/multiclass_single_layer_network.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/neuron.py" afterPath="$PROJECT_DIR$/neuron.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/rel_network.py" afterPath="$PROJECT_DIR$/rel_network.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/sight_bns.p" afterPath="$PROJECT_DIR$/persistent_memory/sight_snb.p" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/ss_rnb.p" afterPath="$PROJECT_DIR$/persistent_memory/ss_rnb.p" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/syllables_net.p" afterPath="$PROJECT_DIR$/persistent_memory/am_net.p" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/unconscious_filtering_block.py" afterPath="$PROJECT_DIR$/unconscious_filtering_block.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/interface/words_net.p" afterPath="$PROJECT_DIR$/persistent_memory/syllables_net.p" />
+    <list default="true" id="094b57f7-85ac-4918-8f90-841b0250e9a0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/proyecto_grado.odt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/detect_system.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cpus_number.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conscious_decisions_block.py" afterPath="$PROJECT_DIR$/conscious_decisions_block.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cultural_network.py" afterPath="$PROJECT_DIR$/cultural_network.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/decisions_block.py" afterPath="$PROJECT_DIR$/decisions_block.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geometric_neural_block.py" afterPath="$PROJECT_DIR$/geometric_neural_block.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/internal_state.py" afterPath="$PROJECT_DIR$/internal_state.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kernel_braincemisid.py" afterPath="$PROJECT_DIR$/kernel_braincemisid.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rel_network.py" afterPath="$PROJECT_DIR$/rel_network.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/unconscious_filtering_block.py" afterPath="$PROJECT_DIR$/unconscious_filtering_block.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -97,7 +25,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/brain-CEMISID$tests.coverage" NAME="tests Coverage Results" MODIFIED="1487466662800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/brain-CEMISID$Main.coverage" NAME="Main Coverage Results" MODIFIED="1488646034301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
+    <SUITE FILE_PATH="coverage/brain-CEMISID$Main.coverage" NAME="Main Coverage Results" MODIFIED="1488672730348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
     <SUITE FILE_PATH="coverage/brain-CEMISID$rbf_neuron.coverage" NAME="rbf_neuron Coverage Results" MODIFIED="1487466821193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/brain-CEMISID$UI.coverage" NAME="UI Coverage Results" MODIFIED="1487472627190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interface" />
     <SUITE FILE_PATH="coverage/brain-CEMISID$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1487466620797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -106,14 +34,73 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="cpus_number.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cpus_number.py">
+      <file leaf-file-name="detect_system.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/detect_system.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="59" column="19" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+            <state relative-caret-position="211">
+              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="kernel_braincemisid.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kernel_braincemisid.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rel_network.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rel_network.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-722">
+              <caret line="230" column="24" lean-forward="false" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="analytical_neuron.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/analytical_neuron.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="7" column="22" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conscious_decisions_block.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conscious_decisions_block.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="46" column="10" lean-forward="false" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="702">
+                <caret line="39" column="16" lean-forward="false" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -126,6 +113,13 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>retval</find>
+      <find>solve ambiguities</find>
+      <find>h_knowledge_out</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -140,6 +134,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/cpu_number.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/analytical_neuron.py" />
+        <option value="$PROJECT_DIR$/cpus_number.py" />
+        <option value="$PROJECT_DIR$/detecting_system.py" />
+        <option value="$PROJECT_DIR$/detect_system.py" />
+        <option value="$PROJECT_DIR$/kernel_braincemisid.py" />
+        <option value="$PROJECT_DIR$/rel_network.py" />
       </list>
     </option>
   </component>
@@ -150,10 +151,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="53" />
-    <option name="y" value="147" />
+    <option name="x" value="37" />
+    <option name="y" value="167" />
     <option name="width" value="1742" />
-    <option name="height" value="873" />
+    <option name="height" value="871" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -170,6 +171,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -182,9 +184,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="brain-CEMISID" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="brain-CEMISID" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -388,7 +403,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="brain-CEMISID" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cpus_number.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/detect_system.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -439,21 +454,29 @@
       <option name="project" value="LOCAL" />
       <updated>1487539638005</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="1) cpus_number: detect parallel system&#10;2) Migrating to last version of the kernel">
+      <created>1488646737869</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1488646737869</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="53" y="147" width="1742" height="873" extended-state="0" />
+    <frame x="37" y="167" width="1742" height="871" extended-state="0" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997175" sideWeight="0.50236684" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run Dashboard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909605" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909605" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32768363" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3361582" sideWeight="0.49763313" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22544378" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32719547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3371105" sideWeight="0.49763313" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22840236" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997175" sideWeight="0.49763313" order="3" side_tool="false" content_ui="tabs" />
@@ -463,7 +486,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -493,7 +515,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit." />
+    <MESSAGE value="1) cpus_number: detect parallel system&#10;2) Migrating to last version of the kernel" />
+    <option name="LAST_COMMIT_MESSAGE" value="1) cpus_number: detect parallel system&#10;2) Migrating to last version of the kernel" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -502,7 +525,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cpus_number.py">
+    <entry file="file://$PROJECT_DIR$/detect_system.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -512,14 +535,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
+    <entry file="file://$PROJECT_DIR$/analytical_neuron.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="216">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="16" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/conscious_decisions_block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3726">
+          <caret line="212" column="5" lean-forward="true" selection-start-line="212" selection-start-column="5" selection-end-line="212" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="702">
+            <caret line="39" column="16" lean-forward="false" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/detect_system.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests.py" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -530,196 +587,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="8" column="20" lean-forward="false" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/main_prev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/rel_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3798">
-          <caret line="213" column="30" lean-forward="true" selection-start-line="213" selection-start-column="30" selection-end-line="213" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="8" column="20" lean-forward="false" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/main_prev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/rel_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4014">
-          <caret line="225" column="28" lean-forward="false" selection-start-line="225" selection-start-column="28" selection-end-line="225" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doc/rbf_network_features.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doc/meeting1_roadmap">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kernel/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rbf_neuron.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/kernel_braincemisid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="16" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/main_prev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/rel_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1733">
-          <caret line="213" column="30" lean-forward="false" selection-start-line="213" selection-start-column="30" selection-end-line="213" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/episodic_memory.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9063">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interface/hearing_snb.p">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1134">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kernel/rbf_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kernel/rbf_knowledge.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-324">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kernel/rbf_neuron.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="38" lean-forward="false" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kernel/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/tests.py" />
+    <entry file="file://$PROJECT_DIR$/interface/main.py" />
+    <entry file="file://$PROJECT_DIR$/interface/main_prev.py" />
+    <entry file="file://$PROJECT_DIR$/interface/rel_network.py" />
+    <entry file="file://$PROJECT_DIR$/tests.py" />
+    <entry file="file://$PROJECT_DIR$/interface/main.py" />
+    <entry file="file://$PROJECT_DIR$/interface/main_prev.py" />
+    <entry file="file://$PROJECT_DIR$/interface/rel_network.py" />
+    <entry file="file://$PROJECT_DIR$/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/doc/rbf_network_features.txt" />
+    <entry file="file://$PROJECT_DIR$/doc/meeting1_roadmap" />
+    <entry file="file://$PROJECT_DIR$/kernel/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/rbf_neuron.py" />
+    <entry file="file://$PROJECT_DIR$/interface/kernel_braincemisid.py" />
+    <entry file="file://$PROJECT_DIR$/interface/main_prev.py" />
+    <entry file="file://$PROJECT_DIR$/interface/rel_network.py" />
+    <entry file="file://$PROJECT_DIR$/interface/main.py" />
+    <entry file="file://$PROJECT_DIR$/interface/episodic_memory.p" />
+    <entry file="file://$PROJECT_DIR$/interface/hearing_snb.p" />
+    <entry file="file://$PROJECT_DIR$/kernel/rbf_network.py" />
+    <entry file="file://$PROJECT_DIR$/kernel/rbf_knowledge.py" />
+    <entry file="file://$PROJECT_DIR$/kernel/rbf_neuron.py" />
+    <entry file="file://$PROJECT_DIR$/kernel/tests.py" />
+    <entry file="file://$PROJECT_DIR$/tests.py" />
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="15" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="702">
+            <caret line="39" column="16" lean-forward="false" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
+    <entry file="file://$PROJECT_DIR$/analytical_neuron.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
-          <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <caret line="7" column="22" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conscious_decisions_block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="46" column="10" lean-forward="false" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/detect_system.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kernel_braincemisid.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cpus_number.py">
+    <entry file="file://$PROJECT_DIR$/rel_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="59" column="19" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+        <state relative-caret-position="-722">
+          <caret line="230" column="24" lean-forward="false" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -186,6 +186,7 @@ class RelNetwork:
         # Create neuron list
         self.neuron_list = []
         # Fill neuron list with nre RelNeuron instances
+        # todo: parallel
         for index in range(neuron_count):
             self.neuron_list.append(RelNeuron())
         # Index of ready to learn neuron
@@ -198,6 +199,7 @@ class RelNetwork:
         if self._index_ready_to_learn == (len(self.neuron_list)-1):
             new_list = []
             # Fill neuron list with nre RelNeuron instances
+            # todo: parallel
             for index in range(len(self.neuron_list)):
                 new_list.append(RelNeuron())
             self.neuron_list = self.neuron_list + new_list
@@ -215,6 +217,7 @@ class RelNetwork:
     def get_hearing_rels(self, h_id):
         # List of hearing relations
         hearing_rels = []
+        # todo: parallel
         for index in range(self._index_ready_to_learn):
             if self.neuron_list[index].recognize_hearing(h_id):
                 hearing_rels.append(self.neuron_list[index].get_knowledge())
@@ -225,6 +228,7 @@ class RelNetwork:
     def get_sight_rels(self, s_id):
         # List of sight relations
         sight_rels = []
+        # todo: parallel
         for index in range(self._index_ready_to_learn):
             if self.neuron_list[index].recognize_sight(s_id):
                 sight_rels.append(self.neuron_list[index].get_knowledge())

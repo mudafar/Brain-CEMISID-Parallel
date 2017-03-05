@@ -62,6 +62,7 @@ class UnconsciousFilteringBlock:
         best_biology = self.inputs[0]
         bcf = best_biology.get_tail_knowledge()
         min_distance = abs((bcf.get_biology() + self.internal_state.get_biology())/2.0 - self.desired_state.get_biology())
+        # todo: parallel
         for memory in self.inputs:
             # BCF for every memory is stored in the tail of the cultural group
             bcf = memory.get_tail_knowledge()
@@ -76,6 +77,7 @@ class UnconsciousFilteringBlock:
         best_culture = self.inputs[0]
         bcf = best_culture.get_tail_knowledge()
         max = bcf.get_culture()
+        # todo: parallel
         for memory in self.inputs:
             # BCF for every memory is stored in the tail of the cultural group
             bcf = memory.get_tail_knowledge()
@@ -89,6 +91,7 @@ class UnconsciousFilteringBlock:
         best_feelings = self.inputs[0]
         bcf = best_feelings.get_tail_knowledge()
         max = bcf.get_feelings()
+        # todo: parallel
         for memory in self.inputs:
             # BCF for every memory is stored in the tail of the cultural group
             bcf = memory.get_tail_knowledge()
@@ -108,6 +111,7 @@ if __name__ == '__main__':
     memories = [CulturalGroup() for i in range(MEMORIES_COUNT)]
     import random
     bcf = []
+    # todo: parallel
     for i in range(MEMORIES_COUNT):
         memories[i].bum()
         memories[i].learn(i)
