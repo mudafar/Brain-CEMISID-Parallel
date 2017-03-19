@@ -17,7 +17,7 @@ p6
 (dp7
 S'_index_bip'
 p8
-I0
+I1
 sS'group'
 p9
 (lp10
@@ -70,7 +70,7 @@ CulturalGroup
 p30
 (dp31
 g8
-I0
+I1
 sg9
 (lp32
 g11
@@ -107,7 +107,7 @@ CulturalGroup
 p41
 (dp42
 g8
-I0
+I1
 sg9
 (lp43
 g11
@@ -144,7 +144,7 @@ CulturalGroup
 p52
 (dp53
 g8
-I0
+I1
 sg9
 (lp54
 g11
@@ -240,9 +240,4 @@ sg9
 sbasS'_recognized_indexes'
 p83
 (lp84
-I0
-aI1
-aI2
-aI3
-aI4
-asb.
+sb.

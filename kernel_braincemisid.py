@@ -8,6 +8,9 @@ from internal_state import InternalState, BiologyCultureFeelings
 from episodic_memories import EpisodicMemoriesBlock
 from decisions_block import DecisionsBlock
 
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
 
 import os.path
 
@@ -43,29 +46,34 @@ class KernelBrainCemisid:
         if not os.path.isfile("persistent_memory/sight_snb.p"):
             self.erase_all_knowledge()
 
+        # TODO: use detected processor number, and equation logic 3.1.3.
+        # Init thread's pool
+        pool = Pool()
+
         # SNB
-        self.snb = SensoryNeuralBlock("persistent_memory/sight_snb.p", "persistent_memory/hearing_snb.p")
+        #self.snb = SensoryNeuralBlock("persistent_memory/sight_snb.p", "persistent_memory/hearing_snb.p")
+        self.snb = pool.apply_async(lambda x: SensoryNeuralBlock("persistent_memory/sight_snb.p", "persistent_memory/hearing_snb.p"), [None]).get()
         # Relational Neural Block
-        self.rnb = RelNetwork.deserialize("persistent_memory/rnb.p")
+        self.rnb = pool.apply_async(lambda x: RelNetwork.deserialize("persistent_memory/rnb.p"), [None]).get()
         # Analytical neuron
-        self.analytical_n = AnalyticalNeuron()
+        self.analytical_n = pool.apply_async(lambda x: AnalyticalNeuron(), [None]).get()
         # Addition by memory network
-        self.am_net = CulturalNetwork.deserialize("persistent_memory/am_net.p")
+        self.am_net = pool.apply_async(lambda x: CulturalNetwork.deserialize("persistent_memory/am_net.p"), [None]).get()
         # Geometric Neural Block
-        self.gnb = GeometricNeuralBlock.deserialize("persistent_memory/gnb.p")
+        self.gnb = pool.apply_async(lambda x: GeometricNeuralBlock.deserialize("persistent_memory/gnb.p"), [None]).get()
         # Syllables net
-        self.syllables_net = CulturalNetwork.deserialize("persistent_memory/syllables_net.p")
+        self.syllables_net = pool.apply_async(lambda x: CulturalNetwork.deserialize("persistent_memory/syllables_net.p"), [None]).get()
         # Words net
-        self.words_net = CulturalNetwork.deserialize("persistent_memory/words_net.p")
+        self.words_net = pool.apply_async(lambda x: CulturalNetwork.deserialize("persistent_memory/words_net.p"), [None]).get()
         # Sight-Syllables rel network
-        self.ss_rnb = RelNetwork.deserialize("persistent_memory/ss_rnb.p")
+        self.ss_rnb = pool.apply_async(lambda x: RelNetwork.deserialize("persistent_memory/ss_rnb.p"), [None]).get()
 
         # ################### INTENTIONS MODULES ########################################################################
-        self.episodic_memory = EpisodicMemoriesBlock.deserialize("persistent_memory/episodic_memory.p")
-        self.decisions_block = DecisionsBlock.deserialize("persistent_memory/decisions_block.p")
+        self.episodic_memory = pool.apply_async(lambda x: EpisodicMemoriesBlock.deserialize("persistent_memory/episodic_memory.p"), [None]).get()
+        self.decisions_block = pool.apply_async(lambda x: DecisionsBlock.deserialize("persistent_memory/decisions_block.p"), [None]).get()
 
-        self.internal_state = InternalState.deserialize("persistent_memory/internal_state.p")
-        self.desired_state = InternalState.deserialize("persistent_memory/desired_state.p")
+        self.internal_state = pool.apply_async(lambda x: InternalState.deserialize("persistent_memory/internal_state.p"), [None]).get()
+        self.desired_state = pool.apply_async(lambda x: InternalState.deserialize("persistent_memory/desired_state.p"), [None]).get()
 
         # Internal state "Ports" (Three components real valued vector)
         self._internal_state_in = None
