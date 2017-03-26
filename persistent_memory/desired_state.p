@@ -4,11 +4,11 @@ p0
 (dp1
 S'culture'
 p2
-F1.0
+F0.25
 sS'biology'
 p3
-F0.4827586206896552
+F0.25
 sS'feelings'
 p4
-F1.0
+F0.25
 sb.

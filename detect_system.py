@@ -132,3 +132,18 @@ class DetectSystem:
 
 ## @}
 #
+
+    ## Thread number
+    # Determine the number of virtual threads to be used, specially for IO blocking operation
+    # such as Input/Output disk's operation.
+    # @param io_number: number of I/O operation to execute in parallel
+    # @retval Integer. Number of virtual threads
+    def thread_number(self, io_number):
+        cpus = self.cpu_count()
+        if io_number < cpus:
+            return cpus
+        else:
+            if io_number > 70:
+                return 70
+            else:
+                return io_number

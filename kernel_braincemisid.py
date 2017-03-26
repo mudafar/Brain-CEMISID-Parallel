@@ -11,6 +11,8 @@ from decisions_block import DecisionsBlock
 # Pathos multiprocessing import
 from pathos.multiprocessing import Pool
 
+# Detect system import
+from detect_system import DetectSystem
 
 import os.path
 
@@ -46,9 +48,11 @@ class KernelBrainCemisid:
         if not os.path.isfile("persistent_memory/sight_snb.p"):
             self.erase_all_knowledge()
 
-        # TODO: use detected processor number, and equation logic 3.1.3.
-        # Init thread's pool
-        pool = Pool()
+        # DONE TODO: use detected processor number, and equation logic 3.1.3.
+        # Detect system and determine threads number to use
+        detect_system = DetectSystem()
+        # Init thread's pool, with the determined threads number
+        pool = Pool(detect_system.thread_number(12))
 
         # SNB
         #self.snb = SensoryNeuralBlock("persistent_memory/sight_snb.p", "persistent_memory/hearing_snb.p")
@@ -360,7 +364,7 @@ class KernelBrainCemisid:
             result = self.gnb.addition_result
             self.s_knowledge_out = []
             self.h_knowledge_out = []
-            # todo: parallel
+            # DONE todo: parallel
             for digit_h_id in result:
                 self.h_knowledge_out.append(self.snb.get_hearing_knowledge(digit_h_id, True))
                 digit_s_id = self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id()

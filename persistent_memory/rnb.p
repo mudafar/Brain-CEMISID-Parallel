@@ -38,7 +38,7 @@ p18
 I0
 sS'_weight'
 p19
-I0
+I1
 sbsS'_has_knowledge'
 p20
 I01
@@ -60,7 +60,7 @@ I1
 sg18
 I1
 sg19
-I0
+I1
 sbsg20
 I01
 sbag4
