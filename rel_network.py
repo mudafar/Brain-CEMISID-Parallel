@@ -2,6 +2,15 @@ import pickle
 
 from neuron import Neuron
 
+
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
+
+# Detect system import
+from detect_system import DetectSystem
+
+
 ## \defgroup RelBlocks Relational network related classes
 #
 # Relational network related classes are a group of classes that
@@ -186,9 +195,17 @@ class RelNetwork:
         # Create neuron list
         self.neuron_list = []
         # Fill neuron list with nre RelNeuron instances
-        # todo: parallel
-        for index in range(neuron_count):
-            self.neuron_list.append(RelNeuron())
+
+        # 3.2.2.1 todo: parallel
+        # Detect system and determine threads number to use
+        detect_system = DetectSystem()
+        # Init thread's pool, with the determined threads number
+        pool = Pool(detect_system.cpu_count())
+
+        self.neuron_list = pool.map(lambda index: RelNeuron(), range(neuron_count))
+
+        #for index in range(neuron_count):
+        #    self.neuron_list.append(RelNeuron())
         # Index of ready to learn neuron
         self._index_ready_to_learn = 0
 
@@ -199,9 +216,16 @@ class RelNetwork:
         if self._index_ready_to_learn == (len(self.neuron_list)-1):
             new_list = []
             # Fill neuron list with nre RelNeuron instances
-            # todo: parallel
-            for index in range(len(self.neuron_list)):
-                new_list.append(RelNeuron())
+
+            # 3.2.2.2 todo: parallel
+            # Detect system and determine threads number to use
+            detect_system = DetectSystem()
+            # Init thread's pool, with the determined threads number
+            pool = Pool(detect_system.cpu_count())
+
+            new_list = pool.map(lambda index: RelNeuron(), range(len(self.neuron_list)))
+            #for index in range(len(self.neuron_list)):
+            #    new_list.append(RelNeuron())
             self.neuron_list = self.neuron_list + new_list
         # Check for neurons that already have given knowledge ids
         for index in range(self._index_ready_to_learn):
@@ -217,10 +241,16 @@ class RelNetwork:
     def get_hearing_rels(self, h_id):
         # List of hearing relations
         hearing_rels = []
-        # todo: parallel
-        for index in range(self._index_ready_to_learn):
-            if self.neuron_list[index].recognize_hearing(h_id):
-                hearing_rels.append(self.neuron_list[index].get_knowledge())
+        # 3.2.2.3 todo: parallel
+        # Detect system and create threads pool
+        pool = Pool(DetectSystem().cpu_count())
+        hearing_rels = pool.map(lambda index: self.neuron_list[index].get_knowledge() if self.neuron_list[index].recognize_hearing(h_id) else None, range(self._index_ready_to_learn))
+        hearing_rels = filter(None, hearing_rels)
+
+
+        #for index in range(self._index_ready_to_learn):
+        #    if self.neuron_list[index].recognize_hearing(h_id):
+        #        hearing_rels.append(self.neuron_list[index].get_knowledge())
         return hearing_rels
 
     ## Return a list of all knowledge in net such that it has parameter s_id as sight id
@@ -228,10 +258,15 @@ class RelNetwork:
     def get_sight_rels(self, s_id):
         # List of sight relations
         sight_rels = []
-        # todo: parallel
-        for index in range(self._index_ready_to_learn):
-            if self.neuron_list[index].recognize_sight(s_id):
-                sight_rels.append(self.neuron_list[index].get_knowledge())
+        # 3.2.2.3 todo: parallel
+        # Detect system and create threads pool
+        pool = Pool(DetectSystem().cpu_count())
+
+        sight_rels = pool.map(lambda index: self.neuron_list[index].get_knowledge() if self.neuron_list[index].recognize_sight(s_id) else None, range(self._index_ready_to_learn) )
+        sight_rels = filter(None, sight_rels)
+        #for index in range(self._index_ready_to_learn):
+        #    if self.neuron_list[index].recognize_sight(s_id):
+        #        sight_rels.append(self.neuron_list[index].get_knowledge())
         return sight_rels
 
     ##  Returns number of neurons in network

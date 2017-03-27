@@ -129,7 +129,7 @@ class InternalState(BiologyCultureFeelings):
     def average_state(self, states_vector ):
         if len(states_vector) != 3:
             return False
-        # todo: parallel
+        # DISCARDED todo: parallel
         for element in states_vector:
             if element > 1 or element < 0:
                 return False
