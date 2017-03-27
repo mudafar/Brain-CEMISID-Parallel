@@ -48,7 +48,7 @@ class KernelBrainCemisid:
         if not os.path.isfile("persistent_memory/sight_snb.p"):
             self.erase_all_knowledge()
 
-        # DONE TODO: use detected processor number, and equation logic 3.1.3.
+        # 3.2.1.1 TODO: use detected processor number, and equation logic 3.1.3.
         # Detect system and determine threads number to use
         detect_system = DetectSystem()
         # Init thread's pool, with the determined threads number
@@ -364,11 +364,20 @@ class KernelBrainCemisid:
             result = self.gnb.addition_result
             self.s_knowledge_out = []
             self.h_knowledge_out = []
-            # DONE todo: parallel
-            for digit_h_id in result:
-                self.h_knowledge_out.append(self.snb.get_hearing_knowledge(digit_h_id, True))
-                digit_s_id = self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id()
-                self.s_knowledge_out.append(self.snb.get_sight_knowledge(digit_s_id, True))
+
+            # 3.2.1.2 todo: parallel
+            # Detect system and determine threads number to use
+            detect_system = DetectSystem()
+            # Init thread's pool, with the determined threads number
+            pool = Pool(detect_system.cpu_count())
+
+            self.s_knowledge_out = pool.map(lambda digit_h_id: self.snb.get_hearing_knowledge(digit_h_id, True), result)
+            self.h_knowledge_out = pool.map(lambda digit_h_id: self.snb.get_sight_knowledge(self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id(), True), result)
+
+            #for digit_h_id in result:
+            #    self.h_knowledge_out.append(self.snb.get_hearing_knowledge(digit_h_id, True))
+            #    digit_s_id = self.rnb.get_hearing_rels(digit_h_id)[0].get_s_id()
+            #    self.s_knowledge_out.append(self.snb.get_sight_knowledge(digit_s_id, True))
 
     ## Check if addition by memory network has a result related
     # to the operation given through the bbcc protocol
@@ -550,8 +559,17 @@ class KernelBrainCemisid:
             rel_knowledge_vector = []
             # Fill the vector with the relational knowledge of neurons that recognized the pattern
             # todo: parallel
-            for neuron_id in ids_recognize:
-                rel_knowledge_vector += self.rnb.get_sight_rels(neuron_id)
+
+            # Detect system and determine threads number to use
+            detect_system = DetectSystem()
+            # Init thread's pool, with the determined threads number
+            pool = Pool(detect_system.cpu_count())
+
+            rel_knowledge_vector = pool.map(lambda neuron_id: self.rnb.get_sight_rels(neuron_id), ids_recognize)
+
+            #for neuron_id in ids_recognize:
+            #    rel_knowledge_vector += self.rnb.get_sight_rels(neuron_id)
+
             # Get hearing id from analytical neural block
             hearing_id = self.analytical_n.solve_ambiguity(rel_knowledge_vector)
             # Sight knowledge
