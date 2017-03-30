@@ -1,6 +1,12 @@
 from internal_state import InternalState, BiologyCultureFeelings
 from cultural_network import CulturalNetwork,CulturalGroup,CulturalNeuron
 
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
+# Detect system import
+from detect_system import DetectSystem
+
 ## \addtogroup Intentions
 #  Unconscious filtering block
 # @{
@@ -59,45 +65,103 @@ class UnconsciousFilteringBlock:
 
     ## Select best biology input
     def _filter_biology(self):
-        best_biology = self.inputs[0]
-        bcf = best_biology.get_tail_knowledge()
-        min_distance = abs((bcf.get_biology() + self.internal_state.get_biology())/2.0 - self.desired_state.get_biology())
-        # todo: parallel
-        for memory in self.inputs:
+
+        # 3.3.3.1  todo: parallel
+        # Helper method, used to execute in parallel
+        def __process_input(memory):
             # BCF for every memory is stored in the tail of the cultural group
             bcf = memory.get_tail_knowledge()
             distance = abs((bcf.get_biology() + self.internal_state.get_biology())/2.0 - self.desired_state.get_biology())
-            if distance < min_distance:
-                best_biology = memory
-                min_distance = distance
+            return distance, memory
+
+
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        __temp_result = pool.map(__process_input, self.inputs)
+        # Calculate the minimum distance
+        __min_result = min(__temp_result, key=lambda t: t[0])
+        # Extract the memory from the tuple
+        best_biology = __min_result[1]
+
+
+        #best_biology = self.inputs[0]
+        #bcf = best_biology.get_tail_knowledge()
+        #min_distance = abs((bcf.get_biology() + self.internal_state.get_biology())/2.0 - self.desired_state.get_biology())
+
+        #for memory in self.inputs:
+            # BCF for every memory is stored in the tail of the cultural group
+        #    bcf = memory.get_tail_knowledge()
+        #    distance = abs((bcf.get_biology() + self.internal_state.get_biology())/2.0 - self.desired_state.get_biology())
+        #    if distance < min_distance:
+        #        best_biology = memory
+        #        min_distance = distance
         return best_biology
 
     ## Select best culture input
     def _filter_culture(self):
-        best_culture = self.inputs[0]
-        bcf = best_culture.get_tail_knowledge()
-        max = bcf.get_culture()
-        # todo: parallel
-        for memory in self.inputs:
+
+        #  3.3.3.2 todo: parallel
+        # Helper method, used to execute in parallel
+        def __process_input(memory):
             # BCF for every memory is stored in the tail of the cultural group
             bcf = memory.get_tail_knowledge()
-            if bcf.get_culture() > max:
-                best_culture = memory
-                max = bcf.get_culture()
+            culture = bcf.get_culture()
+            return culture, memory
+
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        __temp_result = pool.map(__process_input, self.inputs)
+        # Calculate the maximum culture
+        __max_result = max(__temp_result, key=lambda t: t[0])
+        # Extract the memory from the tuple
+        best_culture = __max_result[1]
+
+        # best_culture = self.inputs[0]
+        # bcf = best_culture.get_tail_knowledge()
+        # max = bcf.get_culture()
+        #
+        # for memory in self.inputs:
+        #     # BCF for every memory is stored in the tail of the cultural group
+        #     bcf = memory.get_tail_knowledge()
+        #     if bcf.get_culture() > max:
+        #         best_culture = memory
+        #         max = bcf.get_culture()
         return best_culture
 
     ## Select best feelings input.
     def _filter_feelings(self):
-        best_feelings = self.inputs[0]
-        bcf = best_feelings.get_tail_knowledge()
-        max = bcf.get_feelings()
-        # todo: parallel
-        for memory in self.inputs:
+        # 3.3.3.3 todo: parallel
+
+        # Helper method, used to execute in parallel
+        def __process_input(memory):
             # BCF for every memory is stored in the tail of the cultural group
             bcf = memory.get_tail_knowledge()
-            if bcf.get_feelings() > max:
-                best_feelings = memory
-                max = bcf.get_feelings()
+            feeling = bcf.get_feelings()
+            return feeling, memory
+
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        __temp_result = pool.map(__process_input, self.inputs)
+        # Calculate the maximum feeling
+        __max_result = max(__temp_result, key=lambda t: t[0])
+        # Extract the memory from the tuple
+        best_feelings = __max_result[1]
+
+
+
+        # best_feelings = self.inputs[0]
+        # bcf = best_feelings.get_tail_knowledge()
+        # max = bcf.get_feelings()
+        #
+        # for memory in self.inputs:
+        #     # BCF for every memory is stored in the tail of the cultural group
+        #     bcf = memory.get_tail_knowledge()
+        #     if bcf.get_feelings() > max:
+        #         best_feelings = memory
+        #         max = bcf.get_feelings()
         return best_feelings
 ## @}
 #
@@ -111,7 +175,7 @@ if __name__ == '__main__':
     memories = [CulturalGroup() for i in range(MEMORIES_COUNT)]
     import random
     bcf = []
-    # todo: parallel
+    # DISCARDED TEST ONLY todo: parallel
     for i in range(MEMORIES_COUNT):
         memories[i].bum()
         memories[i].learn(i)
