@@ -312,7 +312,7 @@ class GeometricNeuralBlock:
 
             # Add using addition_structure
             self._addition_structure.bum()
-            # todo: parallel
+            # CALL bip todo: parallel
             for index in range(bip_count_1):
                 self._addition_structure.bip()
             # todo: parallel
@@ -333,7 +333,7 @@ class GeometricNeuralBlock:
             # For the rest of digits, use the Quantity-order structure
             else:
                 self._order_structure.bum()
-                # todo: parallel
+                # CALL bip todo: parallel
                 for index in range(digit):
                     self._order_structure.bip()
                 digit_representation = self._order_structure.clack().get_knowledge()
@@ -409,7 +409,7 @@ if __name__ == '__main__':
     print "Adition Struture:  "
     add_s = AdditionStructure()
     add_s.bum()
-    # todo: parallel
+    # CALL bip todo: parallel
     for i in range(15):
         add_s.bip()
     if add_s.has_carry():

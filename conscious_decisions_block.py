@@ -6,6 +6,12 @@ from decision_by_prediction_block import DecisionByPredictionBlock
 from internal_state import BiologyCultureFeelings, InternalState
 
 
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
+# Detect system import
+from detect_system import DetectSystem
+
 ## \defgroup Intentions Intentions related classes
 #
 # These are the set of classes that support decision making
@@ -44,12 +50,26 @@ class ConsciousDecisionsBlock():
         # Create a random training set so that the net can learn the relation prediction = (ei + choice.bcf)/2
         # We require a minimum of 18 points
         training_set = []
-        # todo: parallelize
-        for index in range(20):
+        # 3.2.4.1 todo: parallelize
+
+        # Helper method, used to execute in parallel
+        def __generate_training(index):
             ei = [random.random(), random.random(), random.random()]
             choice_bcf = [random.random(), random.random(), random.random()]
             prediction = [ei_j / 2.0 + choice_bcf_j / 2.0 for ei_j, choice_bcf_j in zip(ei, choice_bcf)]
-            training_set.append((ei + choice_bcf, prediction))
+            return ei + choice_bcf, prediction
+
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        training_set = pool.map(__generate_training, range(20))
+
+
+        # for index in range(20):
+        #     ei = [random.random(), random.random(), random.random()]
+        #     choice_bcf = [random.random(), random.random(), random.random()]
+        #     prediction = [ei_j / 2.0 + choice_bcf_j / 2.0 for ei_j, choice_bcf_j in zip(ei, choice_bcf)]
+        #     training_set.append((ei + choice_bcf, prediction))
 
         # Remodel predictive net
         self.decision_prediction_block.remodel_predictive_net(training_set)

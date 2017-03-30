@@ -3,6 +3,12 @@ import pickle
 from unconscious_filtering_block import UnconsciousFilteringBlock
 from conscious_decisions_block import ConsciousDecisionsBlock
 
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
+# Detect system import
+from detect_system import DetectSystem
+
 ## \addtogroup Intentions
 #  Decisions block
 # @{
@@ -51,9 +57,15 @@ class DecisionsBlock:
         self.conscious_block.set_desired_state(self.desired_state)
         self.conscious_block.set_internal_state(self.internal_state)
         conscious_inputs = []
-        # todo: parallel
-        for memory in self.unconscious_output:
-            conscious_inputs.append(memory.get_tail_knowledge())
+
+        # 3.2.6.1  todo: parallel
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        conscious_inputs = pool.map(lambda memory: memory.get_tail_knowledge(), self.unconscious_output)
+
+        # for memory in self.unconscious_output:
+        #     conscious_inputs.append(memory.get_tail_knowledge())
         self.conscious_block.set_inputs(conscious_inputs)
         conscious_output_index = self.conscious_block.get_decision()
         self.conscious_output = self.unconscious_output[conscious_output_index]
@@ -89,12 +101,12 @@ if __name__ == '__main__':
 
     # Memories
     MEMORIES_COUNT = 6
-    # todo: parallel
+    # DISCARD TEST todo: parallel
     memories = [CulturalGroup() for i in range(MEMORIES_COUNT)]
     import random
 
     bcf = []
-    # todo: parallel
+    # DISCARD TEST todo: parallel
     for i in range(MEMORIES_COUNT):
         memories[i].bum()
         memories[i].learn(i)

@@ -2,6 +2,12 @@ import pickle
 
 from cultural_network import CulturalNetwork,CulturalGroup,CulturalNeuron
 
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
+# Detect system import
+from detect_system import DetectSystem
+
 ## \addtogroup Intentions
 #  Episodic memories block
 # @{
@@ -38,11 +44,19 @@ class EpisodicMemoriesBlock(CulturalNetwork):
     def retrieve_exact_memory(self, trigger ):
         # Use bbcc protocol
         self.bum()
-        for index in range(len(trigger)):
-            if index != len(trigger)-1:
-                self.bip(trigger[index])
-            else:
-                return self.group_list[self.check(trigger[index])]
+
+        # TODO: parallel
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        __temp = pool.map(lambda index: self.bip(trigger[index]), range(len(trigger)-1))
+        return self.group_list[self.check(trigger[len(trigger)-1])]
+
+        # for index in range(len(trigger)):
+        #     if index != len(trigger)-1:
+        #         self.bip(trigger[index])
+        #     else:
+        #         return self.group_list[self.check(trigger[index])]
 
 
     @classmethod

@@ -2,6 +2,12 @@ import pickle
 
 from neuron import Neuron
 
+# Pathos multiprocessing import
+from pathos.multiprocessing import Pool
+
+# Detect system import
+from detect_system import DetectSystem
+
 ## \defgroup CultBlocks Cultural network related classes
 #
 # Relational network related classes are a group of classes that
@@ -89,9 +95,15 @@ class CulturalNetwork:
     ## CulturalNetwork class constructor
     def __init__(self, group_count=1):
         self.group_list = []
-        # todo: parallel
-        for index in range(group_count):
-            self.group_list.append(CulturalGroup())
+        # 3.2.5.1 todo: parallel
+
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        self.group_list = pool.map(lambda index: CulturalGroup(), range(group_count))
+
+        #for index in range(group_count):
+        #     self.group_list.append(CulturalGroup())
         self._index_ready_to_learn = 0
         self._clack = False
         self._recognized_indexes = []
@@ -107,7 +119,7 @@ class CulturalNetwork:
         # Reinitialize vector of recognized indexes
         self._recognized_indexes = []
         # Pass bum signal to all cultural groups with knowledge
-        # todo: parallel
+        # BUM todo: parallel
         for group_index in range(self._index_ready_to_learn):
             self.group_list[group_index].bum()
             # Initialize a list of participating neurons
@@ -121,7 +133,7 @@ class CulturalNetwork:
         bip_indexes = []
         # Pass bip signal to all neurons that have recognized the given sequence
         # and store the indexes of all neurons that have recognized until now
-        # todo: parallel
+        # BIP todo: parallel
         for group_index in self._recognized_indexes:
             if self.group_list[group_index].bip(knowledge):
                 bip_indexes.append(group_index)
@@ -135,7 +147,7 @@ class CulturalNetwork:
     def check(self, knowledge):
         # Indexes
         check_indexes = []
-        # todo: parallel
+        # CHECK todo: parallel
         for group_index in self._recognized_indexes:
             if self.group_list[group_index].check(knowledge):
                 check_indexes.append(group_index)
@@ -170,9 +182,16 @@ class CulturalNetwork:
     def resize(self):
         new_list = []
         # Fill neuron list with memories
-        # todo: parallel
-        for index in range(len(self.group_list)):
-            new_list.append(CulturalGroup())
+        # 3.2.5.2  todo: parallel
+
+        # Init thread's pool, with the determined processor number
+        pool = Pool(DetectSystem().cpu_count())
+        # Parallel execution
+        new_list = pool.map(lambda index: CulturalGroup(), range(len(self.group_list)))
+
+
+        # for index in range(len(self.group_list)):
+        #     new_list.append(CulturalGroup())
         self.group_list = self.group_list + new_list
 
     ## Get tail knowledge of a given group id
