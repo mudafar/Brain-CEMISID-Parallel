@@ -4,9 +4,6 @@
     <list default="true" id="094b57f7-85ac-4918-8f90-841b0250e9a0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/proyecto_grado.odt" afterPath="$PROJECT_DIR$/doc/proyecto_grado.odt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conscious_decisions_block.py" afterPath="$PROJECT_DIR$/conscious_decisions_block.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cultural_network.py" afterPath="$PROJECT_DIR$/cultural_network.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/decisions_block.py" afterPath="$PROJECT_DIR$/decisions_block.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/episodic_memories.py" afterPath="$PROJECT_DIR$/episodic_memories.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geometric_neural_block.py" afterPath="$PROJECT_DIR$/geometric_neural_block.py" />
     </list>
@@ -87,21 +84,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="geometric_neural_block.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="geometric_neural_block.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/geometric_neural_block.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="314" column="23" lean-forward="false" selection-start-line="314" selection-start-column="23" selection-end-line="314" selection-end-column="23" />
-              <folding />
+            <state relative-caret-position="136">
+              <caret line="415" column="15" lean-forward="false" selection-start-line="415" selection-start-column="15" selection-end-line="415" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="episodic_memories.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="episodic_memories.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/episodic_memories.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="839">
-              <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state relative-caret-position="126">
+              <caret line="51" column="88" lean-forward="true" selection-start-line="48" selection-start-column="8" selection-end-line="51" selection-end-column="88" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -132,7 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>snb</find>
       <find>addition_result</find>
       <find>gnb</find>
       <find>def cla</find>
@@ -160,8 +158,9 @@
       <find>filter</find>
       <find>filter(</find>
       <find>todo</find>
-      <find>retrieve_exact_memory</find>
       <find>def bip</find>
+      <find>retrieve_exact_memory</find>
+      <find>_addition_structure</find>
     </findStrings>
     <replaceStrings>
       <replace>data</replace>
@@ -198,7 +197,6 @@
         <option value="$PROJECT_DIR$/internal_state.py" />
         <option value="$PROJECT_DIR$/rel_network.py" />
         <option value="$PROJECT_DIR$/kernel_braincemisid.py" />
-        <option value="$PROJECT_DIR$/geometric_neural_block.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/local_test.py" />
         <option value="$PROJECT_DIR$/unconscious_filtering_block.py" />
@@ -206,6 +204,7 @@
         <option value="$PROJECT_DIR$/decisions_block.py" />
         <option value="$PROJECT_DIR$/cultural_network.py" />
         <option value="$PROJECT_DIR$/episodic_memories.py" />
+        <option value="$PROJECT_DIR$/geometric_neural_block.py" />
       </list>
     </option>
   </component>
@@ -216,8 +215,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="27" />
-    <option name="y" value="132" />
+    <option name="x" value="5" />
+    <option name="y" value="97" />
     <option name="width" value="1717" />
     <option name="height" value="894" />
   </component>
@@ -296,7 +295,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/episodic_memories.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/geometric_neural_block.py" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.path.for.package.jscs" value="project" />
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
@@ -327,7 +326,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Main">
+  <component name="RunManager" selected="Python.test">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -447,7 +446,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="brain-CEMISID" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/episodic_memories.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/geometric_neural_block.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -536,7 +535,14 @@
       <option name="project" value="LOCAL" />
       <updated>1490896271260</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Consciuos decisions block&#10;Cultural Network&#10;Decisions Block&#10;Episodic Memory&#10;&#10;Nos all of these classes run in parallel">
+      <created>1490907345259</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1490907345259</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView">
@@ -549,19 +555,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="27" y="132" width="1717" height="894" extended-state="0" />
+    <frame x="5" y="97" width="1717" height="894" extended-state="0" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4010989" sideWeight="0.48851895" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4005487" sideWeight="0.48851895" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32480818" sideWeight="0.52009183" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32373112" sideWeight="0.47990814" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32373112" sideWeight="0.47990814" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784638" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32417583" sideWeight="0.48343197" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312578" sideWeight="0.49763313" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2954955" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3598901" sideWeight="0.49763313" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35939643" sideWeight="0.49763313" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -608,7 +614,8 @@
     <MESSAGE value="Parallel some todos." />
     <MESSAGE value="Mian minor fix.&#10;Some object trained for intention text" />
     <MESSAGE value="unconsciuos filtering block now execute in parallel" />
-    <option name="LAST_COMMIT_MESSAGE" value="unconsciuos filtering block now execute in parallel" />
+    <MESSAGE value="Consciuos decisions block&#10;Cultural Network&#10;Decisions Block&#10;Episodic Memory&#10;&#10;Nos all of these classes run in parallel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Consciuos decisions block&#10;Cultural Network&#10;Decisions Block&#10;Episodic Memory&#10;&#10;Nos all of these classes run in parallel" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -837,14 +844,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geometric_neural_block.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="314" column="23" lean-forward="false" selection-start-line="314" selection-start-column="23" selection-end-line="314" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cultural_network.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -857,8 +856,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/episodic_memories.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="839">
-          <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state relative-caret-position="126">
+          <caret line="51" column="88" lean-forward="true" selection-start-line="48" selection-start-column="8" selection-end-line="51" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geometric_neural_block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="415" column="15" lean-forward="false" selection-start-line="415" selection-start-column="15" selection-end-line="415" selection-end-column="15" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

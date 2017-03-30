@@ -45,7 +45,7 @@ class EpisodicMemoriesBlock(CulturalNetwork):
         # Use bbcc protocol
         self.bum()
 
-        # TODO: parallel
+        # 3.2.7.1 TODO: parallel
         # Init thread's pool, with the determined processor number
         pool = Pool(DetectSystem().cpu_count())
         # Parallel execution
