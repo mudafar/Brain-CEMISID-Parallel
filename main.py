@@ -440,7 +440,7 @@ class IntentionsInterface(GridLayout):
             self.kernel.set_working_domain("ADDITION")
         elif self.counting_tgl_btn.state == "down":
             self.kernel.set_working_domain("COUNTING")
-        elif self.reading_tgl_btn.state == "down":
+        elif self.words_tgl_btn.state == "down":
             self.kernel.set_working_domain("READING")
         else:
             self.kernel.set_working_domain("INTENTIONS")
