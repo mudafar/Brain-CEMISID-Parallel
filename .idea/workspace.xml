@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="094b57f7-85ac-4918-8f90-841b0250e9a0" name="Default" comment="">
+    <list default="true" id="094b57f7-85ac-4918-8f90-841b0250e9a0" name="Default" comment="Minor fix">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/proyecto_grado.odt" afterPath="$PROJECT_DIR$/doc/proyecto_grado.odt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/episodic_memories.py" afterPath="$PROJECT_DIR$/episodic_memories.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geometric_neural_block.py" afterPath="$PROJECT_DIR$/geometric_neural_block.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,18 +39,18 @@
       <file leaf-file-name="kernel_braincemisid.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/kernel_braincemisid.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="525" column="17" lean-forward="true" selection-start-line="525" selection-start-column="17" selection-end-line="525" selection-end-column="17" />
+            <state relative-caret-position="10710">
+              <caret line="525" column="17" lean-forward="false" selection-start-line="525" selection-start-column="17" selection-end-line="525" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rel_network.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rel_network.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rel_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="246" column="68" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
+            <state relative-caret-position="251">
+              <caret line="252" column="77" lean-forward="false" selection-start-line="252" selection-start-column="77" selection-end-line="252" selection-end-column="77" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -63,8 +61,8 @@
       <file leaf-file-name="cultural_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cultural_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="130" column="29" lean-forward="true" selection-start-line="130" selection-start-column="29" selection-end-line="130" selection-end-column="29" />
+            <state relative-caret-position="2562">
+              <caret line="130" column="29" lean-forward="false" selection-start-line="130" selection-start-column="29" selection-end-line="130" selection-end-column="29" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -75,7 +73,7 @@
       <file leaf-file-name="decisions_block.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/decisions_block.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1386">
+            <state relative-caret-position="1197">
               <caret line="66" column="26" lean-forward="false" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -84,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="geometric_neural_block.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="geometric_neural_block.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geometric_neural_block.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="415" column="15" lean-forward="false" selection-start-line="415" selection-start-column="15" selection-end-line="415" selection-end-column="15" />
+            <state relative-caret-position="8694">
+              <caret line="416" column="9" lean-forward="true" selection-start-line="416" selection-start-column="9" selection-end-line="416" selection-end-column="9" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -99,7 +97,7 @@
       <file leaf-file-name="episodic_memories.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/episodic_memories.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
+            <state relative-caret-position="903">
               <caret line="51" column="88" lean-forward="true" selection-start-line="48" selection-start-column="8" selection-end-line="51" selection-end-column="88" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -131,8 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addition_result</find>
-      <find>gnb</find>
       <find>def cla</find>
       <find>digit_h_id</find>
       <find>pool</find>
@@ -155,12 +151,14 @@
       <find>fi</find>
       <find>filte</find>
       <find>filter</find>
-      <find>filter</find>
       <find>filter(</find>
       <find>todo</find>
       <find>def bip</find>
       <find>retrieve_exact_memory</find>
       <find>_addition_structure</find>
+      <find>3.3.2.1</find>
+      <find>3.3.2.3</find>
+      <find>3.2.2.3</find>
     </findStrings>
     <replaceStrings>
       <replace>data</replace>
@@ -215,8 +213,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="5" />
-    <option name="y" value="97" />
+    <option name="x" value="92" />
+    <option name="y" value="116" />
     <option name="width" value="1717" />
     <option name="height" value="894" />
   </component>
@@ -235,6 +233,21 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="brain-CEMISID">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -277,21 +290,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="brain-CEMISID">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -326,7 +324,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.Main">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -542,7 +540,14 @@
       <option name="project" value="LOCAL" />
       <updated>1490907345259</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Minor fix">
+      <created>1490908325234</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1490908325234</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -555,16 +560,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="5" y="97" width="1717" height="894" extended-state="0" />
+    <frame x="92" y="116" width="1717" height="894" extended-state="0" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4005487" sideWeight="0.48851895" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40329218" sideWeight="0.48851895" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32480818" sideWeight="0.52009183" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32373112" sideWeight="0.47990814" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32235938" sideWeight="0.47990814" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784638" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32417583" sideWeight="0.48343197" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312578" sideWeight="0.49763313" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2954955" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3039039" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35939643" sideWeight="0.49763313" order="3" side_tool="false" content_ui="tabs" />
@@ -615,7 +620,8 @@
     <MESSAGE value="Mian minor fix.&#10;Some object trained for intention text" />
     <MESSAGE value="unconsciuos filtering block now execute in parallel" />
     <MESSAGE value="Consciuos decisions block&#10;Cultural Network&#10;Decisions Block&#10;Episodic Memory&#10;&#10;Nos all of these classes run in parallel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Consciuos decisions block&#10;Cultural Network&#10;Decisions Block&#10;Episodic Memory&#10;&#10;Nos all of these classes run in parallel" />
+    <MESSAGE value="Minor fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -760,7 +766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="498" column="8" lean-forward="false" selection-start-line="498" selection-start-column="8" selection-end-line="498" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -768,7 +773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="65">
           <caret line="322" column="26" lean-forward="false" selection-start-line="322" selection-start-column="13" selection-end-line="322" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -776,7 +780,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="442" column="31" lean-forward="false" selection-start-line="442" selection-start-column="31" selection-end-line="442" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -794,7 +797,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="169">
           <caret line="34" column="8" lean-forward="false" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -802,9 +804,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1323">
           <caret line="63" column="17" lean-forward="false" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -812,31 +811,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1764">
           <caret line="84" column="20" lean-forward="false" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rel_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="246" column="68" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/kernel_braincemisid.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="525" column="17" lean-forward="true" selection-start-line="525" selection-start-column="17" selection-end-line="525" selection-end-column="17" />
+        <state relative-caret-position="10710">
+          <caret line="525" column="17" lean-forward="false" selection-start-line="525" selection-start-column="17" selection-end-line="525" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/decisions_block.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
+        <state relative-caret-position="1197">
           <caret line="66" column="26" lean-forward="false" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -846,8 +834,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cultural_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="130" column="29" lean-forward="true" selection-start-line="130" selection-start-column="29" selection-end-line="130" selection-end-column="29" />
+        <state relative-caret-position="2562">
+          <caret line="130" column="29" lean-forward="false" selection-start-line="130" selection-start-column="29" selection-end-line="130" selection-end-column="29" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -856,7 +844,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/episodic_memories.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
+        <state relative-caret-position="903">
           <caret line="51" column="88" lean-forward="true" selection-start-line="48" selection-start-column="8" selection-end-line="51" selection-end-column="88" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -866,8 +854,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/geometric_neural_block.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="415" column="15" lean-forward="false" selection-start-line="415" selection-start-column="15" selection-end-line="415" selection-end-column="15" />
+        <state relative-caret-position="8694">
+          <caret line="416" column="9" lean-forward="true" selection-start-line="416" selection-start-column="9" selection-end-line="416" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rel_network.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="252" column="77" lean-forward="false" selection-start-line="252" selection-start-column="77" selection-end-line="252" selection-end-column="77" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
